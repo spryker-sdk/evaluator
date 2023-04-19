@@ -12,9 +12,9 @@ namespace SprykerSdk\Evaluator\Resolver;
 interface PathResolverInterface
 {
     /**
-     * @param string $path
+     * @param string $relativePath
      *
      * @return string
      */
-    public function resolvePath(string $path): string;
+    public function resolvePath(string $relativePath = ''): string;
 }

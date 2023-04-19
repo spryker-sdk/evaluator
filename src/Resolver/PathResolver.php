@@ -15,9 +15,9 @@ use Symfony\Component\Filesystem\Filesystem;
 class PathResolver implements PathResolverInterface
 {
     /**
-     * @var string
+     * @var string|null
      */
-    protected string $projectDir;
+    protected ?string $projectDirEnv;
 
     /**
      * @var \Symfony\Component\Filesystem\Filesystem
@@ -25,36 +25,44 @@ class PathResolver implements PathResolverInterface
     protected Filesystem $filesystem;
 
     /**
-     * @param string $projectDir
+     * @param string|null $projectDirEnv
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      */
-    public function __construct(string $projectDir, Filesystem $filesystem)
+    public function __construct(?string $projectDirEnv, Filesystem $filesystem)
     {
-        $this->projectDir = $projectDir;
+        $this->projectDirEnv = $projectDirEnv;
         $this->filesystem = $filesystem;
     }
 
     /**
-     * @param string $path
+     * @param string $relativePath
      *
      * @throws \InvalidArgumentException
      *
      * @return string
      */
-    public function resolvePath(string $path = ''): string
+    public function resolvePath(string $relativePath = ''): string
     {
-        $path = trim($path);
+        $relativePath = trim($relativePath);
 
-        if (!$path) {
-            return $this->projectDir;
-        }
+        $projectDir = $this->getProjectDir();
 
-        $fullPath = $this->projectDir . DIRECTORY_SEPARATOR . trim($path, DIRECTORY_SEPARATOR);
+        $fullPath = $relativePath
+            ? $projectDir . DIRECTORY_SEPARATOR . trim($relativePath, DIRECTORY_SEPARATOR)
+            : $projectDir;
 
         if (!$this->filesystem->exists([$fullPath])) {
             throw new InvalidArgumentException(sprintf('File or directory `%s` does not exist', $fullPath));
         }
 
         return $fullPath;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getProjectDir(): string
+    {
+        return $this->projectDirEnv ?? (string)getcwd();
     }
 }
