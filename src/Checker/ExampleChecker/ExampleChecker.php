@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+declare(strict_types=1);
+
+namespace SprykerSdk\Evaluator\Checker\ExampleChecker;
+
+use SprykerSdk\Evaluator\Checker\CheckerInterface;
+use SprykerSdk\Evaluator\Dto\CheckerInputDto;
+use SprykerSdk\Evaluator\Dto\ViolationDto;
+
+class ExampleChecker implements CheckerInterface
+{
+    /**
+     * @var string
+     */
+    protected const NAME = 'example_checker';
+
+    /**
+     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDto $input
+     *
+     * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
+     */
+    public function check(CheckerInputDto $input): array
+    {
+        return [new ViolationDto(sprintf('Path: %s', $input->getPath()), 'someFile.php')];
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return static::NAME;
+    }
+}

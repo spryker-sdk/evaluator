@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - feature/[a-z]+-[0-9]+/dev-*
+  workflow_dispatch:
+
+env:
+    APP_ENV: test # Symfony application environment
+
+jobs:
+  validation:
+    name: "CS, PHPStan, Security"
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: [
+            '7.4'
+        ]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, ctype, iconv
+          tools: composer:v2
+
+      - name: Composer get cache directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Composer cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Composer validate
+        run: composer validate
+
+      - name: Composer version
+        run: composer --version
+
+      - name: Composer install
+        run: composer install
+
+      - name: Container lint
+        run: bin/console lint:container
+
+      - name: Run PHPStan
+        run: composer stan
+
+      - name: Run CodeStyle checks
+        run: composer cs-check
