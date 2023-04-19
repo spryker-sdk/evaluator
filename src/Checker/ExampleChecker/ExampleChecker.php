@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace SprykerSdk\Evaluator\Checker\ExampleChecker;
 
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
-use SprykerSdk\Evaluator\Dto\CheckerInputDto;
+use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
 
 class ExampleChecker implements CheckerInterface
@@ -21,13 +21,13 @@ class ExampleChecker implements CheckerInterface
     protected const NAME = 'example_checker';
 
     /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDto $input
+     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
      *
      * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
      */
-    public function check(CheckerInputDto $input): array
+    public function check(CheckerInputDataDto $inputData): array
     {
-        return [new ViolationDto(sprintf('Path: %s', $input->getPath()), 'someFile.php')];
+        return [new ViolationDto(sprintf('Path: %s', $inputData->getPath()), 'someFile.php')];
     }
 
     /**

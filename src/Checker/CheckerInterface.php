@@ -9,16 +9,16 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Checker;
 
-use SprykerSdk\Evaluator\Dto\CheckerInputDto;
+use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 
 interface CheckerInterface
 {
     /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDto $input
+     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
      *
      * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
      */
-    public function check(CheckerInputDto $input): array;
+    public function check(CheckerInputDataDto $inputData): array;
 
     /**
      * @return string

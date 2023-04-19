@@ -11,7 +11,7 @@ namespace SprykerSdk\Evaluator\Executor;
 
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Checker\CheckerRegistryInterface;
-use SprykerSdk\Evaluator\Dto\CheckerInputDto;
+use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto;
 use SprykerSdk\Evaluator\Dto\ReportDto;
 use SprykerSdk\Evaluator\Dto\ReportLineDto;
@@ -41,7 +41,7 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
         $report = new ReportDto();
 
         foreach ($this->getCheckers($inputData) as $checker) {
-            $violations = $checker->check(new CheckerInputDto($inputData->getPath()));
+            $violations = $checker->check(new CheckerInputDataDto($inputData->getPath()));
 
             $report->addReportLine(new ReportLineDto($checker->getName(), $violations));
         }

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Dto;
 
-class CheckerInputDto
+class CheckerInputDataDto
 {
     /**
      * @var string
