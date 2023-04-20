@@ -55,7 +55,7 @@ jobs:
         run: composer install
 
       - name: Container lint
-        run: bin/evaluator lint:container
+        run: bin/console lint:container
 
       - name: Run PHPStan
         run: composer stan
