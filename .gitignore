@@ -1,3 +1,4 @@
+.idea
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -7,6 +8,7 @@
 /public/bundles/
 /var/
 /vendor/
+composer.lock
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
