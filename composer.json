@@ -76,6 +76,6 @@
         }
     },
     "bin": [
-        "bin/console"
+        "bin/evaluator"
     ]
 }
