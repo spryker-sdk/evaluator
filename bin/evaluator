@@ -4,14 +4,27 @@
 use SprykerSdk\Evaluator\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
-    throw new LogicException('Symfony Runtime is missing. Try running "composer require symfony/runtime".');
-}
+require_once $GLOBALS['_composer_autoload_path'] ?? __DIR__ . '/../../../../vendor/autoload.php';
 
-require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
-
-return function (array $context) {
+$app = function (array $context) {
     $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
 
     return new Application($kernel);
 };
+
+$runtime = $_SERVER['APP_RUNTIME'] ?? $_ENV['APP_RUNTIME'] ?? 'Symfony\\Component\\Runtime\\SymfonyRuntime';
+$runtime = new $runtime(($_SERVER['APP_RUNTIME_OPTIONS'] ?? $_ENV['APP_RUNTIME_OPTIONS'] ?? []) + [
+        'project_dir' => dirname(__DIR__, 1),
+    ]);
+
+[$app, $args] = $runtime
+    ->getResolver($app)
+    ->resolve();
+
+$app = $app(...$args);
+
+exit(
+$runtime
+    ->getRunner($app)
+    ->run()
+);

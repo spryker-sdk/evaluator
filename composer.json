@@ -57,7 +57,7 @@
         "stan": "phpstan",
         "test": "phpunit",
         "auto-scripts": {
-            "bin/evaluator cache:clear": "php-script"
+            "cache:clear": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"
