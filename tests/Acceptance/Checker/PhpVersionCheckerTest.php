@@ -14,6 +14,13 @@ use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Process\Process;
 
+/**
+ * @group SprykerSdkTest
+ * @group Evaluator
+ * @group Acceptance
+ * @group Checker
+ * @group PhpVersionCheckerTest
+ */
 class PhpVersionCheckerTest extends TestCase
 {
     /**
