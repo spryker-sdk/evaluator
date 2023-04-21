@@ -12,7 +12,6 @@ namespace SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy;
 use SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\FileReader\DeploymentYamlFileReader;
 use SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategyResponse;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
-use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 
 class DeployYamlFilesPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
 {
@@ -27,35 +26,29 @@ class DeployYamlFilesPhpVersionStrategy implements PhpVersionCheckerStrategyInte
     public const MESSAGE_USED_NOT_ALLOWED_PHP_VERSION = 'Deploy file "%s" used not allowed php version';
 
     /**
-     * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
-     */
-    protected PathResolverInterface $pathResolver;
-
-    /**
      * @var \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\FileReader\DeploymentYamlFileReader
      */
     protected DeploymentYamlFileReader $deploymentYamlFileReader;
 
     /**
-     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
      * @param \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\FileReader\DeploymentYamlFileReader $deploymentYamlFileReader
      */
-    public function __construct(PathResolverInterface $pathResolver, DeploymentYamlFileReader $deploymentYamlFileReader)
+    public function __construct(DeploymentYamlFileReader $deploymentYamlFileReader)
     {
-        $this->pathResolver = $pathResolver;
         $this->deploymentYamlFileReader = $deploymentYamlFileReader;
     }
 
     /**
      * @param array<string> $allowedPhpVersions
+     * @param string $path
      *
      * @return \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategyResponse
      */
-    public function check(array $allowedPhpVersions): CheckerStrategyResponse
+    public function check(array $allowedPhpVersions, string $path): CheckerStrategyResponse
     {
         $responses = [];
 
-        $fileIterator = $this->deploymentYamlFileReader->read($this->getTarget());
+        $fileIterator = $this->deploymentYamlFileReader->read($this->getTarget($path));
 
         foreach ($fileIterator as $fileName => $deploymentStructure) {
             $responses[] = $this->checkDeployFile($fileName, $deploymentStructure, $allowedPhpVersions);
@@ -105,10 +98,12 @@ class DeployYamlFilesPhpVersionStrategy implements PhpVersionCheckerStrategyInte
     }
 
     /**
+     * @param string $path
+     *
      * @return string
      */
-    public function getTarget(): string
+    public function getTarget(string $path): string
     {
-        return $this->pathResolver->resolvePath() . '/deploy**.yml';
+        return rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'deploy**.yml';
     }
 }

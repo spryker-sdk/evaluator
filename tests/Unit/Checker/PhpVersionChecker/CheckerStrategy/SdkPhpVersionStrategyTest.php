@@ -23,7 +23,7 @@ class SdkPhpVersionStrategyTest extends TestCase
         $checkerStrategy = new SdkPhpVersionStrategy(['7.4']);
 
         //Act
-        $response = $checkerStrategy->check(['8.0']);
+        $response = $checkerStrategy->check(['8.0'], '');
 
         //Assert
         $this->assertEmpty($response->getUsedVersions());
@@ -40,7 +40,7 @@ class SdkPhpVersionStrategyTest extends TestCase
         $sdkPhpVersionStrategy = new SdkPhpVersionStrategy(['7.4']);
 
         //Act
-        $response = $sdkPhpVersionStrategy->check(['7.4', '8.0']);
+        $response = $sdkPhpVersionStrategy->check(['7.4', '8.0'], '');
 
         //Assert
         $this->assertEmpty($response->getViolations());

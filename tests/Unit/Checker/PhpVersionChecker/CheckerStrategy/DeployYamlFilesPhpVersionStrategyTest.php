@@ -12,7 +12,6 @@ namespace SprykerSdkTest\Evaluator\Unit\Checker\PhpVersionChecker\CheckerStrateg
 use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\DeployYamlFilesPhpVersionStrategy;
 use SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\FileReader\DeploymentYamlFileReader;
-use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 
 class DeployYamlFilesPhpVersionStrategyTest extends TestCase
 {
@@ -22,13 +21,12 @@ class DeployYamlFilesPhpVersionStrategyTest extends TestCase
     public function testCheckShouldReturnViolationWhenImageTagNotFound(): void
     {
         //Arrange
-        $pathResolverMock = $this->createMock(PathResolverInterface::class);
         $deploymentFileReaderMock = $this->createDeploymentYamlFileReaderMock(['deploy.yml' => []]);
 
-        $checkerStrategy = new DeployYamlFilesPhpVersionStrategy($pathResolverMock, $deploymentFileReaderMock);
+        $checkerStrategy = new DeployYamlFilesPhpVersionStrategy($deploymentFileReaderMock);
 
         //Act
-        $response = $checkerStrategy->check(['7.4', '8.0']);
+        $response = $checkerStrategy->check(['7.4', '8.0'], '');
 
         //Assert
         $this->assertEmpty($response->getUsedVersions());
@@ -42,13 +40,12 @@ class DeployYamlFilesPhpVersionStrategyTest extends TestCase
     public function testCheckShouldReturnSuccessWhenDeployFilesNotFound(): void
     {
         //Arrange
-        $pathResolverMock = $this->createMock(PathResolverInterface::class);
         $deploymentFileReaderMock = $this->createDeploymentYamlFileReaderMock([]);
 
-        $checkerStrategy = new DeployYamlFilesPhpVersionStrategy($pathResolverMock, $deploymentFileReaderMock);
+        $checkerStrategy = new DeployYamlFilesPhpVersionStrategy($deploymentFileReaderMock);
 
         //Act
-        $response = $checkerStrategy->check(['7.4', '8.0']);
+        $response = $checkerStrategy->check(['7.4', '8.0'], '');
 
         //Assert
         $this->assertSame(['7.4', '8.0'], $response->getUsedVersions());
@@ -61,13 +58,12 @@ class DeployYamlFilesPhpVersionStrategyTest extends TestCase
     public function testCheckShouldReturnViolationWhenDeployFilesUseNotAllowedPhpVersion(): void
     {
         //Arrange
-        $pathResolverMock = $this->createMock(PathResolverInterface::class);
         $deploymentFileReaderMock = $this->createDeploymentYamlFileReaderMock(['deploy.yaml' => ['image' => ['tag' => 'spryker/php:8.1-alpine3.12']]]);
 
-        $checkerStrategy = new DeployYamlFilesPhpVersionStrategy($pathResolverMock, $deploymentFileReaderMock);
+        $checkerStrategy = new DeployYamlFilesPhpVersionStrategy($deploymentFileReaderMock);
 
         //Act
-        $response = $checkerStrategy->check(['7.4', '8.0']);
+        $response = $checkerStrategy->check(['7.4', '8.0'], '');
 
         //Assert
         $this->assertEmpty($response->getUsedVersions());
@@ -81,13 +77,12 @@ class DeployYamlFilesPhpVersionStrategyTest extends TestCase
     public function testCheckShouldReturnSuccessWhenDeployFilesUseAllowedPhpVersion(): void
     {
         //Arrange
-        $pathResolverMock = $this->createMock(PathResolverInterface::class);
         $deploymentFileReaderMock = $this->createDeploymentYamlFileReaderMock(['deploy.yaml' => ['image' => ['tag' => 'spryker/php:8.0-alpine3.12']]]);
 
-        $checkerStrategy = new DeployYamlFilesPhpVersionStrategy($pathResolverMock, $deploymentFileReaderMock);
+        $checkerStrategy = new DeployYamlFilesPhpVersionStrategy($deploymentFileReaderMock);
 
         //Act
-        $response = $checkerStrategy->check(['7.4', '8.0']);
+        $response = $checkerStrategy->check(['7.4', '8.0'], '');
 
         //Assert
         $this->assertSame(['8.0'], array_values($response->getUsedVersions()));

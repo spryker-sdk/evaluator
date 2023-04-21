@@ -39,23 +39,22 @@ class ComposerPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
     protected ComposerFileReader $composerFileReader;
 
     /**
-     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
      * @param \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\FileReader\ComposerFileReader $composerFileReader
      */
-    public function __construct(PathResolverInterface $pathResolver, ComposerFileReader $composerFileReader)
+    public function __construct(ComposerFileReader $composerFileReader)
     {
-        $this->pathResolver = $pathResolver;
         $this->composerFileReader = $composerFileReader;
     }
 
     /**
      * @param array<string> $allowedPhpVersions
+     * @param string $path
      *
      * @return \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategyResponse
      */
-    public function check(array $allowedPhpVersions): CheckerStrategyResponse
+    public function check(array $allowedPhpVersions, string $path): CheckerStrategyResponse
     {
-        $composerFile = $this->getTarget();
+        $composerFile = $this->getTarget($path);
 
         try {
             $composerData = $this->composerFileReader->read($composerFile);
@@ -83,10 +82,12 @@ class ComposerPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
     }
 
     /**
+     * @param string $path
+     *
      * @return string
      */
-    public function getTarget(): string
+    public function getTarget(string $path): string
     {
-        return $this->pathResolver->resolvePath() . '/composer.json';
+        return rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'composer.json';
     }
 }

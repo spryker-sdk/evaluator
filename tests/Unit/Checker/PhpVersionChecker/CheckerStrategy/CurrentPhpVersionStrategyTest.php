@@ -23,7 +23,7 @@ class CurrentPhpVersionStrategyTest extends TestCase
         $checkerStrategy = new CurrentPhpVersionStrategy();
 
         //Act
-        $response = $checkerStrategy->check(['5.0']);
+        $response = $checkerStrategy->check(['5.0'], '');
 
         //Assert
         $this->assertEmpty($response->getUsedVersions());
@@ -40,7 +40,7 @@ class CurrentPhpVersionStrategyTest extends TestCase
         $checkerStrategy = new CurrentPhpVersionStrategy();
 
         //Act
-        $response = $checkerStrategy->check([PHP_VERSION]);
+        $response = $checkerStrategy->check([PHP_VERSION], '');
 
         //Assert
         $this->assertEmpty($response->getViolations());

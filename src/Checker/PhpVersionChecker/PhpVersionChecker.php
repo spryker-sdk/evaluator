@@ -56,10 +56,10 @@ class PhpVersionChecker implements CheckerInterface
         $usedVersions = [];
 
         foreach ($this->checkerStrategies as $checkerStrategy) {
-            $response = $checkerStrategy->check($this->allowedPhpVersions);
+            $response = $checkerStrategy->check($this->allowedPhpVersions, $inputData->getPath());
 
             $violations[] = $response->getViolations();
-            $usedVersions[$checkerStrategy->getTarget()] = $response->getUsedVersions();
+            $usedVersions[$checkerStrategy->getTarget($inputData->getPath())] = $response->getUsedVersions();
         }
 
         $violations[] = $this->checkConsistency($usedVersions);

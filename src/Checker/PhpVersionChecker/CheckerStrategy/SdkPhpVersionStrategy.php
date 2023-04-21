@@ -34,24 +34,27 @@ class SdkPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
 
     /**
      * @param array<string> $allowedPhpVersions
+     * @param string $path
      *
      * @return \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategyResponse
      */
-    public function check(array $allowedPhpVersions): CheckerStrategyResponse
+    public function check(array $allowedPhpVersions, string $path): CheckerStrategyResponse
     {
         $usedPhpVersions = array_intersect($allowedPhpVersions, $this->sdkPhpVersions);
 
         if (count($usedPhpVersions) === 0) {
-            return new CheckerStrategyResponse([], [new ViolationDto(static::MESSAGE_INVALID_PHP_VERSION, $this->getTarget())]);
+            return new CheckerStrategyResponse([], [new ViolationDto(static::MESSAGE_INVALID_PHP_VERSION, $this->getTarget($path))]);
         }
 
         return new CheckerStrategyResponse($this->sdkPhpVersions, []);
     }
 
     /**
+     * @param string $path
+     *
      * @return string
      */
-    public function getTarget(): string
+    public function getTarget(string $path): string
     {
         return 'SDK php versions';
     }

@@ -21,24 +21,27 @@ class CurrentPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
 
     /**
      * @param array<string> $allowedPhpVersions
+     * @param string $path
      *
      * @return \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategyResponse
      */
-    public function check(array $allowedPhpVersions): CheckerStrategyResponse
+    public function check(array $allowedPhpVersions, string $path): CheckerStrategyResponse
     {
         $validVersions = array_filter($allowedPhpVersions, static fn (string $allowedVersion): bool => strpos(PHP_VERSION, $allowedVersion) === 0);
 
         $violations = count($validVersions) === 0
-            ? [new ViolationDto(sprintf(static::MESSAGE_INVALID_LOCAL_PHO_VERSION, PHP_VERSION), $this->getTarget())]
+            ? [new ViolationDto(sprintf(static::MESSAGE_INVALID_LOCAL_PHO_VERSION, PHP_VERSION), $this->getTarget($path))]
             : [];
 
         return new CheckerStrategyResponse($validVersions, $violations);
     }
 
     /**
+     * @param string $path
+     *
      * @return string
      */
-    public function getTarget(): string
+    public function getTarget(string $path): string
     {
         return sprintf('Current php version %s', PHP_VERSION);
     }

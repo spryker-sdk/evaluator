@@ -13,7 +13,6 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\ComposerPhpVersionStrategy;
 use SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\FileReader\ComposerFileReader;
-use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 
 class ComposerPhpVersionStrategyTest extends TestCase
 {
@@ -23,15 +22,13 @@ class ComposerPhpVersionStrategyTest extends TestCase
     public function testCheckShouldReturnViolationWhenReaderFailedWithException(): void
     {
         //Arrange
-        $pathResolverMock = $this->createMock(PathResolverInterface::class);
-
         $composerFileReaderMock = $this->createMock(ComposerFileReader::class);
         $composerFileReaderMock->method('read')->willThrowException(new InvalidArgumentException('can\'t read the file'));
 
-        $checkerStrategy = new ComposerPhpVersionStrategy($pathResolverMock, $composerFileReaderMock);
+        $checkerStrategy = new ComposerPhpVersionStrategy($composerFileReaderMock);
 
         //Act
-        $response = $checkerStrategy->check(['7.4', '8.0']);
+        $response = $checkerStrategy->check(['7.4', '8.0'], '');
 
         //Assert
         $this->assertEmpty($response->getUsedVersions());
@@ -45,14 +42,12 @@ class ComposerPhpVersionStrategyTest extends TestCase
     public function testCheckShouldReturnNoPhpDependencyViolationWhenComposerJsonHasNoPhpVersion(): void
     {
         //Arrange
-        $pathResolverMock = $this->createMock(PathResolverInterface::class);
-
         $composerFileReaderMock = $this->createComposerFileReaderMock(['require' => ['spryker-eco/loggly' => '^0.1.1']]);
 
-        $checkerStrategy = new ComposerPhpVersionStrategy($pathResolverMock, $composerFileReaderMock);
+        $checkerStrategy = new ComposerPhpVersionStrategy($composerFileReaderMock);
 
         //Act
-        $response = $checkerStrategy->check(['7.4', '8.0']);
+        $response = $checkerStrategy->check(['7.4', '8.0'], '');
 
         //Assert
         $this->assertEmpty($response->getUsedVersions());
@@ -66,14 +61,12 @@ class ComposerPhpVersionStrategyTest extends TestCase
     public function testCheckShouldReturnNotAllowedPhpVersionViolationWhenComposerHasInvalidPhpVersion(): void
     {
         //Arrange
-        $pathResolverMock = $this->createMock(PathResolverInterface::class);
-
         $composerFileReaderMock = $this->createComposerFileReaderMock(['require' => ['php' => '>=8.1', 'spryker-eco/loggly' => '^0.1.1']]);
 
-        $checkerStrategy = new ComposerPhpVersionStrategy($pathResolverMock, $composerFileReaderMock);
+        $checkerStrategy = new ComposerPhpVersionStrategy($composerFileReaderMock);
 
         //Act
-        $response = $checkerStrategy->check(['7.4', '8.0']);
+        $response = $checkerStrategy->check(['7.4', '8.0'], '');
 
         //Assert
         $this->assertEmpty($response->getUsedVersions());
@@ -87,14 +80,12 @@ class ComposerPhpVersionStrategyTest extends TestCase
     public function testCheckShouldReturnSuccessResponseWhenValidPhpVersionUsed(): void
     {
         //Arrange
-        $pathResolverMock = $this->createMock(PathResolverInterface::class);
-
         $composerFileReaderMock = $this->createComposerFileReaderMock(['require' => ['php' => '>=7.4', 'spryker-eco/loggly' => '^0.1.1']]);
 
-        $checkerStrategy = new ComposerPhpVersionStrategy($pathResolverMock, $composerFileReaderMock);
+        $checkerStrategy = new ComposerPhpVersionStrategy($composerFileReaderMock);
 
         //Act
-        $response = $checkerStrategy->check(['7.4', '8.0']);
+        $response = $checkerStrategy->check(['7.4', '8.0'], '');
 
         //Assert
         $this->assertSame(['7.4', '8.0'], $response->getUsedVersions());

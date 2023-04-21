@@ -15,15 +15,16 @@ interface PhpVersionCheckerStrategyInterface
 {
     /**
      * @param array<string> $allowedPhpVersions
+     * @param string $path
      *
      * @return \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategyResponse
      */
-    public function check(array $allowedPhpVersions): CheckerStrategyResponse;
+    public function check(array $allowedPhpVersions, string $path): CheckerStrategyResponse;
 
     /**
-     * String of target php version check
+     * @param string $path
      *
      * @return string
      */
-    public function getTarget(): string;
+    public function getTarget(string $path): string;
 }
