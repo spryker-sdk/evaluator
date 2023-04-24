@@ -1,0 +1,18 @@
+parameters:
+    env(EVALUATOR_PROJECT_DIR): ~
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $projectDirEnv: '%env(EVALUATOR_PROJECT_DIR)%'
+
+    SprykerSdk\Evaluator\:
+        resource: '../src/'
+        exclude:
+            - '../src/Kernel.php'
+
+    SprykerSdk\Evaluator\Checker\CheckerRegistry:
+        arguments:
+            - - '@SprykerSdk\Evaluator\Checker\ExampleChecker\ExampleChecker'
