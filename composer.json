@@ -11,7 +11,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "composer/semver": "^3.3",
-        "spryker-sdk/security-checker": "dev-feature/sdk-2351-uses-latest-version",
+        "spryker-sdk/security-checker": "^0.2.0",
         "symfony/console": "5.4.*",
         "symfony/dotenv": "5.4.*",
         "symfony/filesystem": "5.4.*",
