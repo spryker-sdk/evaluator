@@ -20,6 +20,7 @@ services:
         arguments:
             - - '@SprykerSdk\Evaluator\Checker\ExampleChecker\ExampleChecker'
               - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\PhpVersionChecker'
+              - '@SprykerSdk\Evaluator\Checker\DependencyProviderAdditionalLogicChecker\DependencyProviderAdditionalLogicChecker'
 
     SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\SdkPhpVersionStrategy:
         arguments: [ '%php_version_checker_sdk_versions%' ]
@@ -31,3 +32,7 @@ services:
               - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\ComposerPhpVersionStrategy'
               - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\DeployYamlFilesPhpVersionStrategy'
               - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\SdkPhpVersionStrategy'
+
+    # Third-party
+    PhpParser\ParserFactory: ~
+    Symfony\Component\Finder\Finder: ~
