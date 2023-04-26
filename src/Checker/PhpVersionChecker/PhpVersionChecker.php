@@ -12,6 +12,7 @@ namespace SprykerSdk\Evaluator\Checker\PhpVersionChecker;
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
+use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 
 class PhpVersionChecker implements CheckerInterface
 {
@@ -26,6 +27,11 @@ class PhpVersionChecker implements CheckerInterface
     public const MESSAGE_INCONSISTENT_PHP_VERSIONS = 'Not all the targets have common php versions';
 
     /**
+     * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
+     */
+    protected PathResolverInterface $pathResolver;
+
+    /**
      * @var array<string>
      */
     protected array $allowedPhpVersions;
@@ -36,11 +42,13 @@ class PhpVersionChecker implements CheckerInterface
     protected array $checkerStrategies;
 
     /**
+     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
      * @param array<string> $allowedPhpVersions
      * @param array<\SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\PhpVersionCheckerStrategyInterface> $checkerStrategies
      */
-    public function __construct(array $allowedPhpVersions, array $checkerStrategies)
+    public function __construct(PathResolverInterface $pathResolver, array $allowedPhpVersions, array $checkerStrategies)
     {
+        $this->pathResolver = $pathResolver;
         $this->allowedPhpVersions = $allowedPhpVersions;
         $this->checkerStrategies = $checkerStrategies;
     }
@@ -56,10 +64,10 @@ class PhpVersionChecker implements CheckerInterface
         $usedVersions = [];
 
         foreach ($this->checkerStrategies as $checkerStrategy) {
-            $response = $checkerStrategy->check($this->allowedPhpVersions, $inputData->getPath());
+            $response = $checkerStrategy->check($this->allowedPhpVersions, $this->pathResolver->getProjectDir());
 
             $violations[] = $response->getViolations();
-            $usedVersions[$checkerStrategy->getTarget($inputData->getPath())] = $response->getUsedVersions();
+            $usedVersions[$checkerStrategy->getTarget($this->pathResolver->getProjectDir())] = $response->getUsedVersions();
         }
 
         $violations[] = $this->checkConsistency($usedVersions);

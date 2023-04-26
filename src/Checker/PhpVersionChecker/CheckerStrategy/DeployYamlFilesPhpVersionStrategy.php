@@ -18,12 +18,12 @@ class DeployYamlFilesPhpVersionStrategy implements PhpVersionCheckerStrategyInte
     /**
      * @var string
      */
-    public const MESSAGE_YAML_PATH_NOT_FOUND = 'Image tag path not found in deploy file "%s"';
+    public const MESSAGE_YAML_PATH_NOT_FOUND = 'Image tag path "%s" not found in deploy file';
 
     /**
      * @var string
      */
-    public const MESSAGE_USED_NOT_ALLOWED_PHP_VERSION = 'Deploy file "%s" used not allowed php version';
+    public const MESSAGE_USED_NOT_ALLOWED_PHP_VERSION = 'Deploy file uses not allowed php image version "%s"';
 
     /**
      * @var \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\FileReader\DeploymentYamlFileReader
@@ -79,7 +79,7 @@ class DeployYamlFilesPhpVersionStrategy implements PhpVersionCheckerStrategyInte
     protected function checkDeployFile(string $fileName, array $deployStructure, array $allowedPhpVersions): CheckerStrategyResponse
     {
         if (!isset($deployStructure['image']['tag'])) {
-            return new CheckerStrategyResponse([], [new ViolationDto(sprintf(static::MESSAGE_YAML_PATH_NOT_FOUND, $fileName))]);
+            return new CheckerStrategyResponse([], [new ViolationDto(sprintf(static::MESSAGE_YAML_PATH_NOT_FOUND, '[image][tag]'), $fileName)]);
         }
 
         $validVersions = array_filter(
@@ -91,7 +91,7 @@ class DeployYamlFilesPhpVersionStrategy implements PhpVersionCheckerStrategyInte
         );
 
         if (count($validVersions) === 0) {
-            return new CheckerStrategyResponse([], [new ViolationDto(sprintf(static::MESSAGE_USED_NOT_ALLOWED_PHP_VERSION, $fileName))]);
+            return new CheckerStrategyResponse([], [new ViolationDto(sprintf(static::MESSAGE_USED_NOT_ALLOWED_PHP_VERSION, $deployStructure['image']['tag']), $fileName)]);
         }
 
         return new CheckerStrategyResponse($validVersions, []);

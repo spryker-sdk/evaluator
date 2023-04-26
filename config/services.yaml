@@ -27,6 +27,7 @@ services:
 
     SprykerSdk\Evaluator\Checker\PhpVersionChecker\PhpVersionChecker:
         arguments:
+            - '@SprykerSdk\Evaluator\Resolver\PathResolver'
             - '%php_version_checker_allowed_php_versions%'
             - - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\CurrentPhpVersionStrategy'
               - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\ComposerPhpVersionStrategy'

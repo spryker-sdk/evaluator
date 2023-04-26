@@ -14,6 +14,7 @@ use SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\PhpVersionChe
 use SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategyResponse;
 use SprykerSdk\Evaluator\Checker\PhpVersionChecker\PhpVersionChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
+use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 
 class PhpVersionCheckerTest extends TestCase
 {
@@ -26,7 +27,7 @@ class PhpVersionCheckerTest extends TestCase
         $checkerStrategyOne = $this->createPhpVersionCheckerStrategyMock(['7.4'], [], 'target one');
         $checkerStrategyTwo = $this->createPhpVersionCheckerStrategyMock(['8.0'], [], 'target two');
 
-        $checker = new PhpVersionChecker(['7.4', '8.0'], [$checkerStrategyOne, $checkerStrategyTwo]);
+        $checker = new PhpVersionChecker($this->createPathResolverMock(), ['7.4', '8.0'], [$checkerStrategyOne, $checkerStrategyTwo]);
 
         //Act
         $violations = $checker->check(new CheckerInputDataDto(''));
@@ -45,7 +46,7 @@ class PhpVersionCheckerTest extends TestCase
         $checkerStrategyOne = $this->createPhpVersionCheckerStrategyMock(['7.4', '8.0'], [], 'target one');
         $checkerStrategyTwo = $this->createPhpVersionCheckerStrategyMock(['8.0', '8.1'], [], 'target two');
 
-        $checker = new PhpVersionChecker(['7.4', '8.0', '8.1'], [$checkerStrategyOne, $checkerStrategyTwo]);
+        $checker = new PhpVersionChecker($this->createPathResolverMock(), ['7.4', '8.0', '8.1'], [$checkerStrategyOne, $checkerStrategyTwo]);
 
         //Act
         $violations = $checker->check(new CheckerInputDataDto(''));
@@ -68,5 +69,16 @@ class PhpVersionCheckerTest extends TestCase
         $phpVersionCheckerStrategy->method('getTarget')->willReturn($target);
 
         return $phpVersionCheckerStrategy;
+    }
+
+    /**
+     * @return \SprykerSdk\Evaluator\Resolver\PathResolverInterface
+     */
+    protected function createPathResolverMock(): PathResolverInterface
+    {
+        $pathResolver = $this->createMock(PathResolverInterface::class);
+        $pathResolver->method('getProjectDir')->willReturn('/data');
+
+        return $pathResolver;
     }
 }
