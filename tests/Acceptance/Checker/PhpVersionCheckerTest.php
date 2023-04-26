@@ -50,6 +50,8 @@ class PhpVersionCheckerTest extends TestCase
         );
         $process->run();
 
+        $phpVersion = PHP_VERSION;
+
         $this->assertSame(Command::FAILURE, $process->getExitCode());
         $this->assertSame(
             <<<OUT
@@ -64,7 +66,7 @@ class PhpVersionCheckerTest extends TestCase
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
         | 2 | Deploy file uses not allowed php image version "spryker/php:7.2-alpine3.12" | tests/Acceptance/_data/InvalidProject/deploy.yml       |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
-        | 3 | Not all the targets have common php versions                                | Current php version 7.4.20: php7.4                     |
+        | 3 | Not all the targets have common php versions                                | Current php version $phpVersion: php7.4                     |
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/composer.json: - |
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/deploy**.yml: -  |
         |   |                                                                             | SDK php versions: php7.4, php8.0                       |
