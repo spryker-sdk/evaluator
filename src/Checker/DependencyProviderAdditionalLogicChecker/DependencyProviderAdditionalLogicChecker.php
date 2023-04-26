@@ -28,7 +28,7 @@ class DependencyProviderAdditionalLogicChecker implements CheckerInterface
     /**
      * @var string
      */
-    protected const NAME = 'DEPENDENCY_PROVIDER_ADDITIONAL_LOGIC_CHECKER';
+    public const NAME = 'DEPENDENCY_PROVIDER_ADDITIONAL_LOGIC_CHECKER';
 
     /**
      * @var string
@@ -36,9 +36,14 @@ class DependencyProviderAdditionalLogicChecker implements CheckerInterface
     protected const DEPENDENCY_PROVIDER_PATTERN = '*DependencyProvider.php';
 
     /**
+     * @var array<string>
+     */
+    protected const EXCLUDE_PATH_LIST = ['vendor'];
+
+    /**
      * @var string
      */
-    protected const TARGET_DIR = 'src';
+    protected const CONDITION_SUFFIX = '}';
 
     /**
      * @var \SprykerSdk\Evaluator\Finder\SourceFinderInterface
@@ -91,7 +96,7 @@ class DependencyProviderAdditionalLogicChecker implements CheckerInterface
 
                 $conditionString = $this->getConditionString($conditionStm, $dependencyProvider->getContents());
                 $violations[] = new ViolationDto(
-                    sprintf('The condition statement {%s} is forbidden in the DependencyProvider', $conditionString),
+                    sprintf('The condition statement %s is forbidden in the DependencyProvider', $conditionString),
                     $dependencyProvider->getPathname(),
                 );
             }
@@ -115,10 +120,7 @@ class DependencyProviderAdditionalLogicChecker implements CheckerInterface
      */
     protected function findDependencyProviders(string $path): Finder
     {
-        return $this->sourceFinder->find(
-            [static::DEPENDENCY_PROVIDER_PATTERN],
-            [$path . DIRECTORY_SEPARATOR . static::TARGET_DIR],
-        );
+        return $this->sourceFinder->find([static::DEPENDENCY_PROVIDER_PATTERN], [$path], static::EXCLUDE_PATH_LIST);
     }
 
     /**
@@ -198,6 +200,6 @@ class DependencyProviderAdditionalLogicChecker implements CheckerInterface
             ARRAY_FILTER_USE_KEY,
         );
 
-        return trim(implode(PHP_EOL, $lineList));
+        return trim(implode(PHP_EOL, $lineList)) . static::CONDITION_SUFFIX;
     }
 }
