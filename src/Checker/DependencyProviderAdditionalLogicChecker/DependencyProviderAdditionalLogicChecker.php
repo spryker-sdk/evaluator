@@ -9,8 +9,15 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Checker\DependencyProviderAdditionalLogicChecker;
 
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\If_;
+use PhpParser\NodeFinder;
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
+use SprykerSdk\Evaluator\Dto\ViolationDto;
 use SprykerSdk\Evaluator\Finder\SourceFinderInterface;
 use SprykerSdk\Evaluator\Finder\StatementFinderInterface;
 use SprykerSdk\Evaluator\Parser\PhpParserInterface;
@@ -27,6 +34,11 @@ class DependencyProviderAdditionalLogicChecker implements CheckerInterface
      * @var string
      */
     protected const DEPENDENCY_PROVIDER_PATTERN = '*DependencyProvider.php';
+
+    /**
+     * @var string
+     */
+    protected const TARGET_DIR = 'src';
 
     /**
      * @var \SprykerSdk\Evaluator\Finder\SourceFinderInterface
@@ -67,11 +79,22 @@ class DependencyProviderAdditionalLogicChecker implements CheckerInterface
     {
         $violations = [];
         $dependencyProviderList = $this->findDependencyProviders($inputData->getPath());
-
         foreach ($dependencyProviderList as $dependencyProvider) {
-            $statement = $this->phpParser->parse($dependencyProvider->getPathname());
-            $classStatement = $this->statementFinder->findClassStatement($statement);
-            // TODO: check additional logic
+            $fileStm = $this->phpParser->parse($dependencyProvider->getPathname());
+            $conditionStmList = $this->findConditionStatement($fileStm);
+
+            /** @var \PhpParser\Node\Stmt\If_ $conditionStm */
+            foreach ($conditionStmList as $conditionStm) {
+                if ($this->isAcceptedCondition($conditionStm)) {
+                    continue;
+                }
+
+                $conditionString = $this->getConditionString($conditionStm, $dependencyProvider->getContents());
+                $violations[] = new ViolationDto(
+                    sprintf('The condition statement {%s} is forbidden in the DependencyProvider', $conditionString),
+                    $dependencyProvider->getPathname(),
+                );
+            }
         }
 
         return $violations;
@@ -92,6 +115,89 @@ class DependencyProviderAdditionalLogicChecker implements CheckerInterface
      */
     protected function findDependencyProviders(string $path): Finder
     {
-        return $this->sourceFinder->find([static::DEPENDENCY_PROVIDER_PATTERN], [$path]);
+        return $this->sourceFinder->find(
+            [static::DEPENDENCY_PROVIDER_PATTERN],
+            [$path . DIRECTORY_SEPARATOR . static::TARGET_DIR],
+        );
+    }
+
+    /**
+     * @param array<\PhpParser\Node> $syntaxTree
+     *
+     * @return array<\PhpParser\Node>
+     */
+    public function findConditionStatement(array $syntaxTree): array
+    {
+        return (new NodeFinder())->findInstanceOf($syntaxTree, If_::class);
+    }
+
+    /**
+     * @param \PhpParser\Node\Stmt\If_ $conditionStm
+     *
+     * @return bool
+     */
+    protected function isAcceptedCondition(If_ $conditionStm): bool
+    {
+        if ($conditionStm->cond instanceof MethodCall && $this->isDevelopmentMethodCall($conditionStm->cond)) {
+            return true;
+        }
+
+        if ($conditionStm->cond instanceof FuncCall && $this->isClassExistsFuncCall($conditionStm->cond)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param \PhpParser\Node\Expr\MethodCall $methodCall
+     *
+     * @return bool
+     */
+    protected function isDevelopmentMethodCall(MethodCall $methodCall): bool
+    {
+        if (
+            $methodCall->name instanceof Identifier &&
+            strpos($methodCall->name->name, 'is') !== false &&
+            strpos($methodCall->name->name, 'Development') !== false
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param \PhpParser\Node\Expr\FuncCall $funcCall
+     *
+     * @return bool
+     */
+    protected function isClassExistsFuncCall(FuncCall $funcCall): bool
+    {
+        if ($funcCall->name instanceof Name && $funcCall->name->parts[0] == 'class_exists') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param \PhpParser\Node\Stmt\If_ $conditionStm
+     * @param string $fileBody
+     *
+     * @return string|null
+     */
+    protected function getConditionString(If_ $conditionStm, string $fileBody): ?string
+    {
+        $lineList = array_filter(
+            explode(PHP_EOL, $fileBody),
+            function ($key) use ($conditionStm) {
+                return $key >= $conditionStm->cond->getAttribute('startLine') - 1 &&
+                    $key <= $conditionStm->cond->getAttribute('endLine') - 1;
+            },
+            ARRAY_FILTER_USE_KEY,
+        );
+
+        return trim(implode(PHP_EOL, $lineList));
     }
 }
