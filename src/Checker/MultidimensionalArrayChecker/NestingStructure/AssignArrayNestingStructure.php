@@ -33,9 +33,6 @@ class AssignArrayNestingStructure extends AbstractNestingStructure
      */
     public function getDepth(Stmt $stmt): int
     {
-        if (!$this->isApplicable($stmt)) {
-        }
-
         return $this->arrayDepth(
             $stmt->expr->expr, // @phpstan-ignore-line
         );
