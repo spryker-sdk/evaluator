@@ -51,8 +51,8 @@ class PathResolver implements PathResolverInterface
             ? $projectDir . DIRECTORY_SEPARATOR . trim($relativePath, DIRECTORY_SEPARATOR)
             : $projectDir;
 
-        if (!$this->filesystem->exists([$fullPath])) {
-            throw new InvalidArgumentException(sprintf('File or directory `%s` does not exist', $fullPath));
+        if (!is_dir($fullPath) || !$this->filesystem->exists([$fullPath])) {
+            throw new InvalidArgumentException(sprintf('Directory `%s` does not exist', $fullPath));
         }
 
         return $fullPath;
