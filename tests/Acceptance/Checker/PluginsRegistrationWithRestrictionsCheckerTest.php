@@ -11,6 +11,7 @@ namespace SprykerSdkTest\Evaluator\Acceptance\Checker;
 
 use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Checker\PluginsRegistrationWithRestrictionsChecker\PluginsRegistrationWithRestrictionsChecker;
+use SprykerSdk\Evaluator\Console\Command\EvaluatorCommand;
 use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Process\Process;
@@ -32,7 +33,7 @@ class PluginsRegistrationWithRestrictionsCheckerTest extends TestCase
         $process = new Process(
             [
                 'bin/console',
-                'evaluator:run',
+                EvaluatorCommand::COMMAND_NAME,
                 '--path',
                 'src/Pyz/Zed/PluginsRegistrationWithRestrictionsChecker',
                 '--checkers',
@@ -54,7 +55,7 @@ class PluginsRegistrationWithRestrictionsCheckerTest extends TestCase
         $process = new Process(
             [
                 'bin/console',
-                'evaluator:run',
+                EvaluatorCommand::COMMAND_NAME,
                 '--path',
                 'src/Pyz/Zed/PluginsRegistrationWithRestrictionsChecker',
                 '--checkers',
