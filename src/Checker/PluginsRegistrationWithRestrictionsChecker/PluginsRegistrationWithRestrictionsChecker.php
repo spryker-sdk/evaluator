@@ -107,9 +107,9 @@ class PluginsRegistrationWithRestrictionsChecker implements CheckerInterface
     {
         $nodes = $this->phpParser->parse($dependencyProviderFile->getPathname());
 
-//        if (!$this->isCoreClass($nodes)) {
-//            return [];
-//        }
+        if (!$this->isCoreClass($nodes)) {
+            return [];
+        }
 
         $violations = [];
         $filesClassUses = $this->getFileUsedClasses($nodes);
