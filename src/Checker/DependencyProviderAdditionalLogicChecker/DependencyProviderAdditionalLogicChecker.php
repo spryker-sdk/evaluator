@@ -19,7 +19,6 @@ use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
 use SprykerSdk\Evaluator\Finder\SourceFinderInterface;
-use SprykerSdk\Evaluator\Finder\StatementFinderInterface;
 use SprykerSdk\Evaluator\Parser\PhpParserInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -51,27 +50,19 @@ class DependencyProviderAdditionalLogicChecker implements CheckerInterface
     protected SourceFinderInterface $sourceFinder;
 
     /**
-     * @var \SprykerSdk\Evaluator\Finder\StatementFinderInterface
-     */
-    protected StatementFinderInterface $statementFinder;
-
-    /**
      * @var \SprykerSdk\Evaluator\Parser\PhpParserInterface
      */
     protected PhpParserInterface $phpParser;
 
     /**
      * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
-     * @param \SprykerSdk\Evaluator\Finder\StatementFinderInterface $statementFinder
      * @param \SprykerSdk\Evaluator\Parser\PhpParserInterface $phpParser
      */
     public function __construct(
         SourceFinderInterface $sourceFinder,
-        StatementFinderInterface $statementFinder,
         PhpParserInterface $phpParser
     ) {
         $this->sourceFinder = $sourceFinder;
-        $this->statementFinder = $statementFinder;
         $this->phpParser = $phpParser;
     }
 
