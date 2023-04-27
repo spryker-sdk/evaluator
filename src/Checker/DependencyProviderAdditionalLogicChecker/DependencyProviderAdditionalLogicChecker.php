@@ -158,15 +158,7 @@ class DependencyProviderAdditionalLogicChecker implements CheckerInterface
      */
     protected function isDevelopmentMethodCall(MethodCall $methodCall): bool
     {
-        if (
-            $methodCall->name instanceof Identifier &&
-            strpos($methodCall->name->name, 'is') !== false &&
-            strpos($methodCall->name->name, 'Development') !== false
-        ) {
-            return true;
-        }
-
-        return false;
+        return $methodCall->name instanceof Identifier && preg_match('/^is.*Development.*/', $methodCall->name->name);
     }
 
     /**
@@ -176,11 +168,7 @@ class DependencyProviderAdditionalLogicChecker implements CheckerInterface
      */
     protected function isClassExistsFuncCall(FuncCall $funcCall): bool
     {
-        if ($funcCall->name instanceof Name && $funcCall->name->parts[0] == 'class_exists') {
-            return true;
-        }
-
-        return false;
+        return $funcCall->name instanceof Name && $funcCall->name->parts[0] == 'class_exists';
     }
 
     /**
