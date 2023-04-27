@@ -14,13 +14,21 @@ use Symfony\Component\Finder\Finder;
 class SourceFinder implements SourceFinderInterface
 {
  /**
-  * @param array<string> $pattern
-  * @param array<string> $paths
-  * @param array<string> $exclude
-  *
-  * @return \Symfony\Component\Finder\Finder
+  * @var array<string>
   */
-    public function find(array $pattern, array $paths, array $exclude = []): Finder
+    protected const DEFAULT_EXCLUDE_DIRS = [
+        'src' . DIRECTORY_SEPARATOR . 'Generated',
+        'vendor',
+    ];
+
+    /**
+     * @param array<string> $pattern
+     * @param array<string> $paths
+     * @param array<string> $exclude
+     *
+     * @return \Symfony\Component\Finder\Finder
+     */
+    public function find(array $pattern, array $paths, array $exclude = self::DEFAULT_EXCLUDE_DIRS): Finder
     {
         return Finder::create()->in($paths)->name($pattern)->exclude($exclude);
     }

@@ -11,8 +11,7 @@
 
     <file>src/</file>
     <file>tests/</file>
-
-    <exclude-pattern>/tests/_data/*</exclude-pattern>
+    <exclude-pattern>/tests/Acceptance/_data/*</exclude-pattern>
 
     <arg name="extensions" value="php" />
     <arg name="colors"/>
