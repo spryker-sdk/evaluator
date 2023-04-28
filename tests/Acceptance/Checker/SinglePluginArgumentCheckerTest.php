@@ -27,17 +27,17 @@ class SinglePluginArgumentCheckerTest extends TestCase
     /**
      * @return void
      */
-//    public function testReturnSuccessOnValidProject(): void
-//    {
-//        $process = new Process(
-//            ['bin/console', 'evaluator:run', '--checkers', SinglePluginArgumentChecker::NAME],
-//            null,
-//            ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH . '/src/Pyz/Zed/SinglePluginArgument'],
-//        );
-//        $process->run();
-//
-//        $this->assertSame(Command::SUCCESS, $process->getExitCode());
-//    }
+    public function testReturnSuccessOnValidProject(): void
+    {
+        $process = new Process(
+            ['bin/console', 'evaluator:run', '--checkers', SinglePluginArgumentChecker::NAME],
+            null,
+            ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH . '/src/Pyz/Zed/SinglePluginArgument'],
+        );
+        $process->run();
+
+        $this->assertSame(Command::SUCCESS, $process->getExitCode());
+    }
 
     /**
      * @return void
