@@ -23,7 +23,10 @@ services:
 
     SprykerSdk\Evaluator\Checker\CheckerRegistry:
         arguments:
-            - - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\PhpVersionChecker'
+            - - '@SprykerSdk\Evaluator\Checker\ExampleChecker\ExampleChecker'
+              - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\PhpVersionChecker'
+              - '@SprykerSdk\Evaluator\Checker\DependencyProviderAdditionalLogicChecker\DependencyProviderAdditionalLogicChecker'
+              - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\MultidimensionalArrayChecker'
               - '@SprykerSdk\Evaluator\Checker\SecurityChecker\SecurityChecker'
 
     SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\SdkPhpVersionStrategy:
@@ -43,8 +46,21 @@ services:
               - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\SdkPhpVersionStrategy'
             - '%php_version_checker_doc_url%'
 
+
+    SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\MultidimensionalArrayChecker:
+        arguments:
+            '$nestingStructures' :
+                - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\AssignArrayNestingStructure'
+                - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\ArrayMergeNestingStructure'
+                - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\ReturnArrayNestingStructure'
+
     SprykerSdk\Evaluator\Checker\SecurityChecker\SecurityChecker:
         arguments:
             - '@symfony.console.application'
             - '@SprykerSdk\Evaluator\Resolver\PathResolver'
             - '%security_checker_doc_url%'
+
+    # Third-party
+    PhpParser\ParserFactory: ~
+    Symfony\Component\Finder\Finder: ~
+
