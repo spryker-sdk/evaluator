@@ -1,0 +1,91 @@
+{
+    "name": "spryker-shop/b2c-demo-shop-test",
+    "description": "Spryker B2C Demo Shop",
+    "license": "proprietary",
+    "require": {
+        "php": ">=7.4",
+        "ext-bcmath": "*",
+        "ext-redis": "*",
+        "spryker-eco/loggly": "^0.1.1",
+        "spryker-feature/agent-assist": "^202204.0",
+        "spryker-feature/alternative-products": "^202204.0",
+        "spryker-feature/availability-notification": "^202204.0",
+        "spryker-feature/cart": "^202204.0",
+        "spryker-feature/catalog": "^202204.0",
+        "spryker-feature/category-management": "^202204.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Generated\\": "src/Generated/",
+            "Orm\\": "src/Orm/",
+            "Pyz\\": "src/Pyz/",
+            "Install\\": "src/Install/",
+            "SprykerConfig\\": "src/SprykerConfig/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PyzTest\\": "tests/PyzTest/",
+            "PhpStan\\": "tests/PhpStan/",
+            "Acceptance\\Auth\\": "vendor/spryker/auth/tests/",
+            "Application\\Module\\": "vendor/spryker/application/tests/_support/Module/",
+            "Auth\\Module\\": "vendor/spryker/auth/tests/_support/Module/"
+        },
+        "files": [
+            "test-autoload.php"
+        ]
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/spryker-sdk/lib-innerbrowser.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/spryker-sdk/evaluator.git"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "preferred-install": "dist",
+        "platform": {
+            "php": "7.4.20"
+        },
+        "use-include-path": true,
+        "sort-packages": true,
+        "github-protocols": [
+            "https"
+        ],
+        "process-timeout": 900,
+        "chromium-revision": 814168,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "composer/package-versions-deprecated": true,
+            "sllh/composer-versions-check": true,
+            "spryker-sdk/integrator": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
+    },
+    "scripts": {
+        "compile": [
+            "mkdir -p ./data/DE/logs/ZED",
+            "echo '<?php return \"development-heroku\";' > config/Shared/console_env_local.php",
+            "./deploy/heroku/run.sh"
+        ],
+        "post-install-cmd": [
+            "ChromedriverInstaller\\Installer::installChromedriver"
+        ],
+        "post-update-cmd": [
+            "ChromedriverInstaller\\Installer::installChromedriver"
+        ],
+        "phpstan": [
+            "php -d memory_limit=1024M vendor/bin/phpstan analyze -c phpstan.neon src/ -l 5"
+        ],
+        "phpstan-setup": "vendor/bin/console dev:ide-auto-completion:generate",
+        "prefer-mid": [
+            "COMPOSER_MEMORY_LIMIT=-1 composer require twig/twig:\"^2.9.0\""
+        ]
+    }
+}

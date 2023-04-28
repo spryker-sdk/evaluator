@@ -1,3 +1,6 @@
+imports:
+    - {resource: checkers.yaml}
+
 parameters:
     env(EVALUATOR_PROJECT_DIR): ~
 
@@ -16,3 +19,16 @@ services:
     SprykerSdk\Evaluator\Checker\CheckerRegistry:
         arguments:
             - - '@SprykerSdk\Evaluator\Checker\ExampleChecker\ExampleChecker'
+              - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\PhpVersionChecker'
+
+    SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\SdkPhpVersionStrategy:
+        arguments: [ '%php_version_checker_sdk_versions%' ]
+
+    SprykerSdk\Evaluator\Checker\PhpVersionChecker\PhpVersionChecker:
+        arguments:
+            - '@SprykerSdk\Evaluator\Resolver\PathResolver'
+            - '%php_version_checker_allowed_php_versions%'
+            - - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\CurrentPhpVersionStrategy'
+              - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\ComposerPhpVersionStrategy'
+              - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\DeployYamlFilesPhpVersionStrategy'
+              - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\SdkPhpVersionStrategy'

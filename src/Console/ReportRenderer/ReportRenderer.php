@@ -12,6 +12,7 @@ namespace SprykerSdk\Evaluator\Console\ReportRenderer;
 use SprykerSdk\Evaluator\Dto\ReportDto;
 use SprykerSdk\Evaluator\Dto\ReportLineDto;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ReportRenderer
@@ -71,7 +72,7 @@ class ReportRenderer
     /**
      * @param array<\SprykerSdk\Evaluator\Dto\ViolationDto> $violations
      *
-     * @return array<array<mixed>>
+     * @return array<mixed>
      */
     protected function getRows(array $violations): array
     {
@@ -79,7 +80,10 @@ class ReportRenderer
 
         foreach ($violations as $index => $violation) {
             $rows[] = [++$index, $violation->getMessage(), $violation->getTarget()];
+            $rows[] = new TableSeparator();
         }
+
+        array_pop($rows);
 
         return $rows;
     }
