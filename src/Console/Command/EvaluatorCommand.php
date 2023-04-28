@@ -23,7 +23,7 @@ class EvaluatorCommand extends Command
     /**
      * @var string
      */
-    public const COMMAND_NAME = 'evaluator:run';
+    public const COMMAND_NAME = 'evaluate';
 
     /**
      * @var string

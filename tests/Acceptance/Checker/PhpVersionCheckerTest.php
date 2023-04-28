@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace SprykerSdkTest\Evaluator\Acceptance\Checker;
 
 use PHPUnit\Framework\TestCase;
+use SprykerSdk\Evaluator\Console\Command\EvaluatorCommand;
 use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Process\Process;
@@ -29,7 +30,7 @@ class PhpVersionCheckerTest extends TestCase
     public function testReturnSuccessOnValidProject(): void
     {
         $process = new Process(
-            ['bin/console', 'evaluator:run', '--checkers', 'PHP_VERSION_CHECKER'],
+            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', 'PHP_VERSION_CHECKER'],
             null,
             ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH],
         );
@@ -44,7 +45,7 @@ class PhpVersionCheckerTest extends TestCase
     public function testReturnViolationWhenProjectHasIssues(): void
     {
         $process = new Process(
-            ['bin/console', 'evaluator:run', '--checkers', 'PHP_VERSION_CHECKER'],
+            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', 'PHP_VERSION_CHECKER'],
             null,
             ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH],
         );

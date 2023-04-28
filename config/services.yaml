@@ -15,12 +15,18 @@ services:
         resource: '../src/'
         exclude:
             - '../src/Kernel.php'
+    symfony.console.application:
+        class: Symfony\Bundle\FrameworkBundle\Console\Application
+        arguments:
+            - '@kernel'
 
     SprykerSdk\Evaluator\Checker\CheckerRegistry:
         arguments:
             - - '@SprykerSdk\Evaluator\Checker\ExampleChecker\ExampleChecker'
               - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\PhpVersionChecker'
               - '@SprykerSdk\Evaluator\Checker\DependencyProviderAdditionalLogicChecker\DependencyProviderAdditionalLogicChecker'
+              - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\MultidimensionalArrayChecker'
+              - '@SprykerSdk\Evaluator\Checker\SecurityChecker\SecurityChecker'
               - '@SprykerSdk\Evaluator\Checker\PluginsRegistrationWithRestrictionsChecker\PluginsRegistrationWithRestrictionsChecker'
 
     SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\SdkPhpVersionStrategy:
@@ -35,6 +41,18 @@ services:
               - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\DeployYamlFilesPhpVersionStrategy'
               - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\SdkPhpVersionStrategy'
 
+    SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\MultidimensionalArrayChecker:
+        arguments:
+            '$nestingStructures' :
+                - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\AssignArrayNestingStructure'
+                - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\ArrayMergeNestingStructure'
+                - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\ReturnArrayNestingStructure'
+
+    SecurityChecker\Command\SecurityCheckerCommand:
+    SprykerSdk\Evaluator\Checker\SecurityChecker\SecurityChecker:
+        - '@symfony.console.application'
+
     # Third-party
     PhpParser\ParserFactory: ~
     Symfony\Component\Finder\Finder: ~
+
