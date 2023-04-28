@@ -46,9 +46,12 @@ services:
                 - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\AssignArrayNestingStructure'
                 - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\ArrayMergeNestingStructure'
                 - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\ReturnArrayNestingStructure'
-    # Third-party
-    PhpParser\ParserFactory: ~
-    Symfony\Component\Finder\Finder: ~
+
     SecurityChecker\Command\SecurityCheckerCommand:
     SprykerSdk\Evaluator\Checker\SecurityChecker\SecurityChecker:
         - '@symfony.console.application'
+
+    # Third-party
+    PhpParser\ParserFactory: ~
+    Symfony\Component\Finder\Finder: ~
+
