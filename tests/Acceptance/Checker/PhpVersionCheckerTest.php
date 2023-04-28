@@ -72,6 +72,7 @@ class PhpVersionCheckerTest extends TestCase
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/deploy**.yml: -  |
         |   |                                                                             | SDK php versions: php7.4, php8.0                       |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
+
         OUT,
             $process->getOutput(),
         );

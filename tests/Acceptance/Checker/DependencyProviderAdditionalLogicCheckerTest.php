@@ -53,7 +53,7 @@ class DependencyProviderAdditionalLogicCheckerTest extends TestCase
         $process->run();
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
-        $this->assertSame(
+        $this->assertStringContainsString(
             <<<OUT
         ============================================
         DEPENDENCY PROVIDER ADDITIONAL LOGIC CHECKER
@@ -64,7 +64,6 @@ class DependencyProviderAdditionalLogicCheckerTest extends TestCase
         +---+----------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+
         | 1 | The condition statement if (!static::IS_DEV) {} is forbidden in the DependencyProvider | tests/Acceptance/_data/InvalidProject/src/Pyz/Zed/DependencyProviderAdditionalLogicChecker/ConsoleDependencyProvider.php |
         +---+----------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+
-
 
         OUT,
             $process->getOutput(),

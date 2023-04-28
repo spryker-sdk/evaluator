@@ -81,6 +81,7 @@ class ReportRenderer
      */
     protected function renderDocUrl(string $docUrl, OutputInterface $output): void
     {
+        $output->writeln('');
         $output->writeln(sprintf('Read more: %s', $docUrl));
     }
 

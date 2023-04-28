@@ -6,3 +6,9 @@ parameters:
 
     # Security checker
     security_checker_doc_url: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/security.html
+
+    # Multidimensional array checker
+    multidimensional_array_checker_doc_url: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/multidimensional-array.html
+
+    # Dependency provider additional logic checker
+    dp_additional_logic_checker_doc_url: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/dependency-provider-contains-addition-logic.html

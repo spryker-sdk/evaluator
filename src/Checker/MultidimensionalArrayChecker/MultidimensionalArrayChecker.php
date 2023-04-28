@@ -12,6 +12,7 @@ namespace SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker;
 use PhpParser\Node\Stmt\ClassMethod;
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
+use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
 use SprykerSdk\Evaluator\Finder\SourceFinderInterface;
 use SprykerSdk\Evaluator\Finder\StatementFinderInterface;
@@ -23,12 +24,12 @@ class MultidimensionalArrayChecker implements CheckerInterface
     /**
      * @var string
      */
-    protected const ANNOTATION_SKIP = '@evaluator-skip-multidimensional-array';
+    public const NAME = 'MULTIDIMENSIONAL_ARRAY_CHECKER';
 
     /**
      * @var string
      */
-    protected const NAME = 'MultidimensionalArray';
+    protected const ANNOTATION_SKIP = '@evaluator-skip-multidimensional-array';
 
     /**
      * @var int
@@ -66,21 +67,29 @@ class MultidimensionalArrayChecker implements CheckerInterface
     protected array $nestingStructures;
 
     /**
+     * @var string
+     */
+    protected string $checkerDocUrl;
+
+    /**
      * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
      * @param \SprykerSdk\Evaluator\Finder\StatementFinderInterface $statementFinder
      * @param \SprykerSdk\Evaluator\Parser\PhpParserInterface $phpParser
      * @param array<\SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\NestingStructureInterface> $nestingStructures
+     * @param string $checkerDocUrl
      */
     public function __construct(
         SourceFinderInterface $sourceFinder,
         StatementFinderInterface $statementFinder,
         PhpParserInterface $phpParser,
-        array $nestingStructures
+        array $nestingStructures,
+        string $checkerDocUrl = ''
     ) {
         $this->sourceFinder = $sourceFinder;
         $this->statementFinder = $statementFinder;
         $this->phpParser = $phpParser;
         $this->nestingStructures = $nestingStructures;
+        $this->checkerDocUrl = $checkerDocUrl;
     }
 
     /**
@@ -94,9 +103,9 @@ class MultidimensionalArrayChecker implements CheckerInterface
     /**
      * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
      *
-     * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
+     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
      */
-    public function check(CheckerInputDataDto $inputData): array
+    public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $violations = [];
         $dependencyProviderList = $this->findDependencyProviders($inputData->getPath());
@@ -115,7 +124,7 @@ class MultidimensionalArrayChecker implements CheckerInterface
             }
         }
 
-        return $violations;
+        return new CheckerResponseDto($violations, $this->checkerDocUrl);
     }
 
     /**
