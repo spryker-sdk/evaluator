@@ -40,7 +40,7 @@ class ConsoleDependencyProvider
      */
     public function getConsoleLogPugin(): ConsoleLogPlugin
     {
-        return new ConsoleLogPlugin(null, 12, ConsoleLogPlugin::CONST1 . ConsoleLogPlugin::CONST2 . 'test', 'string', new MonitoringConsolePlugin());
+        return new ConsoleLogPlugin(null, 12.1, 12, ConsoleLogPlugin::CONST1 . ConsoleLogPlugin::CONST2 . 'test', 'string', new MonitoringConsolePlugin());
     }
 
     /**

@@ -14,6 +14,7 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name;
+use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -161,6 +162,7 @@ class SinglePluginArgumentChecker implements CheckerInterface
             if (
                 $argumentValue instanceof ConstFetch ||
                 $argumentValue instanceof LNumber ||
+                $argumentValue instanceof DNumber ||
                 $argumentValue instanceof String_ ||
                 $argumentValue instanceof New_ ||
                 (
