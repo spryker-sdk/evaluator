@@ -11,6 +11,7 @@ namespace SprykerSdkTest\Evaluator\Acceptance\Checker;
 
 use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Checker\SinglePluginArgument\SinglePluginArgumentChecker;
+use SprykerSdk\Evaluator\Console\Command\EvaluatorCommand;
 use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Process\Process;
@@ -30,7 +31,7 @@ class SinglePluginArgumentCheckerTest extends TestCase
     public function testReturnSuccessOnValidProject(): void
     {
         $process = new Process(
-            ['bin/console', 'evaluator:run', '--checkers', SinglePluginArgumentChecker::NAME],
+            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', SinglePluginArgumentChecker::NAME],
             null,
             ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH . '/src/Pyz/Zed/SinglePluginArgument'],
         );
@@ -45,7 +46,7 @@ class SinglePluginArgumentCheckerTest extends TestCase
     public function testReturnViolationWhenProjectHasIssues(): void
     {
         $process = new Process(
-            ['bin/console', 'evaluator:run', '--checkers', SinglePluginArgumentChecker::NAME],
+            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', SinglePluginArgumentChecker::NAME],
             null,
             ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH . '/src/Pyz/Zed/SinglePluginArgument'],
         );

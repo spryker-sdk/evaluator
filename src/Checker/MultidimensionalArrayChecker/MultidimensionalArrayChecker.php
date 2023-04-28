@@ -23,12 +23,12 @@ class MultidimensionalArrayChecker implements CheckerInterface
     /**
      * @var string
      */
-    protected const ANNOTATION_SKIP = '@evaluator-skip-multidimensional-array';
+    public const NAME = 'MultidimensionalArray';
 
     /**
      * @var string
      */
-    protected const NAME = 'MultidimensionalArray';
+    protected const ANNOTATION_SKIP = '@evaluator-skip-multidimensional-array';
 
     /**
      * @var int
