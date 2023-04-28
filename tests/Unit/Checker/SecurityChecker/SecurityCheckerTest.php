@@ -12,6 +12,7 @@ namespace SprykerSdkTest\Evaluator\Unit\Checker\SecurityChecker;
 use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Checker\SecurityChecker\SecurityChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
+use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -42,11 +43,22 @@ class SecurityCheckerTest extends TestCase
                 ]),
                 new BufferedOutput(),
             );
-        $securityChecker = new SecurityChecker($applicationMock, '/path');
+        $securityChecker = new SecurityChecker($applicationMock, $this->createPathResolverMock());
         $result = $securityChecker->check(new CheckerInputDataDto('/path'));
 
-        $this->assertCount(1, $result);
-        $this->assertSame('Internal error', $result[0]->getMessage());
-        $this->assertSame(SecurityChecker::NAME, $result[0]->getTarget());
+        $this->assertCount(1, $result->getViolations());
+        $this->assertSame('Internal error', $result->getViolations()[0]->getMessage());
+        $this->assertSame(SecurityChecker::NAME, $result->getViolations()[0]->getTarget());
+    }
+
+    /**
+     * @return \SprykerSdk\Evaluator\Resolver\PathResolverInterface
+     */
+    protected function createPathResolverMock(): PathResolverInterface
+    {
+        $pathResolver = $this->createMock(PathResolverInterface::class);
+        $pathResolver->method('getProjectDir')->willReturn('/path');
+
+        return $pathResolver;
     }
 }

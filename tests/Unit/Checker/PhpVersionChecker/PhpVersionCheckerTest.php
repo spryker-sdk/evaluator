@@ -30,11 +30,11 @@ class PhpVersionCheckerTest extends TestCase
         $checker = new PhpVersionChecker($this->createPathResolverMock(), ['7.4', '8.0'], [$checkerStrategyOne, $checkerStrategyTwo]);
 
         //Act
-        $violations = $checker->check(new CheckerInputDataDto(''));
+        $response = $checker->check(new CheckerInputDataDto(''));
 
         //Assert
-        $this->assertCount(1, $violations);
-        $this->assertStringMatchesFormat(PhpVersionChecker::MESSAGE_INCONSISTENT_PHP_VERSIONS, $violations[0]->getMessage());
+        $this->assertCount(1, $response->getViolations());
+        $this->assertStringMatchesFormat(PhpVersionChecker::MESSAGE_INCONSISTENT_PHP_VERSIONS, $response->getViolations()[0]->getMessage());
     }
 
     /**
@@ -49,10 +49,10 @@ class PhpVersionCheckerTest extends TestCase
         $checker = new PhpVersionChecker($this->createPathResolverMock(), ['7.4', '8.0', '8.1'], [$checkerStrategyOne, $checkerStrategyTwo]);
 
         //Act
-        $violations = $checker->check(new CheckerInputDataDto(''));
+        $response = $checker->check(new CheckerInputDataDto(''));
 
         //Assert
-        $this->assertEmpty($violations);
+        $this->assertEmpty($response->getViolations());
     }
 
     /**

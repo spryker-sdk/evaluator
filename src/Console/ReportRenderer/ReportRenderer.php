@@ -34,6 +34,10 @@ class ReportRenderer
                 ? $this->renderCheckerViolations($reportLine->getViolations(), $output)
                 : $this->renderSuccess($output);
 
+            if ($reportLine->getViolations() && $reportLine->getDocUrl() !== '') {
+                $this->renderDocUrl($reportLine->getDocUrl(), $output);
+            }
+
             $output->writeln('');
         }
     }
@@ -67,6 +71,17 @@ class ReportRenderer
             ->setHeaders(['#', 'Message', 'Target'])
             ->setRows($this->getRows($violations));
         $table->render();
+    }
+
+    /**
+     * @param string $docUrl
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return void
+     */
+    protected function renderDocUrl(string $docUrl, OutputInterface $output): void
+    {
+        $output->writeln(sprintf('Read more: %s', $docUrl));
     }
 
     /**

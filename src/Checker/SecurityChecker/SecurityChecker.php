@@ -11,7 +11,9 @@ namespace SprykerSdk\Evaluator\Checker\SecurityChecker;
 
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
+use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
+use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -39,18 +41,25 @@ class SecurityChecker implements CheckerInterface
     protected Application $application;
 
     /**
-     * @var string|null
+     * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
      */
-    protected ?string $projectDirEnv;
+    protected PathResolverInterface $pathResolver;
+
+    /**
+     * @var string
+     */
+    protected string $checkerDocUrl;
 
     /**
      * @param \Symfony\Component\Console\Application $application
-     * @param string|null $projectDirEnv
+     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
+     * @param string $checkerDocUrl
      */
-    public function __construct(Application $application, ?string $projectDirEnv)
+    public function __construct(Application $application, PathResolverInterface $pathResolver, string $checkerDocUrl = '')
     {
         $this->application = $application;
-        $this->projectDirEnv = $projectDirEnv;
+        $this->pathResolver = $pathResolver;
+        $this->checkerDocUrl = $checkerDocUrl;
     }
 
     /**
@@ -64,16 +73,16 @@ class SecurityChecker implements CheckerInterface
     /**
      * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
      *
-     * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
+     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
      */
-    public function check(CheckerInputDataDto $inputData): array
+    public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $securityOutput = new BufferedOutput();
         $this->application->setAutoExit(false);
         $this->application->run(
             new ArrayInput([
                 'command' => static::COMMAND_NAME,
-                '--path' => $this->projectDirEnv,
+                '--path' => $this->pathResolver->getProjectDir(),
                 '--format' => 'json',
             ]),
             $securityOutput,
@@ -82,10 +91,12 @@ class SecurityChecker implements CheckerInterface
         $violations = json_decode($securityOutput->fetch(), true);
 
         if (!is_array($violations)) {
-            return [new ViolationDto(
-                'Internal error',
-                static::NAME,
-            )];
+            return new CheckerResponseDto([
+                new ViolationDto(
+                    'Internal error',
+                    static::NAME,
+                ),
+            ], $this->checkerDocUrl);
         }
 
         $violationMessages = [];
@@ -97,7 +108,7 @@ class SecurityChecker implements CheckerInterface
             );
         }
 
-        return $violationMessages;
+        return new CheckerResponseDto($violationMessages, $this->checkerDocUrl);
     }
 
     /**
