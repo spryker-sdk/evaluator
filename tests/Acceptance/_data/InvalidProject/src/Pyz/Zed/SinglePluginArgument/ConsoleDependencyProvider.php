@@ -9,15 +9,18 @@ declare(strict_types=1);
 
 namespace SprykerSdkTest\InvalidProject\src\Pyz\Zed\SinglePluginArgument;
 
-use Test\Zed\Monitoring\Communication\Plugin\Console\MonitoringConsolePlugin;
+use Spryker\Zed\Monitoring\Communication\Plugin\Console\MonitoringConsolePlugin;
+use stdClass;
 
 class ConsoleDependencyProvider
 {
     /**
-     * @return \Pyz\Zed\Console\Communication\Plugin\MonitoringConsolePlugin
+     * @return \Spryker\Zed\Console\Communication\Plugin\MonitoringConsolePlugin
      */
     public function getMonitoringConsoleMethod(): MonitoringConsolePlugin
     {
-        return new MonitoringConsolePlugin(true);
+        $variable = new stdClass();
+
+        return new MonitoringConsolePlugin($variable);
     }
 }

@@ -9,8 +9,13 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Checker\SinglePluginArgument;
 
+use PhpParser\Node\Expr\BinaryOp\Concat;
+use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name;
+use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
@@ -129,8 +134,12 @@ class SinglePluginArgumentChecker implements CheckerInterface
                 continue;
             }
             $className = $stmt->expr->class->toString();
+            /** @var array<\PhpParser\Node\Arg> $args */
             $args = $stmt->expr->args;
-            if (!count($args) || strpos($className, static::SPRYKER_NAMESPACE_PREFIX) === 0) {
+            if (!count($args) || strpos($className, static::SPRYKER_NAMESPACE_PREFIX) !== 0) {
+                continue;
+            }
+            if ($this->isAvailableArguments($args)) {
                 continue;
             }
 
@@ -138,6 +147,58 @@ class SinglePluginArgumentChecker implements CheckerInterface
         }
 
         return null;
+    }
+
+    /**
+     * @param array<\PhpParser\Node\Arg> $args
+     *
+     * @return bool
+     */
+    protected function isAvailableArguments(array $args): bool
+    {
+        foreach ($args as $arg) {
+            $argumentValue = $arg->value;
+            if (
+                $argumentValue instanceof ConstFetch ||
+                $argumentValue instanceof LNumber ||
+                $argumentValue instanceof String_ ||
+                $argumentValue instanceof New_ ||
+                (
+                    $argumentValue instanceof Concat &&
+                    $this->isAvailableConcatParts($argumentValue)
+                )
+            ) {
+                continue;
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param \PhpParser\Node\Expr\BinaryOp\Concat $concat
+     *
+     * @return bool
+     */
+    protected function isAvailableConcatParts(Concat $concat): bool
+    {
+        foreach ([$concat->left, $concat->right] as $part) {
+            if ($part instanceof String_) {
+                continue;
+            }
+            if ($part instanceof ClassConstFetch) {
+                continue;
+            }
+            if ($part instanceof Concat && $this->isAvailableConcatParts($part)) {
+                continue;
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace SprykerSdkTest\ValidProject\src\Pyz\Zed\SinglePluginArgument;
 
 use Spryker\Zed\Console\Communication\Plugin\ConsoleLogPlugin;
+use stdClass;
 use Test\Zed\Monitoring\Communication\Plugin\Console\MonitoringConsolePlugin;
 
 class ConsoleDependencyProvider
@@ -20,6 +21,18 @@ class ConsoleDependencyProvider
     public function getConsoleLog(): ConsoleLogPlugin
     {
         return new ConsoleLogPlugin();
+    }
+
+    /**
+     * @evaluator-skip-single-plugin-argument
+     *
+     * @return \Spryker\Zed\Console\Communication\Plugin\ConsoleLogPlugin
+     */
+    public function getConsoleLogSkip(): ConsoleLogPlugin
+    {
+        $f = new stdClass();
+
+        return new ConsoleLogPlugin($f);
     }
 
     /**
@@ -39,8 +52,6 @@ class ConsoleDependencyProvider
     }
 
     /**
-     * @evaluator-skip-single-plugin-argument
-     *
      * @return \Pyz\Zed\Console\Communication\Plugin\MonitoringConsolePlugin
      */
     public function getMonitoringConsoleMethod(): MonitoringConsolePlugin
