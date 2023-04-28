@@ -32,7 +32,7 @@ class SinglePluginArgumentChecker implements CheckerInterface
     /**
      * @var string
      */
-    public const NAME = 'SinglePluginArgument';
+    public const NAME = 'SINGLE_PLUGIN_ARGUMENT';
 
     /**
      * @var string

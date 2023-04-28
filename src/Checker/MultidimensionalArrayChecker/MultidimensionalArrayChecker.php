@@ -23,7 +23,7 @@ class MultidimensionalArrayChecker implements CheckerInterface
     /**
      * @var string
      */
-    public const NAME = 'MultidimensionalArray';
+    public const NAME = 'MULTIDIMENSIONAL_ARRAY';
 
     /**
      * @var string
