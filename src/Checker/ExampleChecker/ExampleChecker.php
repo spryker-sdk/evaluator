@@ -18,7 +18,7 @@ class ExampleChecker implements CheckerInterface
     /**
      * @var string
      */
-    protected const NAME = 'example_checker';
+    protected const NAME = 'EXAMPLE_CHECKER';
 
     /**
      * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
