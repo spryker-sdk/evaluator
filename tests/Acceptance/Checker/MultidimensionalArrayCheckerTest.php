@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace SprykerSdkTest\Evaluator\Acceptance\Checker;
 
 use PHPUnit\Framework\TestCase;
+use SprykerSdk\Evaluator\Console\Command\EvaluatorCommand;
 use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Process\Process;
@@ -28,7 +29,7 @@ class MultidimensionalArrayCheckerTest extends TestCase
      */
     public function testReturnSuccessOnValidProject(): void
     {
-        $process = new Process(['bin/console', 'evaluator:run', '--path', TestHelper::VALID_PROJECT_PATH, '--checkers', 'MultidimensionalArray']);
+        $process = new Process(['bin/console', EvaluatorCommand::COMMAND_NAME, '--path', TestHelper::VALID_PROJECT_PATH, '--checkers', 'MultidimensionalArray']);
         $process->run();
 
         $this->assertSame(Command::SUCCESS, $process->getExitCode());
@@ -43,7 +44,7 @@ class MultidimensionalArrayCheckerTest extends TestCase
      */
     public function testReturnViolationWhenProjectHasIssues(string $path): void
     {
-        $process = new Process(['bin/console', 'evaluator:run', '--path', $path, '--checkers', 'MultidimensionalArray']);
+        $process = new Process(['bin/console', EvaluatorCommand::COMMAND_NAME, '--path', $path, '--checkers', 'MultidimensionalArray']);
         $process->run();
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
