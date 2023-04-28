@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace InvalidProject\src\Pyz\Zed\Console;
+namespace InvalidProject\src\Pyz\Zed\DependencyProviderAdditionalLogicChecker;
 
 use Spryker\Zed\Console\Communication\Plugin\ConsoleLogPlugin;
 use Spryker\Zed\Kernel\Container;

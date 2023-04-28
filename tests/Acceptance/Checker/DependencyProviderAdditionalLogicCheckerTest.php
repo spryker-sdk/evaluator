@@ -11,6 +11,7 @@ namespace SprykerSdkTest\Evaluator\Acceptance\Checker;
 
 use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Checker\DependencyProviderAdditionalLogicChecker\DependencyProviderAdditionalLogicChecker;
+use SprykerSdk\Evaluator\Console\Command\EvaluatorCommand;
 use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Process\Process;
@@ -30,7 +31,7 @@ class DependencyProviderAdditionalLogicCheckerTest extends TestCase
     public function testReturnSuccessOnValidProject(): void
     {
         $process = new Process(
-            ['bin/console', 'evaluator:run', '--checkers', DependencyProviderAdditionalLogicChecker::NAME],
+            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', DependencyProviderAdditionalLogicChecker::NAME],
             null,
             ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH],
         );
@@ -45,7 +46,7 @@ class DependencyProviderAdditionalLogicCheckerTest extends TestCase
     public function testReturnViolationWhenProjectHasIssues(): void
     {
         $process = new Process(
-            ['bin/console', 'evaluator:run', '--checkers', DependencyProviderAdditionalLogicChecker::NAME],
+            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', DependencyProviderAdditionalLogicChecker::NAME],
             null,
             ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH],
         );
@@ -58,11 +59,11 @@ class DependencyProviderAdditionalLogicCheckerTest extends TestCase
         DEPENDENCY PROVIDER ADDITIONAL LOGIC CHECKER
         ============================================
 
-        +---+----------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------+
-        | # | Message                                                                                | Target                                                                                  |
-        +---+----------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------+
-        | 1 | The condition statement if (!static::IS_DEV) {} is forbidden in the DependencyProvider | tests/Acceptance/_data/InvalidProject/src/Pyz/Zed/Console/ConsoleDependencyProvider.php |
-        +---+----------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------+
+        +---+----------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+
+        | # | Message                                                                                | Target                                                                                                                   |
+        +---+----------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+
+        | 1 | The condition statement if (!static::IS_DEV) {} is forbidden in the DependencyProvider | tests/Acceptance/_data/InvalidProject/src/Pyz/Zed/DependencyProviderAdditionalLogicChecker/ConsoleDependencyProvider.php |
+        +---+----------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+
 
 
         OUT,

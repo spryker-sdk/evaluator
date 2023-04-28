@@ -15,12 +15,18 @@ services:
         resource: '../src/'
         exclude:
             - '../src/Kernel.php'
+    symfony.console.application:
+        class: Symfony\Bundle\FrameworkBundle\Console\Application
+        arguments:
+            - '@kernel'
 
     SprykerSdk\Evaluator\Checker\CheckerRegistry:
         arguments:
             - - '@SprykerSdk\Evaluator\Checker\ExampleChecker\ExampleChecker'
               - '@SprykerSdk\Evaluator\Checker\PhpVersionChecker\PhpVersionChecker'
               - '@SprykerSdk\Evaluator\Checker\DependencyProviderAdditionalLogicChecker\DependencyProviderAdditionalLogicChecker'
+              - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\MultidimensionalArrayChecker'
+              - '@SprykerSdk\Evaluator\Checker\SecurityChecker\SecurityChecker'
               - '@SprykerSdk\Evaluator\Checker\SinglePluginArgument\SinglePluginArgumentChecker'
 
     SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\SdkPhpVersionStrategy:
@@ -38,3 +44,4 @@ services:
     # Third-party
     PhpParser\ParserFactory: ~
     Symfony\Component\Finder\Finder: ~
+
