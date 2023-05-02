@@ -17,7 +17,7 @@ class SdkPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
     /**
      * @var string
      */
-    public const MESSAGE_INVALID_PHP_VERSION = 'SDK use not allowed php version';
+    public const MESSAGE_INVALID_PHP_VERSION = 'SDK use not allowed PHP version';
 
     /**
      * @var array<string>
