@@ -17,7 +17,7 @@ class CurrentPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
     /**
      * @var string
      */
-    public const MESSAGE_INVALID_LOCAL_PHO_VERSION = 'Current php version "%s" is not allowed.';
+    public const MESSAGE_INVALID_LOCAL_PHO_VERSION = 'Current PHP version "%s" is not allowed.';
 
     /**
      * @param array<string> $allowedPhpVersions
