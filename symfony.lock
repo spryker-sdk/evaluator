@@ -65,6 +65,9 @@
             "src/Kernel.php"
         ]
     },
+    "symfony/monolog-bundle": {
+        "version": "v3.8.0"
+    },
     "symfony/routing": {
         "version": "5.4",
         "recipe": {
