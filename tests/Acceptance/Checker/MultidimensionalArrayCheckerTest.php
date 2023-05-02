@@ -49,6 +49,7 @@ class MultidimensionalArrayCheckerTest extends TestCase
         $process->run();
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
+        $this->assertEmpty($process->getErrorOutput());
     }
 
     /**
@@ -57,9 +58,9 @@ class MultidimensionalArrayCheckerTest extends TestCase
     public function differentIssueCases(): array
     {
         return [
-            'return multidimensional array' => [TestHelper::INVALID_PROJECT_PATH . '/src/Pyz/MultidimensionalArray/ReturnArray'],
-            'assign multidimensional array' => [TestHelper::INVALID_PROJECT_PATH . '/src/Pyz/MultidimensionalArray/AssignArray'],
-            'merge multidimensional array' => [TestHelper::INVALID_PROJECT_PATH . '/src/Pyz/MultidimensionalArray/ArrayMerge'],
+            'return multidimensional array' => [TestHelper::INVALID_PROJECT_PATH . '/src/Pyz/Zed/MultidimensionalArray/ReturnArray'],
+            'assign multidimensional array' => [TestHelper::INVALID_PROJECT_PATH . '/src/Pyz/Zed/MultidimensionalArray/AssignArray'],
+            'merge multidimensional array' => [TestHelper::INVALID_PROJECT_PATH . '/src/Pyz/Zed/MultidimensionalArray/ArrayMerge'],
         ];
     }
 }

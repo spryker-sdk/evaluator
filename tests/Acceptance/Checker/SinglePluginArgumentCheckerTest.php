@@ -38,6 +38,7 @@ class SinglePluginArgumentCheckerTest extends TestCase
         $process->run();
 
         $this->assertSame(Command::SUCCESS, $process->getExitCode());
+        $this->assertEmpty($process->getErrorOutput());
     }
 
     /**
@@ -53,5 +54,6 @@ class SinglePluginArgumentCheckerTest extends TestCase
         $process->run();
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
+        $this->assertEmpty($process->getErrorOutput());
     }
 }
