@@ -13,7 +13,6 @@ use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\Use_;
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
@@ -35,11 +34,6 @@ class PluginsRegistrationWithRestrictionsChecker implements CheckerInterface
      * @var string
      */
     protected const DEPENDENCY_PROVIDER_PATTERN = '*DependencyProvider.php';
-
-    /**
-     * @var string
-     */
-    protected const CORE_MODULE_NAMESPACE_PREFIX = 'Spryker';
 
     /**
      * @var \SprykerSdk\Evaluator\Finder\SourceFinderInterface
@@ -107,10 +101,6 @@ class PluginsRegistrationWithRestrictionsChecker implements CheckerInterface
     {
         $nodes = $this->phpParser->parse($dependencyProviderFile->getPathname());
 
-        if (!$this->isCoreClass($nodes)) {
-            return [];
-        }
-
         $violations = [];
         $filesClassUses = $this->getFileUsedClasses($nodes);
         $fileName = str_replace($path . '/', '', $dependencyProviderFile->getPathname());
@@ -168,21 +158,6 @@ class PluginsRegistrationWithRestrictionsChecker implements CheckerInterface
             static fn (string $message): ViolationDto => new ViolationDto($message, sprintf('%s:%s', $fileName, $docBlock->getStartLine())),
             $messages,
         );
-    }
-
-    /**
-     * @param array<\PhpParser\Node> $nodes
-     *
-     * @return bool
-     */
-    protected function isCoreClass(array $nodes): bool
-    {
-        /** @var array<\PhpParser\Node\Stmt\Namespace_> $nameSpaceNodes */
-        $nameSpaceNodes = $this->nodeFinder->findInstanceOf($nodes, Namespace_::class);
-
-        return count($nameSpaceNodes) === 1
-            && $nameSpaceNodes[0]->name !== null
-            && strpos($nameSpaceNodes[0]->name->getFirst(), static::CORE_MODULE_NAMESPACE_PREFIX) === 0;
     }
 
     /**
