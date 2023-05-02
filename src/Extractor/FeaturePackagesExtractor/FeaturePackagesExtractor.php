@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace SprykerSdk\Evaluator\Extractor\FeatirePackagesExtractor;
+namespace SprykerSdk\Evaluator\Extractor\FeaturePackagesExtractor;
 
 use GuzzleHttp\Exception\ClientException;
 use InvalidArgumentException;
@@ -38,7 +38,7 @@ class FeaturePackagesExtractor implements FeaturePackagesExtractorInterface
     private string $targetTag;
 
     /**
-     * @var \SprykerSdk\Evaluator\Extractor\FeatirePackagesExtractor\FeaturePackageCollector
+     * @var \SprykerSdk\Evaluator\Extractor\FeaturePackagesExtractor\FeaturePackageCollector
      */
     private FeaturePackageCollector $featurePackageCollector;
 
@@ -60,7 +60,7 @@ class FeaturePackagesExtractor implements FeaturePackagesExtractorInterface
     /**
      * @param \SprykerSdk\Evaluator\External\PublicRepositoryApi\PublicRepositoryApiInterface $publicRepositoryApi
      * @param string $targetTag
-     * @param \SprykerSdk\Evaluator\Extractor\FeatirePackagesExtractor\FeaturePackageCollector $featurePackageCollector
+     * @param \SprykerSdk\Evaluator\Extractor\FeaturePackagesExtractor\FeaturePackageCollector $featurePackageCollector
      * @param \Psr\Log\LoggerInterface $logger
      * @param string $dataFile
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem

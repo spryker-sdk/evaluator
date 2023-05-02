@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Console\Command;
 
-use SprykerSdk\Evaluator\Extractor\FeatirePackagesExtractor\FeaturePackagesExtractorInterface;
+use SprykerSdk\Evaluator\Extractor\FeaturePackagesExtractor\FeaturePackagesExtractorInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,12 +22,12 @@ class FeaturePackageExtractorCommand extends Command
     public const COMMAND_NAME = 'extract-feature-packages';
 
     /**
-     * @var \SprykerSdk\Evaluator\Extractor\FeatirePackagesExtractor\FeaturePackagesExtractorInterface
+     * @var \SprykerSdk\Evaluator\Extractor\FeaturePackagesExtractor\FeaturePackagesExtractorInterface
      */
     private FeaturePackagesExtractorInterface $featurePackagesExtractor;
 
     /**
-     * @param \SprykerSdk\Evaluator\Extractor\FeatirePackagesExtractor\FeaturePackagesExtractorInterface $featurePackagesExtractor
+     * @param \SprykerSdk\Evaluator\Extractor\FeaturePackagesExtractor\FeaturePackagesExtractorInterface $featurePackagesExtractor
      */
     public function __construct(FeaturePackagesExtractorInterface $featurePackagesExtractor)
     {

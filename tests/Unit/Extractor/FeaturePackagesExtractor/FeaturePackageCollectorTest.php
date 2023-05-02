@@ -7,10 +7,10 @@
 
 declare(strict_types=1);
 
-namespace SprykerSdkTest\Evaluator\Unit\Extractor\FeatirePackagesExtractor;
+namespace SprykerSdkTest\Evaluator\Unit\Extractor\FeaturePackagesExtractor;
 
 use PHPUnit\Framework\TestCase;
-use SprykerSdk\Evaluator\Extractor\FeatirePackagesExtractor\FeaturePackageCollector;
+use SprykerSdk\Evaluator\Extractor\FeaturePackagesExtractor\FeaturePackageCollector;
 
 class FeaturePackageCollectorTest extends TestCase
 {

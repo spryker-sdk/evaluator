@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace SprykerSdk\Evaluator\Extractor\FeatirePackagesExtractor;
+namespace SprykerSdk\Evaluator\Extractor\FeaturePackagesExtractor;
 
 class FeaturePackageCollector
 {

@@ -42,7 +42,7 @@ class ComposerReader implements ComposerReaderInterface
      */
     public function getComposerData(): array
     {
-        return $this->readFile($this->pathResolver->resolvePath(static::COMPOSER_FILE_NAME));
+        return $this->readFile($this->pathResolver->resolvePath() . DIRECTORY_SEPARATOR . static::COMPOSER_FILE_NAME);
     }
 
     /**
@@ -50,7 +50,7 @@ class ComposerReader implements ComposerReaderInterface
      */
     public function getComposerLockData(): array
     {
-        return $this->readFile($this->pathResolver->resolvePath(static::COMPOSER_LOCK_FILE_NAME));
+        return $this->readFile($this->pathResolver->resolvePath() . DIRECTORY_SEPARATOR . static::COMPOSER_LOCK_FILE_NAME);
     }
 
     /**

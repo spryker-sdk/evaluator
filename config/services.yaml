@@ -70,10 +70,15 @@ services:
             $minimumFeatureVersion: '%minimum_allowed_shop_version_checker_version%'
             $checkerDocUrl: '%minimum_allowed_shop_version_checker_doc_url%'
 
-    SprykerSdk\Evaluator\Extractor\FeatirePackagesExtractor\FeaturePackagesExtractor:
+    SprykerSdk\Evaluator\Extractor\FeaturePackagesExtractor\FeaturePackagesExtractor:
         arguments:
             $targetTag: '%minimum_allowed_shop_version_checker_version%'
             $dataFile: '%minimum_allowed_shop_version_checker_file%'
+
+    SprykerSdk\Evaluator\Checker\MinimumShopVersionChecker\MinimumAllowedPackageVersionsReader:
+        arguments:
+            $minimumAllowedPackagesFile: '%minimum_allowed_shop_version_checker_file%'
+
 
     # Third-party
     PhpParser\ParserFactory: ~

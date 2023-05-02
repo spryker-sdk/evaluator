@@ -25,6 +25,11 @@ class MinimumShopVersionChecker implements CheckerInterface
     /**
      * @var string
      */
+    public const MESSAGE_INVALID_PACKAGE = 'Package "%s" version "%s" is not supported. Minimum allowed version is "%s"';
+
+    /**
+     * @var string
+     */
     protected const COMPOSER_REQUIRE = 'require';
 
     /**
@@ -96,8 +101,6 @@ class MinimumShopVersionChecker implements CheckerInterface
 
         foreach ($composerPackages as $packageName) {
             if (!isset($installedPackages[$packageName])) {
-                $violations[] = new ViolationDto(sprintf('Package "%s" not found in composer.lock file', $packageName), $packageName);
-
                 continue;
             }
 
@@ -188,7 +191,7 @@ class MinimumShopVersionChecker implements CheckerInterface
     protected function createViolation(string $packageName, string $packageVersion, string $minimumAllowedVersion): ViolationDto
     {
         return new ViolationDto(
-            sprintf('Package "%s" version "%s" is unsupported. Minimum allowed version is "%s"', $packageName, $packageVersion, $minimumAllowedVersion),
+            sprintf(static::MESSAGE_INVALID_PACKAGE, $packageName, $packageVersion, $minimumAllowedVersion),
             sprintf('%s:%s', $packageName, $packageVersion),
         );
     }

@@ -1,0 +1,128 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "2a41eec25ae50788edae6d5a64aa6540",
+    "packages": [
+        {
+            "name": "spryker-feature/agent-assist",
+            "version": "202204.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spryker-feature/agent-assist.git",
+                "reference": "3ebd8d03796a1f49e9be933f7707a11c3da58c26"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spryker-feature/agent-assist/zipball/3ebd8d03796a1f49e9be933f7707a11c3da58c26",
+                "reference": "3ebd8d03796a1f49e9be933f7707a11c3da58c26",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4",
+                "spryker-shop/agent-page": "^1.10.0",
+                "spryker-shop/agent-widget": "^1.3.0",
+                "spryker/agent": "^1.5.0",
+                "spryker/agent-gui": "^1.0.0"
+            },
+            "type": "metapackage",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "202204.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "Agent Assist [feature]",
+            "support": {
+                "source": "https://github.com/spryker-feature/agent-assist/tree/202204.0"
+            },
+            "time": "2022-04-15T15:15:03+00:00"
+        },
+        {
+            "name": "spryker/availability-gui",
+            "version": "6.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spryker/availability-gui.git",
+                "reference": "570abc9f81de83b2602a5803e2dddddc25e55ee9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spryker/availability-gui/zipball/570abc9f81de83b2602a5803e2dddddc25e55ee9",
+                "reference": "570abc9f81de83b2602a5803e2dddddc25e55ee9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4",
+                "spryker/availability": "^9.11.0",
+                "spryker/availability-gui-extension": "^1.0.0",
+                "spryker/decimal-object": "^1.0.0",
+                "spryker/gui": "^3.45.0",
+                "spryker/kernel": "^3.30.0",
+                "spryker/locale": "^3.0.0",
+                "spryker/oms": "^11.0.0",
+                "spryker/product": "^5.0.0 || ^6.0.0",
+                "spryker/product-bundle": "^7.0.0",
+                "spryker/propel-orm": "^1.0.0",
+                "spryker/stock": "^8.0.0",
+                "spryker/store": "^1.5.0",
+                "spryker/symfony": "^3.0.0",
+                "spryker/transfer": "^3.18.0",
+                "spryker/twig": "^3.16.0",
+                "spryker/util-text": "^1.1.0"
+            },
+            "require-dev": {
+                "spryker/application": "*",
+                "spryker/code-sniffer": "*",
+                "spryker/config": "*",
+                "spryker/container": "*",
+                "spryker/event-dispatcher": "*",
+                "spryker/form": "*",
+                "spryker/propel": "*",
+                "spryker/router": "*",
+                "spryker/testify": "*",
+                "spryker/validator": "*",
+                "spryker/zed-navigation": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spryker\\": "src/Spryker/",
+                    "SprykerTest\\Zed\\AvailabilityGui\\PageObject\\": "tests/SprykerTest/Zed/AvailabilityGui/_support/PageObject/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "AvailabilityGui module",
+            "support": {
+                "source": "https://github.com/spryker/availability-gui/tree/6.7.0"
+            },
+            "time": "2022-09-19T06:48:51+00:00"
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": [],
+    "prefer-stable": true,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.4",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-json": "*"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
