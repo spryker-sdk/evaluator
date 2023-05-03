@@ -30,7 +30,16 @@ class MultidimensionalArrayCheckerTest extends TestCase
      */
     public function testReturnSuccessOnValidProject(): void
     {
-        $process = new Process(['bin/console', EvaluatorCommand::COMMAND_NAME, '--path', TestHelper::VALID_PROJECT_PATH, '--checkers', MultidimensionalArrayChecker::NAME]);
+        $process = new Process(
+            [
+            'bin/console',
+            EvaluatorCommand::COMMAND_NAME,
+            '--checkers',
+            MultidimensionalArrayChecker::NAME,
+            ],
+            null,
+            ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH],
+        );
         $process->run();
 
         $this->assertSame(Command::SUCCESS, $process->getExitCode());
@@ -45,7 +54,18 @@ class MultidimensionalArrayCheckerTest extends TestCase
      */
     public function testReturnViolationWhenProjectHasIssues(string $path): void
     {
-        $process = new Process(['bin/console', EvaluatorCommand::COMMAND_NAME, '--path', $path, '--checkers', MultidimensionalArrayChecker::NAME]);
+        $process = new Process(
+            [
+            'bin/console',
+            EvaluatorCommand::COMMAND_NAME,
+            '--path',
+            $path,
+            '--checkers',
+            MultidimensionalArrayChecker::NAME,
+            ],
+            null,
+            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH],
+        );
         $process->run();
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
@@ -58,9 +78,9 @@ class MultidimensionalArrayCheckerTest extends TestCase
     public function differentIssueCases(): array
     {
         return [
-            'return multidimensional array' => [TestHelper::INVALID_PROJECT_PATH . '/src/Pyz/Zed/MultidimensionalArray/ReturnArray'],
-            'assign multidimensional array' => [TestHelper::INVALID_PROJECT_PATH . '/src/Pyz/Zed/MultidimensionalArray/AssignArray'],
-            'merge multidimensional array' => [TestHelper::INVALID_PROJECT_PATH . '/src/Pyz/Zed/MultidimensionalArray/ArrayMerge'],
+            'return multidimensional array' => ['src/Pyz/Zed/MultidimensionalArray/ReturnArray'],
+            'assign multidimensional array' => ['src/Pyz/Zed/MultidimensionalArray/AssignArray'],
+            'merge multidimensional array' => ['src/Pyz/Zed/MultidimensionalArray/ArrayMerge'],
         ];
     }
 }
