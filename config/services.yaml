@@ -3,6 +3,7 @@ imports:
 
 parameters:
     env(EVALUATOR_PROJECT_DIR): ~
+    env(GITHUB_AUTH): ~
 
 services:
     _defaults:
@@ -10,6 +11,7 @@ services:
         autoconfigure: true
         bind:
             $projectDirEnv: '%env(EVALUATOR_PROJECT_DIR)%'
+            $githubAuth: '%env(GITHUB_AUTH)%'
 
     _instanceof:
         SprykerSdk\Evaluator\Checker\CheckerInterface:

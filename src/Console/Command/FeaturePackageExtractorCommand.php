@@ -41,7 +41,7 @@ class FeaturePackageExtractorCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setHelp('Run to Read composer.json files from specific version spryker feature packages and populate storage file')
+            ->setHelp('Execution with github auth: GITHUB_AUTH=<token> bin/console extract-feature-packages')
             ->setDescription('Spryker feature package extractor');
     }
 

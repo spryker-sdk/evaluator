@@ -34,11 +34,18 @@ class GitHubPublicRepositoryApi implements PublicRepositoryApiInterface
     protected HttpClientFactoryInterface $httpClientFactory;
 
     /**
-     * @param \SprykerSdk\Evaluator\External\Http\HttpClientFactoryInterface $httpClientFactory
+     * @var string|null
      */
-    public function __construct(HttpClientFactoryInterface $httpClientFactory)
+    protected ?string $githubAuth;
+
+    /**
+     * @param \SprykerSdk\Evaluator\External\Http\HttpClientFactoryInterface $httpClientFactory
+     * @param string|null $githubAuth
+     */
+    public function __construct(HttpClientFactoryInterface $httpClientFactory, ?string $githubAuth = null)
     {
         $this->httpClientFactory = $httpClientFactory;
+        $this->githubAuth = $githubAuth;
     }
 
     /**
@@ -48,14 +55,25 @@ class GitHubPublicRepositoryApi implements PublicRepositoryApiInterface
      */
     public function getOrganizationRepositories(string $organization): array
     {
-        $client = $this->httpClientFactory->createClient();
-        $response = $client->request(
-            'GET',
-            sprintf('https://api.github.com/orgs/%s/repos', $organization),
-            ['headers' => array_merge(static::API_VERSION_HEADER, static::JSON_ACCEPT_HEADER)],
-        );
+        $repositories = [];
+        $page = 1;
 
-        return json_decode((string)$response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+        do {
+            $client = $this->httpClientFactory->createClient();
+            $response = $client->request(
+                'GET',
+                sprintf('https://api.github.com/orgs/%s/repos', $organization),
+                [
+                    'headers' => array_merge(static::API_VERSION_HEADER, static::JSON_ACCEPT_HEADER, $this->getAuthHeader()),
+                    'query' => ['page' => $page],
+                ],
+            );
+            $items = json_decode((string)$response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+            $repositories[] = $items;
+            ++$page;
+        } while (count($items) > 0);
+
+        return array_merge(...$repositories);
     }
 
     /**
@@ -77,11 +95,19 @@ class GitHubPublicRepositoryApi implements PublicRepositoryApiInterface
             'GET',
             sprintf('https://api.github.com/repos/%s/%s/contents/%s', $organization, $repository, $filePath),
             [
-                'headers' => array_merge(static::API_VERSION_HEADER, static::RAW_ACCEPT_HEADER),
+                'headers' => array_merge(static::API_VERSION_HEADER, static::RAW_ACCEPT_HEADER, $this->getAuthHeader()),
                 'query' => $ref !== null ? ['ref' => $ref] : [],
             ],
         );
 
         return (string)$response->getBody();
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function getAuthHeader(): array
+    {
+        return $this->githubAuth ? ['Authorization' => sprintf('Bearer %s', $this->githubAuth)] : [];
     }
 }
