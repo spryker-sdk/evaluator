@@ -47,7 +47,7 @@ class SinglePluginArgumentChecker implements CheckerInterface
     /**
      * @var string
      */
-    protected const ERROR_MESSAGE = 'Plugin %s should not have constructor parameters.';
+    protected const ERROR_MESSAGE = "Plugin %s should not have constructor parameters.\nSupported argument types: int, float, string, const, bool, int, usage of new statement to\ninstantiate a class (without further methods calls) ";
 
     /**
      * @var string
