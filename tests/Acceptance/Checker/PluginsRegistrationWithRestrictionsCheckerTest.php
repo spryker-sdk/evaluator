@@ -68,7 +68,7 @@ class PluginsRegistrationWithRestrictionsCheckerTest extends TestCase
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
 
-        $this->assertSame(
+        $this->assertStringContainsString(
             <<<OUT
         ==============================================
         PLUGINS REGISTRATION WITH RESTRICTIONS CHECKER
@@ -83,7 +83,6 @@ class PluginsRegistrationWithRestrictionsCheckerTest extends TestCase
         +---+--------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+
         | 3 | Restriction rule does not match the pattern "/^\* - (before|after) \{@link (?<class>.+)\}( .*\.|)$/"                           | CategoryDependencyProvider.php:47 |
         +---+--------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+
-
 
         OUT,
             $process->getOutput(),

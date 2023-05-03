@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace SprykerSdk\Evaluator\Checker\SinglePluginArgument;
+namespace SprykerSdk\Evaluator\Checker\SinglePluginArgumentChecker;
 
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\ClassConstFetch;
@@ -21,6 +21,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
+use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
 use SprykerSdk\Evaluator\Finder\SourceFinderInterface;
 use SprykerSdk\Evaluator\Finder\StatementFinderInterface;
@@ -70,18 +71,26 @@ class SinglePluginArgumentChecker implements CheckerInterface
     protected PhpParserInterface $phpParser;
 
     /**
+     * @var string
+     */
+    protected string $checkerDocUrl;
+
+    /**
      * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
      * @param \SprykerSdk\Evaluator\Finder\StatementFinderInterface $statementFinder
      * @param \SprykerSdk\Evaluator\Parser\PhpParserInterface $phpParser
+     * @param string $checkerDocUrl
      */
     public function __construct(
         SourceFinderInterface $sourceFinder,
         StatementFinderInterface $statementFinder,
-        PhpParserInterface $phpParser
+        PhpParserInterface $phpParser,
+        string $checkerDocUrl
     ) {
         $this->sourceFinder = $sourceFinder;
         $this->statementFinder = $statementFinder;
         $this->phpParser = $phpParser;
+        $this->checkerDocUrl = $checkerDocUrl;
     }
 
     /**
@@ -95,9 +104,9 @@ class SinglePluginArgumentChecker implements CheckerInterface
     /**
      * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
      *
-     * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
+     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
      */
-    public function check(CheckerInputDataDto $inputData): array
+    public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $violations = [];
         $dependencyProviderList = $this->findDependencyProviders($inputData->getPath());
@@ -116,7 +125,7 @@ class SinglePluginArgumentChecker implements CheckerInterface
             }
         }
 
-        return $violations;
+        return new CheckerResponseDto($violations, $this->checkerDocUrl);
     }
 
     /**

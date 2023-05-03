@@ -65,6 +65,14 @@ services:
         arguments:
             $checkerDocUrl: '%dp_additional_logic_checker_doc_url%'
 
+    SprykerSdk\Evaluator\Checker\PluginsRegistrationWithRestrictionsChecker\PluginsRegistrationWithRestrictionsChecker:
+        arguments:
+            $checkerDocUrl: '%plugin_registration_checker_doc_url%'
+
+    SprykerSdk\Evaluator\Checker\SinglePluginArgumentChecker\SinglePluginArgumentChecker:
+        arguments:
+            $checkerDocUrl: '%single_plugin_argument_checker_doc_url%'
+
     # Third-party
     PhpParser\ParserFactory: ~
     Symfony\Component\Finder\Finder: ~

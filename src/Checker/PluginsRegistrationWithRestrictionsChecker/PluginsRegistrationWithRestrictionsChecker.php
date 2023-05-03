@@ -16,6 +16,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Use_;
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
+use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
 use SprykerSdk\Evaluator\Finder\SourceFinderInterface;
 use SprykerSdk\Evaluator\Parser\NodeFinderInterface;
@@ -56,29 +57,37 @@ class PluginsRegistrationWithRestrictionsChecker implements CheckerInterface
     protected RestrictionDocBlockValidator $restrictionDocBlockValidator;
 
     /**
+     * @var string
+     */
+    protected string $checkerDocUrl;
+
+    /**
      * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
      * @param \SprykerSdk\Evaluator\Parser\PhpParserInterface $phpParser
      * @param \SprykerSdk\Evaluator\Parser\NodeFinderInterface $nodeFinder
      * @param \SprykerSdk\Evaluator\Checker\PluginsRegistrationWithRestrictionsChecker\RestrictionDocBlockValidator $restrictionDocBlockValidator
+     * @param string $checkerDocUrl
      */
     public function __construct(
         SourceFinderInterface $sourceFinder,
         PhpParserInterface $phpParser,
         NodeFinderInterface $nodeFinder,
-        RestrictionDocBlockValidator $restrictionDocBlockValidator
+        RestrictionDocBlockValidator $restrictionDocBlockValidator,
+        string $checkerDocUrl = ''
     ) {
         $this->sourceFinder = $sourceFinder;
         $this->phpParser = $phpParser;
         $this->nodeFinder = $nodeFinder;
         $this->restrictionDocBlockValidator = $restrictionDocBlockValidator;
+        $this->checkerDocUrl = $checkerDocUrl;
     }
 
     /**
      * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
      *
-     * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
+     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
      */
-    public function check(CheckerInputDataDto $inputData): array
+    public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $dependencyProvidersFiles = $this->findDependencyProviders($inputData->getPath());
 
@@ -88,7 +97,7 @@ class PluginsRegistrationWithRestrictionsChecker implements CheckerInterface
             $violations[] = $this->checkDependencyProviderFile($dependencyProvidersFile, $inputData->getPath());
         }
 
-        return array_merge(...$violations);
+        return new CheckerResponseDto(array_merge(...$violations), $this->checkerDocUrl);
     }
 
     /**

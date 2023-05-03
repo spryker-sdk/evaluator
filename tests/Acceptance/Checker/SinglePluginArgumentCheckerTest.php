@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace SprykerSdkTest\Evaluator\Acceptance\Checker;
 
 use PHPUnit\Framework\TestCase;
-use SprykerSdk\Evaluator\Checker\SinglePluginArgument\SinglePluginArgumentChecker;
+use SprykerSdk\Evaluator\Checker\SinglePluginArgumentChecker\SinglePluginArgumentChecker;
 use SprykerSdk\Evaluator\Console\Command\EvaluatorCommand;
 use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
 use Symfony\Component\Console\Command\Command;
