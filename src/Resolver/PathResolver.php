@@ -41,14 +41,18 @@ class PathResolver implements PathResolverInterface
      *
      * @return string
      */
-    public function resolvePath(string $relativePath = ''): string
+    public function resolvePath(string $path = ''): string
     {
-        $relativePath = trim($relativePath);
+        if ($path === '/project') {
+            return $path;
+        }
+
+        $path = trim($path);
 
         $projectDir = $this->getProjectDir();
 
-        $fullPath = $relativePath
-            ? $projectDir . DIRECTORY_SEPARATOR . trim($relativePath, DIRECTORY_SEPARATOR)
+        $fullPath = $path
+            ? $projectDir . DIRECTORY_SEPARATOR . trim($path, DIRECTORY_SEPARATOR)
             : $projectDir;
 
         if (!is_dir($fullPath) || !$this->filesystem->exists([$fullPath])) {
