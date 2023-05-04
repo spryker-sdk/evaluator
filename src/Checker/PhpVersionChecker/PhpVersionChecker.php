@@ -11,6 +11,7 @@ namespace SprykerSdk\Evaluator\Checker\PhpVersionChecker;
 
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
+use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
 use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 
@@ -42,23 +43,34 @@ class PhpVersionChecker implements CheckerInterface
     protected array $checkerStrategies;
 
     /**
+     * @var string
+     */
+    protected string $checkerDocUrl;
+
+    /**
      * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
      * @param array<string> $allowedPhpVersions
      * @param array<\SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\PhpVersionCheckerStrategyInterface> $checkerStrategies
+     * @param string $checkerDocUrl
      */
-    public function __construct(PathResolverInterface $pathResolver, array $allowedPhpVersions, array $checkerStrategies)
-    {
+    public function __construct(
+        PathResolverInterface $pathResolver,
+        array $allowedPhpVersions,
+        array $checkerStrategies,
+        string $checkerDocUrl = ''
+    ) {
         $this->pathResolver = $pathResolver;
         $this->allowedPhpVersions = $allowedPhpVersions;
         $this->checkerStrategies = $checkerStrategies;
+        $this->checkerDocUrl = $checkerDocUrl;
     }
 
     /**
      * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
      *
-     * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
+     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
      */
-    public function check(CheckerInputDataDto $inputData): array
+    public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $violations = [];
         $usedVersions = [];
@@ -72,7 +84,7 @@ class PhpVersionChecker implements CheckerInterface
 
         $violations[] = $this->checkConsistency($usedVersions);
 
-        return array_merge(...$violations);
+        return new CheckerResponseDto(array_merge(...$violations), $this->checkerDocUrl);
     }
 
     /**

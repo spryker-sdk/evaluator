@@ -65,6 +65,8 @@ class DependencyProviderAdditionalLogicCheckerTest extends TestCase
         | 1 | The condition statement if (!static::IS_DEV) {} is forbidden in the DependencyProvider | tests/Acceptance/_data/InvalidProject/src/Pyz/Zed/DependencyProviderAdditionalLogicChecker/ConsoleDependencyProvider.php |
         +---+----------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+
 
+        Read more: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/dependency-provider-contains-addition-logic.html
+
 
         OUT,
             $process->getOutput(),

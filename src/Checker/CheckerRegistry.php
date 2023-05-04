@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace SprykerSdk\Evaluator\Checker;
 
 use InvalidArgumentException;
+use Traversable;
 
 class CheckerRegistry implements CheckerRegistryInterface
 {
@@ -19,11 +20,11 @@ class CheckerRegistry implements CheckerRegistryInterface
     protected array $checkers;
 
     /**
-     * @param array<\SprykerSdk\Evaluator\Checker\CheckerInterface> $checkers
+     * @param iterable<\SprykerSdk\Evaluator\Checker\CheckerInterface> $checkers
      */
-    public function __construct(array $checkers)
+    public function __construct(iterable $checkers)
     {
-        $this->checkers = $checkers;
+        $this->checkers = $checkers instanceof Traversable ? iterator_to_array($checkers) : $checkers;
     }
 
     /**

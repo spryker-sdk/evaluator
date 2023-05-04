@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace SprykerSdkTest\Evaluator\Acceptance\Checker;
 
 use PHPUnit\Framework\TestCase;
-use SprykerSdk\Evaluator\Checker\SinglePluginArgument\SinglePluginArgumentChecker;
+use SprykerSdk\Evaluator\Checker\SinglePluginArgumentChecker\SinglePluginArgumentChecker;
 use SprykerSdk\Evaluator\Console\Command\EvaluatorCommand;
 use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
 use Symfony\Component\Console\Command\Command;
@@ -55,5 +55,25 @@ class SinglePluginArgumentCheckerTest extends TestCase
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
         $this->assertEmpty($process->getErrorOutput());
+        $this->assertSame(
+            <<<OUT
+        ======================
+        SINGLE PLUGIN ARGUMENT
+        ======================
+
+        +---+----------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
+        | # | Message                                                                                                                    | Target                                                                                                               |
+        +---+----------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
+        | 1 | Plugin Spryker\Zed\Monitoring\Communication\Plugin\Console\MonitoringConsolePlugin has unsupported constructor parameters. | SprykerSdkTest\InvalidProject\src\Pyz\Zed\SinglePluginArgument\ConsoleDependencyProvider::getMonitoringConsoleMethod |
+        |   | Supported argument types: int, float, string, const, bool, int, usage of new statement to                                  |                                                                                                                      |
+        |   | instantiate a class (without further methods calls)                                                                        |                                                                                                                      |
+        +---+----------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
+
+        Read more: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/single-plugin-argument.html
+
+
+        OUT,
+            $process->getOutput(),
+        );
     }
 }

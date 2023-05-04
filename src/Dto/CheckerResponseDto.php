@@ -9,38 +9,26 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Dto;
 
-class ReportLineDto
+class CheckerResponseDto
 {
-    /**
-     * @var string
-     */
-    protected string $checkerName;
-
     /**
      * @var array<\SprykerSdk\Evaluator\Dto\ViolationDto>
      */
     protected array $violations;
 
+    /**
+     * @var string
+     */
     protected string $docUrl;
 
     /**
-     * @param string $checkerName
      * @param array<\SprykerSdk\Evaluator\Dto\ViolationDto> $violations
      * @param string $docUrl
      */
-    public function __construct(string $checkerName, array $violations = [], string $docUrl = '')
+    public function __construct(array $violations, string $docUrl = '')
     {
-        $this->checkerName = $checkerName;
         $this->violations = $violations;
         $this->docUrl = $docUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCheckerName(): string
-    {
-        return $this->checkerName;
     }
 
     /**
@@ -57,13 +45,5 @@ class ReportLineDto
     public function getDocUrl(): string
     {
         return $this->docUrl;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSuccessful(): bool
-    {
-        return count($this->violations) === 0;
     }
 }

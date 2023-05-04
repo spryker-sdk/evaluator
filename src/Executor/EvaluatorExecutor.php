@@ -41,9 +41,11 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
         $report = new ReportDto();
 
         foreach ($this->getCheckers($inputData) as $checker) {
-            $violations = $checker->check(new CheckerInputDataDto($inputData->getPath()));
+            $checkerResponse = $checker->check(new CheckerInputDataDto($inputData->getPath()));
 
-            $report->addReportLine(new ReportLineDto($checker->getName(), $violations));
+            $report->addReportLine(
+                new ReportLineDto($checker->getName(), $checkerResponse->getViolations(), $checkerResponse->getDocUrl()),
+            );
         }
 
         return $report;

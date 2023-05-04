@@ -17,6 +17,7 @@ use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeFinder;
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
+use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
 use SprykerSdk\Evaluator\Finder\SourceFinderInterface;
 use SprykerSdk\Evaluator\Parser\PhpParserInterface;
@@ -55,23 +56,31 @@ class DependencyProviderAdditionalLogicChecker implements CheckerInterface
     protected PhpParserInterface $phpParser;
 
     /**
+     * @var string
+     */
+    protected string $checkerDocUrl;
+
+    /**
      * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
      * @param \SprykerSdk\Evaluator\Parser\PhpParserInterface $phpParser
+     * @param string $checkerDocUrl
      */
     public function __construct(
         SourceFinderInterface $sourceFinder,
-        PhpParserInterface $phpParser
+        PhpParserInterface $phpParser,
+        string $checkerDocUrl
     ) {
         $this->sourceFinder = $sourceFinder;
         $this->phpParser = $phpParser;
+        $this->checkerDocUrl = $checkerDocUrl;
     }
 
     /**
      * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
      *
-     * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
+     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
      */
-    public function check(CheckerInputDataDto $inputData): array
+    public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $violations = [];
         $dependencyProviderList = $this->findDependencyProviders($inputData->getPath());
@@ -93,7 +102,7 @@ class DependencyProviderAdditionalLogicChecker implements CheckerInterface
             }
         }
 
-        return $violations;
+        return new CheckerResponseDto($violations, $this->checkerDocUrl);
     }
 
     /**
