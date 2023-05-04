@@ -82,7 +82,8 @@ class EvaluatorCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Run evaluator with specific checkers. Use comma to set multiply checkers',
             )
-            ->setHelp('Run evaluator for the current project');
+            ->setHelp('Run evaluator for the current project')
+            ->setDescription('Run evaluator for the current project');
     }
 
     /**

@@ -3,6 +3,7 @@ imports:
 
 parameters:
     env(EVALUATOR_PROJECT_DIR): ~
+    env(GITHUB_AUTH): ~
 
 services:
     _defaults:
@@ -10,6 +11,7 @@ services:
         autoconfigure: true
         bind:
             $projectDirEnv: '%env(EVALUATOR_PROJECT_DIR)%'
+            $githubAuth: '%env(GITHUB_AUTH)%'
 
     _instanceof:
         SprykerSdk\Evaluator\Checker\CheckerInterface:
@@ -64,6 +66,20 @@ services:
     SprykerSdk\Evaluator\Checker\DependencyProviderAdditionalLogicChecker\DependencyProviderAdditionalLogicChecker:
         arguments:
             $checkerDocUrl: '%dp_additional_logic_checker_doc_url%'
+
+    SprykerSdk\Evaluator\Checker\MinimumShopVersionChecker\MinimumShopVersionChecker:
+        arguments:
+            $minimumFeatureVersion: '%minimum_allowed_shop_version_checker_version%'
+            $checkerDocUrl: '%minimum_allowed_shop_version_checker_doc_url%'
+
+    SprykerSdk\Evaluator\Extractor\FeaturePackagesExtractor\FeaturePackagesExtractor:
+        arguments:
+            $targetTag: '%minimum_allowed_shop_version_checker_version%'
+            $dataFile: '%minimum_allowed_shop_version_checker_file%'
+
+    SprykerSdk\Evaluator\Checker\MinimumShopVersionChecker\MinimumAllowedPackageVersionsReader:
+        arguments:
+            $minimumAllowedPackagesFile: '%minimum_allowed_shop_version_checker_file%'
 
     SprykerSdk\Evaluator\Checker\PluginsRegistrationWithRestrictionsChecker\PluginsRegistrationWithRestrictionsChecker:
         arguments:
