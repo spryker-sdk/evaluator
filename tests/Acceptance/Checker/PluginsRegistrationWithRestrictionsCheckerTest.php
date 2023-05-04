@@ -68,7 +68,7 @@ class PluginsRegistrationWithRestrictionsCheckerTest extends TestCase
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
 
-        $this->assertStringContainsString(
+        $this->assertSame(
             <<<OUT
         ==============================================
         PLUGINS REGISTRATION WITH RESTRICTIONS CHECKER
@@ -83,6 +83,9 @@ class PluginsRegistrationWithRestrictionsCheckerTest extends TestCase
         +---+--------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+
         | 3 | Restriction rule does not match the pattern "/^\* - (before|after) \{@link (?<class>.+)\}( .*\.|)$/"                           | CategoryDependencyProvider.php:47 |
         +---+--------------------------------------------------------------------------------------------------------------------------------+-----------------------------------+
+
+        Read more: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/plugin-registration-with-restrintions.html
+
 
         OUT,
             $process->getOutput(),

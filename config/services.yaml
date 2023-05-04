@@ -50,7 +50,7 @@ services:
     SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\MultidimensionalArrayChecker:
         arguments:
             $checkerDocUrl: '%multidimensional_array_checker_doc_url%'
-            $nestingStructures :
+            $nestingStructures:
                 - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\AssignArrayNestingStructure'
                 - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\ArrayMergeNestingStructure'
                 - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\ReturnArrayNestingStructure'

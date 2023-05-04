@@ -54,7 +54,7 @@ class PhpVersionCheckerTest extends TestCase
         $phpVersion = PHP_VERSION;
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
-        $this->assertStringContainsString(
+        $this->assertSame(
             <<<OUT
         ===================
         PHP VERSION CHECKER
@@ -73,6 +73,9 @@ class PhpVersionCheckerTest extends TestCase
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/deploy**.yml: -  |
         |   |                                                                             | SDK php versions: php7.4, php8.0                       |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
+
+        Read more: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/php-version.html
+
 
         OUT,
             $process->getOutput(),
