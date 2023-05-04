@@ -52,7 +52,7 @@ class MinimumShopVersionCheckerTest extends TestCase
         );
         $process->run();
 
-        $this->assertStringContainsString(
+        $this->assertSame(
             <<<OUT
         ============================
         MINIMUM ALLOWED SHOP VERSION
@@ -65,6 +65,9 @@ class MinimumShopVersionCheckerTest extends TestCase
         +---+-------------------------------------------------------------------------------------------------------------------+---------------------------------------+
         | 2 | Package "spryker/availability-gui" version "6.5.9" is not supported. Minimum allowed version is "6.6.0"           | spryker/availability-gui:6.5.9        |
         +---+-------------------------------------------------------------------------------------------------------------------+---------------------------------------+
+
+        Read more: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/minimum-allowed-shop-version.html
+
 
         OUT,
             $process->getOutput(),
