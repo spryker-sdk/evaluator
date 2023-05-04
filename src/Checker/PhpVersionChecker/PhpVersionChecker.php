@@ -25,7 +25,7 @@ class PhpVersionChecker implements CheckerInterface
     /**
      * @var string
      */
-    public const MESSAGE_INCONSISTENT_PHP_VERSIONS = 'Not all the targets have common php versions';
+    public const MESSAGE_INCONSISTENT_PHP_VERSIONS = 'Not all the targets have same PHP versions';
 
     /**
      * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface

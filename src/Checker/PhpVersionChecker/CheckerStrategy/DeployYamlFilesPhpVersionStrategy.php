@@ -23,7 +23,7 @@ class DeployYamlFilesPhpVersionStrategy implements PhpVersionCheckerStrategyInte
     /**
      * @var string
      */
-    public const MESSAGE_USED_NOT_ALLOWED_PHP_VERSION = 'Deploy file uses not allowed php image version "%s"';
+    public const MESSAGE_USED_NOT_ALLOWED_PHP_VERSION = "Deploy file uses not allowed PHP image version \"%s\"\nImage tag must contain allowed PHP version (image:abc-8.0)";
 
     /**
      * @var \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\FileReader\DeploymentYamlFileReader

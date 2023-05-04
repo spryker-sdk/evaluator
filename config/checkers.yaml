@@ -13,6 +13,12 @@ parameters:
     # Dependency provider additional logic checker
     dp_additional_logic_checker_doc_url: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/dependency-provider-contains-addition-logic.html
 
+    # Plugin registration with restriction checker
+    plugin_registration_checker_doc_url: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/plugin-registration-with-restrintions.html
+
+    # Single plugin argument checker
+    single_plugin_argument_checker_doc_url: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/single-plugin-argument.html
+
     # Minimum allowed shop version
     minimum_allowed_shop_version_checker_doc_url: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/minimum-allowed-shop-version.html
     minimum_allowed_shop_version_checker_version: '202204.0'

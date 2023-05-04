@@ -52,7 +52,7 @@ services:
     SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\MultidimensionalArrayChecker:
         arguments:
             $checkerDocUrl: '%multidimensional_array_checker_doc_url%'
-            $nestingStructures :
+            $nestingStructures:
                 - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\AssignArrayNestingStructure'
                 - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\ArrayMergeNestingStructure'
                 - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\ReturnArrayNestingStructure'
@@ -81,6 +81,13 @@ services:
         arguments:
             $minimumAllowedPackagesFile: '%minimum_allowed_shop_version_checker_file%'
 
+    SprykerSdk\Evaluator\Checker\PluginsRegistrationWithRestrictionsChecker\PluginsRegistrationWithRestrictionsChecker:
+        arguments:
+            $checkerDocUrl: '%plugin_registration_checker_doc_url%'
+
+    SprykerSdk\Evaluator\Checker\SinglePluginArgumentChecker\SinglePluginArgumentChecker:
+        arguments:
+            $checkerDocUrl: '%single_plugin_argument_checker_doc_url%'
 
     # Third-party
     PhpParser\ParserFactory: ~

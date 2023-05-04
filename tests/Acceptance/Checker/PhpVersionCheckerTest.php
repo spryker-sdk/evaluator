@@ -54,7 +54,7 @@ class PhpVersionCheckerTest extends TestCase
         $phpVersion = PHP_VERSION;
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
-        $this->assertStringContainsString(
+        $this->assertSame(
             <<<OUT
         ===================
         PHP VERSION CHECKER
@@ -63,15 +63,19 @@ class PhpVersionCheckerTest extends TestCase
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
         | # | Message                                                                     | Target                                                 |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
-        | 1 | Composer json php constraint ">=8.1" does not match allowed php versions    | tests/Acceptance/_data/InvalidProject/composer.json    |
+        | 1 | Composer json PHP constraint ">=8.1" does not match allowed php versions    | tests/Acceptance/_data/InvalidProject/composer.json    |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
-        | 2 | Deploy file uses not allowed php image version "spryker/php:7.2-alpine3.12" | tests/Acceptance/_data/InvalidProject/deploy.yml       |
+        | 2 | Deploy file uses not allowed PHP image version "spryker/php:7.2-alpine3.12" | tests/Acceptance/_data/InvalidProject/deploy.yml       |
+        |   | Image tag must contain allowed PHP version (image:abc-8.0)                  |                                                        |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
-        | 3 | Not all the targets have common php versions                                | Current php version $phpVersion: php7.4                     |
+        | 3 | Not all the targets have same PHP versions                                  | Current php version $phpVersion: php7.4                     |
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/composer.json: - |
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/deploy**.yml: -  |
         |   |                                                                             | SDK php versions: php7.4, php8.0                       |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
+
+        Read more: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/php-version.html
+
 
         OUT,
             $process->getOutput(),

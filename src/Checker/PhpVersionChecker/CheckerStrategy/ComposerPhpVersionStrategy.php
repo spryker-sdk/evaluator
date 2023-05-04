@@ -21,12 +21,12 @@ class ComposerPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
     /**
      * @var string
      */
-    public const MESSAGE_NO_PHP_DEPENDENCY = 'Composer json does not contain php dependency';
+    public const MESSAGE_NO_PHP_DEPENDENCY = 'Composer json does not contain PHP dependency';
 
     /**
      * @var string
      */
-    public const MESSAGE_USED_NOT_ALLOWED_PHP_VERSION = 'Composer json php constraint "%s" does not match allowed php versions';
+    public const MESSAGE_USED_NOT_ALLOWED_PHP_VERSION = 'Composer json PHP constraint "%s" does not match allowed php versions';
 
     /**
      * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
