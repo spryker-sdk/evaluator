@@ -20,17 +20,11 @@ interface ReportRendererInterface
     public function getName(): string;
 
     /**
-     * @param string $filePath
-     *
-     * @return void
-     */
-    public function setFile(string $filePath): void;
-
-    /**
      * @param \SprykerSdk\Evaluator\Dto\ReportDto $report
      * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param string|null $filePath
      *
      * @return void
      */
-    public function render(ReportDto $report, OutputInterface $output): void;
+    public function render(ReportDto $report, OutputInterface $output, ?string $filePath = null): void;
 }

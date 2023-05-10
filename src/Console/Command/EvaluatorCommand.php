@@ -140,10 +140,13 @@ class EvaluatorCommand extends Command
             new EvaluatorInputDataDto($this->pathResolver->resolvePath($path), $checkers),
         );
 
-        $this->reportRendererStrategy->resolve(
-            $input->getOption(static::FORMAT_OPTION),
-            $input->getOption(static::FILE_OPTION) ? $this->pathResolver->createPath($this->fileReport) : null,
-        )->render($report, $output);
+        $this->reportRendererStrategy
+            ->resolve($input->getOption(static::FORMAT_OPTION))
+            ->render(
+                $report,
+                $output,
+                $input->getOption(static::FILE_OPTION) ? $this->pathResolver->createPath($this->fileReport) : null,
+            );
 
         return $report->isSuccessful() ? static::SUCCESS : static::FAILURE;
     }

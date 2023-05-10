@@ -43,13 +43,7 @@ class PathResolver implements PathResolverInterface
      */
     public function resolvePath(string $relativePath = ''): string
     {
-        $relativePath = trim($relativePath);
-
-        $projectDir = $this->getProjectDir();
-
-        $fullPath = $relativePath
-            ? $projectDir . DIRECTORY_SEPARATOR . trim($relativePath, DIRECTORY_SEPARATOR)
-            : $projectDir;
+        $fullPath = $this->createPath($relativePath);
 
         if (!is_dir($fullPath) || !$this->filesystem->exists([$fullPath])) {
             throw new InvalidArgumentException(sprintf('Directory `%s` does not exist', $fullPath));
@@ -65,12 +59,12 @@ class PathResolver implements PathResolverInterface
      */
     public function createPath(string $relativePath = ''): string
     {
-        $relativePath = trim($relativePath);
+        $relativePath = trim($relativePath, " \t\n\r\0\x0B" . DIRECTORY_SEPARATOR);
 
         $projectDir = $this->getProjectDir();
 
          return $relativePath
-            ? $projectDir . DIRECTORY_SEPARATOR . trim($relativePath, DIRECTORY_SEPARATOR)
+            ? $projectDir . DIRECTORY_SEPARATOR . $relativePath
             : $projectDir;
     }
 

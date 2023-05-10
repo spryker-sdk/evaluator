@@ -36,12 +36,13 @@ class JsonReportRenderer extends AbstractOutputReport
     /**
      * @param \SprykerSdk\Evaluator\Dto\ReportDto $report
      * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param string|null $filePath
      *
      * @return void
      */
-    public function render(ReportDto $report, OutputInterface $output): void
+    public function render(ReportDto $report, OutputInterface $output, ?string $filePath = null): void
     {
-        if ($this->filePath) {
+        if ($filePath) {
             $output = new BufferedOutput();
         }
         $reportData = [];
@@ -59,8 +60,8 @@ class JsonReportRenderer extends AbstractOutputReport
         }
         $output->write((string)json_encode($reportData));
 
-        if ($this->filePath && $output instanceof BufferedOutput) {
-            $this->saveToFile($output->fetch());
+        if ($filePath && $output instanceof BufferedOutput) {
+            $this->saveToFile($filePath, $output->fetch());
         }
     }
 }

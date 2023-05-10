@@ -104,7 +104,7 @@ class ReportRendererStrategyTest extends TestCase
     public function testFileOutput(): void
     {
         // Arrange
-        $strategy = $this->strategy->resolve(OutputReportRenderer::NAME, 'fileName.*');
+        $strategy = $this->strategy->resolve(OutputReportRenderer::NAME);
         $bufferedOutput = new BufferedOutput();
 
         $report = new ReportDto([
@@ -140,7 +140,7 @@ class ReportRendererStrategyTest extends TestCase
             );
 
         // Act
-        $strategy->render($report, $bufferedOutput);
+        $strategy->render($report, $bufferedOutput, 'fileName.*');
     }
 
     /**
@@ -179,7 +179,7 @@ class ReportRendererStrategyTest extends TestCase
     public function testFileJsonOutput(): void
     {
         // Arrange
-        $strategy = $this->strategy->resolve(JsonReportRenderer::NAME, 'fileName.*');
+        $strategy = $this->strategy->resolve(JsonReportRenderer::NAME);
 
         $bufferedOutput = new BufferedOutput();
 
@@ -202,6 +202,6 @@ class ReportRendererStrategyTest extends TestCase
             );
 
         // Act
-        $strategy->render($report, $bufferedOutput);
+        $strategy->render($report, $bufferedOutput, 'fileName.*');
     }
 }

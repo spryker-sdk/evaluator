@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Console\ReportRenderer;
 
-use InvalidArgumentException;
 use Symfony\Component\Filesystem\Filesystem;
 
 abstract class AbstractOutputReport implements ReportRendererInterface
@@ -18,11 +17,6 @@ abstract class AbstractOutputReport implements ReportRendererInterface
      * @var string
      */
     protected const EXTENSION = 'txt';
-
-    /**
-     * @var string|null
-     */
-    protected ?string $filePath = null;
 
     /**
      * @var \Symfony\Component\Filesystem\Filesystem
@@ -39,29 +33,16 @@ abstract class AbstractOutputReport implements ReportRendererInterface
 
     /**
      * @param string $filePath
+     * @param string $content
      *
      * @return void
      */
-    public function setFile(string $filePath): void
+    protected function saveToFile(string $filePath, string $content): void
     {
         $filePath = str_replace('*', static::EXTENSION, $filePath);
         $this->createGitignore($filePath);
-        $this->filePath = $filePath;
-    }
 
-    /**
-     * @param string $content
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return void
-     */
-    protected function saveToFile(string $content): void
-    {
-        if ($this->filePath === null) {
-            throw new InvalidArgumentException(sprintf('File `%s` does not set', $this->filePath));
-        }
-        $this->filesystem->dumpFile($this->filePath, $content);
+        $this->filesystem->dumpFile($filePath, $content);
     }
 
     /**

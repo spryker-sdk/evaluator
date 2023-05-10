@@ -28,21 +28,16 @@ class ReportRendererStrategy
 
     /**
      * @param string $name
-     * @param string|null $filePath
      *
      * @throws \InvalidArgumentException
      *
      * @return \SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererInterface
      */
-    public function resolve(string $name, ?string $filePath = null): ReportRendererInterface
+    public function resolve(string $name): ReportRendererInterface
     {
         $formats = [];
         foreach ($this->reportRenderers as $reportRenderer) {
             if ($reportRenderer->getName() === $name) {
-                if ($filePath) {
-                    $reportRenderer->setFile($filePath);
-                }
-
                 return $reportRenderer;
             }
             $formats[] = $reportRenderer->getName();
