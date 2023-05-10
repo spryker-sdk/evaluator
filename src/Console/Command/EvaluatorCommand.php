@@ -9,7 +9,8 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Console\Command;
 
-use SprykerSdk\Evaluator\Console\ReportRenderer\ReportRenderer;
+use SprykerSdk\Evaluator\Console\ReportRenderer\OutputReportRenderer;
+use SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererStrategy;
 use SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto;
 use SprykerSdk\Evaluator\Executor\EvaluatorExecutor;
 use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
@@ -33,6 +34,16 @@ class EvaluatorCommand extends Command
     /**
      * @var string
      */
+    protected const FILE_OPTION = 'file';
+
+    /**
+     * @var string
+     */
+    protected const FORMAT_OPTION = 'format';
+
+    /**
+     * @var string
+     */
     protected const CHECKERS_OPTION = 'checkers';
 
     /**
@@ -41,9 +52,9 @@ class EvaluatorCommand extends Command
     protected EvaluatorExecutor $evaluatorExecutor;
 
     /**
-     * @var \SprykerSdk\Evaluator\Console\ReportRenderer\ReportRenderer
+     * @var \SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererStrategy
      */
-    protected ReportRenderer $reportRenderer;
+    protected ReportRendererStrategy $reportRendererStrategy;
 
     /**
      * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
@@ -51,16 +62,27 @@ class EvaluatorCommand extends Command
     protected PathResolverInterface $pathResolver;
 
     /**
-     * @param \SprykerSdk\Evaluator\Executor\EvaluatorExecutor $evaluatorExecutor
-     * @param \SprykerSdk\Evaluator\Console\ReportRenderer\ReportRenderer $reportRenderer
-     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
+     * @var string $fileReport
      */
-    public function __construct(EvaluatorExecutor $evaluatorExecutor, ReportRenderer $reportRenderer, PathResolverInterface $pathResolver)
-    {
+    protected string $fileReport;
+
+    /**
+     * @param \SprykerSdk\Evaluator\Executor\EvaluatorExecutor $evaluatorExecutor
+     * @param \SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererStrategy $reportRendererStrategy
+     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
+     * @param string $fileReport
+     */
+    public function __construct(
+        EvaluatorExecutor $evaluatorExecutor,
+        ReportRendererStrategy $reportRendererStrategy,
+        PathResolverInterface $pathResolver,
+        string $fileReport
+    ) {
         parent::__construct(static::COMMAND_NAME);
         $this->evaluatorExecutor = $evaluatorExecutor;
-        $this->reportRenderer = $reportRenderer;
+        $this->reportRendererStrategy = $reportRendererStrategy;
         $this->pathResolver = $pathResolver;
+        $this->fileReport = $fileReport;
     }
 
     /**
@@ -75,6 +97,20 @@ class EvaluatorCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Run evaluator for specific folder or file',
                 '',
+            )
+            ->addOption(
+                static::FORMAT_OPTION,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                '',
+                OutputReportRenderer::NAME,
+            )
+            ->addOption(
+                static::FILE_OPTION,
+                '-f',
+                InputOption::VALUE_NEGATABLE,
+                'Redirect output to a file',
+                false,
             )
             ->addOption(
                 static::CHECKERS_OPTION,
@@ -104,7 +140,10 @@ class EvaluatorCommand extends Command
             new EvaluatorInputDataDto($this->pathResolver->resolvePath($path), $checkers),
         );
 
-        $this->reportRenderer->render($report, $output);
+        $this->reportRendererStrategy->resolve(
+            $input->getOption(static::FORMAT_OPTION),
+            $input->getOption(static::FILE_OPTION) ? $this->pathResolver->createPath($this->fileReport) : null,
+        )->render($report, $output);
 
         return $report->isSuccessful() ? static::SUCCESS : static::FAILURE;
     }

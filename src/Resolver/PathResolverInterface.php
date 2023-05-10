@@ -19,6 +19,13 @@ interface PathResolverInterface
     public function resolvePath(string $relativePath = ''): string;
 
     /**
+     * @param string $relativePath
+     *
+     * @return string
+     */
+    public function createPath(string $relativePath = ''): string;
+
+    /**
      * @return string
      */
     public function getProjectDir(): string;

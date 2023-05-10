@@ -32,10 +32,12 @@ class MultidimensionalArrayCheckerTest extends TestCase
     {
         $process = new Process(
             [
-            'bin/console',
-            EvaluatorCommand::COMMAND_NAME,
-            '--checkers',
-            MultidimensionalArrayChecker::NAME,
+                'bin/console',
+                EvaluatorCommand::COMMAND_NAME,
+                '--checkers',
+                MultidimensionalArrayChecker::NAME,
+                '--format',
+                'json',
             ],
             null,
             ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH],
@@ -43,6 +45,7 @@ class MultidimensionalArrayCheckerTest extends TestCase
         $process->run();
 
         $this->assertSame(Command::SUCCESS, $process->getExitCode());
+        $this->assertSame('[]', $process->getOutput());
     }
 
     /**

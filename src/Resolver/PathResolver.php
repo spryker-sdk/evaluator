@@ -59,6 +59,22 @@ class PathResolver implements PathResolverInterface
     }
 
     /**
+     * @param string $relativePath
+     *
+     * @return string
+     */
+    public function createPath(string $relativePath = ''): string
+    {
+        $relativePath = trim($relativePath);
+
+        $projectDir = $this->getProjectDir();
+
+         return $relativePath
+            ? $projectDir . DIRECTORY_SEPARATOR . trim($relativePath, DIRECTORY_SEPARATOR)
+            : $projectDir;
+    }
+
+    /**
      * @return string
      */
     public function getProjectDir(): string

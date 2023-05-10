@@ -47,7 +47,7 @@ class SinglePluginArgumentCheckerTest extends TestCase
     public function testReturnViolationWhenProjectHasIssues(): void
     {
         $process = new Process(
-            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', SinglePluginArgumentChecker::NAME],
+            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', SinglePluginArgumentChecker::NAME, '--format', 'json'],
             null,
             ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH . '/src/Pyz/Zed/SinglePluginArgument'],
         );
@@ -56,23 +56,7 @@ class SinglePluginArgumentCheckerTest extends TestCase
         $this->assertSame(Command::FAILURE, $process->getExitCode());
         $this->assertEmpty($process->getErrorOutput());
         $this->assertSame(
-            <<<OUT
-        ======================
-        SINGLE PLUGIN ARGUMENT
-        ======================
-
-        +---+----------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
-        | # | Message                                                                                                                    | Target                                                                                                               |
-        +---+----------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
-        | 1 | Plugin Spryker\Zed\Monitoring\Communication\Plugin\Console\MonitoringConsolePlugin has unsupported constructor parameters. | SprykerSdkTest\InvalidProject\src\Pyz\Zed\SinglePluginArgument\ConsoleDependencyProvider::getMonitoringConsoleMethod |
-        |   | Supported argument types: int, float, string, const, bool, int, usage of new statement to                                  |                                                                                                                      |
-        |   | instantiate a class (without further methods calls)                                                                        |                                                                                                                      |
-        +---+----------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
-
-        Read more: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/single-plugin-argument.html
-
-
-        OUT,
+            '{"SINGLE_PLUGIN_ARGUMENT":{"docUrl":"https:\/\/docs.spryker.com\/docs\/scos\/dev\/keeping-a-project-upgradable\/upgradability-guidelines\/single-plugin-argument.html","violation":{"target":"SprykerSdkTest\\\\InvalidProject\\\\src\\\\Pyz\\\\Zed\\\\SinglePluginArgument\\\\ConsoleDependencyProvider::getMonitoringConsoleMethod","message":"Plugin Spryker\\\\Zed\\\\Monitoring\\\\Communication\\\\Plugin\\\\Console\\\\MonitoringConsolePlugin has unsupported constructor parameters.\nSupported argument types: int, float, string, const, bool, int, usage of new statement to\ninstantiate a class (without further methods calls) "}}}',
             $process->getOutput(),
         );
     }
