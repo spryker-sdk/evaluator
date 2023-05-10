@@ -31,7 +31,7 @@ services:
         arguments:
             $fileReport: '%report_file%'
 
-    SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererStrategy:
+    SprykerSdk\Evaluator\Console\ReportRenderer\ReportRenderResolver:
         arguments:
             - - '@SprykerSdk\Evaluator\Console\ReportRenderer\OutputReportRenderer'
               - '@SprykerSdk\Evaluator\Console\ReportRenderer\JsonReportRenderer'

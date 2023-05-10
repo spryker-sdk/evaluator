@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace SprykerSdk\Evaluator\Console\Command;
 
 use SprykerSdk\Evaluator\Console\ReportRenderer\OutputReportRenderer;
-use SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererStrategy;
+use SprykerSdk\Evaluator\Console\ReportRenderer\ReportRenderResolver;
 use SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto;
 use SprykerSdk\Evaluator\Executor\EvaluatorExecutor;
 use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
@@ -52,9 +52,9 @@ class EvaluatorCommand extends Command
     protected EvaluatorExecutor $evaluatorExecutor;
 
     /**
-     * @var \SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererStrategy
+     * @var \SprykerSdk\Evaluator\Console\ReportRenderer\ReportRenderResolver
      */
-    protected ReportRendererStrategy $reportRendererStrategy;
+    protected ReportRenderResolver $reportRenderResolver;
 
     /**
      * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
@@ -68,19 +68,19 @@ class EvaluatorCommand extends Command
 
     /**
      * @param \SprykerSdk\Evaluator\Executor\EvaluatorExecutor $evaluatorExecutor
-     * @param \SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererStrategy $reportRendererStrategy
+     * @param \SprykerSdk\Evaluator\Console\ReportRenderer\ReportRenderResolver $reportRenderResolver
      * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
      * @param string $fileReport
      */
     public function __construct(
         EvaluatorExecutor $evaluatorExecutor,
-        ReportRendererStrategy $reportRendererStrategy,
+        ReportRenderResolver $reportRenderResolver,
         PathResolverInterface $pathResolver,
         string $fileReport
     ) {
         parent::__construct(static::COMMAND_NAME);
         $this->evaluatorExecutor = $evaluatorExecutor;
-        $this->reportRendererStrategy = $reportRendererStrategy;
+        $this->reportRenderResolver = $reportRenderResolver;
         $this->pathResolver = $pathResolver;
         $this->fileReport = $fileReport;
     }
@@ -140,7 +140,7 @@ class EvaluatorCommand extends Command
             new EvaluatorInputDataDto($this->pathResolver->resolvePath($path), $checkers),
         );
 
-        $this->reportRendererStrategy
+        $this->reportRenderResolver
             ->resolve($input->getOption(static::FORMAT_OPTION))
             ->render(
                 $report,

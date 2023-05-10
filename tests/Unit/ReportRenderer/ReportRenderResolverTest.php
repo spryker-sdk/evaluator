@@ -12,7 +12,7 @@ namespace SprykerSdkTest\Evaluator\Unit\ReportRenderer;
 use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Console\ReportRenderer\JsonReportRenderer;
 use SprykerSdk\Evaluator\Console\ReportRenderer\OutputReportRenderer;
-use SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererStrategy;
+use SprykerSdk\Evaluator\Console\ReportRenderer\ReportRenderResolver;
 use SprykerSdk\Evaluator\Dto\ReportDto;
 use SprykerSdk\Evaluator\Dto\ReportLineDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
@@ -24,14 +24,14 @@ use Symfony\Component\Filesystem\Filesystem;
  * @group Evaluator
  * @group Unit
  * @group ReportRenderer
- * @group ReportRendererStrategyTest
+ * @group ReportRenderResolverTest
  */
-class ReportRendererStrategyTest extends TestCase
+class ReportRenderResolverTest extends TestCase
 {
     /**
-     * @var \SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererStrategy
+     * @var \SprykerSdk\Evaluator\Console\ReportRenderer\ReportRenderResolver
      */
-    protected ReportRendererStrategy $strategy;
+    protected ReportRenderResolver $strategy;
 
     /**
      * @var \Symfony\Component\Filesystem\Filesystem&\PHPUnit\Framework\MockObject\MockObject
@@ -46,7 +46,7 @@ class ReportRendererStrategyTest extends TestCase
         parent::setUp();
 
         $this->filesystem = $this->createMock(Filesystem::class);
-        $this->strategy = new ReportRendererStrategy([
+        $this->strategy = new ReportRenderResolver([
             new JsonReportRenderer($this->filesystem),
             new OutputReportRenderer($this->filesystem),
         ]);

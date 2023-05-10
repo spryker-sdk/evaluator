@@ -11,7 +11,7 @@ namespace SprykerSdk\Evaluator\Console\ReportRenderer;
 
 use InvalidArgumentException;
 
-class ReportRendererStrategy
+class ReportRenderResolver
 {
     /**
      * @var array<\SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererInterface>
