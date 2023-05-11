@@ -13,18 +13,36 @@ use SprykerSdk\Evaluator\Dto\ReportDto;
 use SprykerSdk\Evaluator\Dto\ReportLineDto;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ReportRenderer
+class OutputReportRenderer extends AbstractOutputReport
 {
+    /**
+     * @var string
+     */
+    public const NAME = 'output';
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return static::NAME;
+    }
+
     /**
      * @param \SprykerSdk\Evaluator\Dto\ReportDto $report
      * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param string|null $filePath
      *
      * @return void
      */
-    public function render(ReportDto $report, OutputInterface $output): void
+    public function render(ReportDto $report, OutputInterface $output, ?string $filePath = null): void
     {
+        if ($filePath) {
+            $output = new BufferedOutput();
+        }
         foreach ($report->getReportLines() as $reportLine) {
             $this->renderTitle($reportLine, $output);
 
@@ -39,6 +57,10 @@ class ReportRenderer
             }
 
             $output->writeln('');
+        }
+
+        if ($filePath && $output instanceof BufferedOutput) {
+            $this->saveToFile($filePath, $output->fetch());
         }
     }
 

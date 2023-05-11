@@ -15,6 +15,16 @@ To run evaluator with specific checkers
 vendor/bin/evaluator evaluate --checks=<comma separated checkers names>
 ```
 
+To run evaluator with specific output format (output by default)
+```bash
+vendor/bin/evaluator evaluate --format=<output, json>
+```
+
+To run evaluator with specific output redirect to project file `./report`
+```bash
+vendor/bin/evaluator evaluate --file
+```
+
 # Other commands
 
 Generate feature packages breakdown file. Should be executed from the evaluator project only.
