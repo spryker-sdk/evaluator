@@ -52,7 +52,11 @@ class SinglePluginArgumentCheckerTest extends TestCase
         );
         $process->run();
 
-        $this->assertJson($process->getOutput());
         $this->assertSame(Command::FAILURE, $process->getExitCode());
+        $this->assertJson($process->getOutput());
+        $this->assertSame(
+            '{"SINGLE_PLUGIN_ARGUMENT":{"docUrl":"https:\/\/docs.spryker.com\/docs\/scos\/dev\/keeping-a-project-upgradable\/upgradability-guidelines\/single-plugin-argument.html","violations":[{"message":"Plugin Spryker\\\\Zed\\\\Monitoring\\\\Communication\\\\Plugin\\\\Console\\\\MonitoringConsolePlugin has unsupported constructor parameters.\nSupported argument types: int, float, string, const, bool, usage of new statement to\ninstantiate a class (without further methods calls) ","target":"SprykerSdkTest\\\\InvalidProject\\\\Pyz\\\\Zed\\\\SinglePluginArgument\\\\ConsoleDependencyProvider::getMonitoringConsoleMethod"}]}}',
+            $process->getOutput(),
+        );
     }
 }

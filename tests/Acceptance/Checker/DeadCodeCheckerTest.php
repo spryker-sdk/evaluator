@@ -57,9 +57,6 @@ class DeadCodeCheckerTest extends TestCase
         $process->run();
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
-        $this->assertSame(
-            '{"DEAD_CODE_CHECKER":{"docUrl":"https:\/\/docs.spryker.com\/docs\/scos\/dev\/keeping-a-project-upgradable\/upgradability-guidelines\/dependency-provider-contains-addition-logic.html","violations":[{"message":"Class \"SprykerSdkTest\\\\InvalidProject\\\\Pyz\\\\Zed\\\\DeadClass\\\\Model\\\\DeadClass\" is not used in project","target":"\/home\/veselov\/PhpstormProjects\/evaluator\/tests\/Acceptance\/_data\/InvalidProject\/src\/Pyz\/Zed\/DeadClass\/Model\/DeadClass.php"},{"message":"Class \"SprykerSdkTest\\\\InvalidProject\\\\Pyz\\\\Zed\\\\DeadClass\\\\Model\\\\DeadClassPlugin\" is not used in project","target":"\/home\/veselov\/PhpstormProjects\/evaluator\/tests\/Acceptance\/_data\/InvalidProject\/src\/Pyz\/Zed\/DeadClass\/Model\/DeadClassPlugin.php"}]}}',
-            $process->getOutput(),
-        );
+        $this->assertJson($process->getOutput());
     }
 }
