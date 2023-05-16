@@ -52,7 +52,7 @@ class SinglePluginArgumentCheckerTest extends TestCase
         );
         $process->run();
 
-        $this->assertSame(Command::FAILURE, $process->getExitCode());
         $this->assertJson($process->getOutput());
+        $this->assertSame(Command::FAILURE, $process->getExitCode());
     }
 }
