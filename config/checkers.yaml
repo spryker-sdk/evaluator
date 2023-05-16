@@ -4,6 +4,9 @@ parameters:
     php_version_checker_sdk_versions: ['7.4', '8.0']
     php_version_checker_doc_url: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/php-version.html
 
+    # Dead code checker
+    dead_code_checker_doc_url: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/dead-code-checker.html
+
     # Security checker
     security_checker_doc_url: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/security.html
 

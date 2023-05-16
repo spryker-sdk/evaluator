@@ -170,7 +170,7 @@ class ReportRenderResolverTest extends TestCase
         $strategy->render($report, $bufferedOutput);
 
         // Assert
-        $this->assertSame($bufferedOutput->fetch(), '{"testChecker":{"docUrl":"docUrl","violation":{"target":"target","message":"testMessage"}}}');
+        $this->assertSame($bufferedOutput->fetch(), '{"testChecker":{"docUrl":"docUrl","violations":[{"message":"testMessage","target":"target"}]}}');
     }
 
     /**
@@ -198,7 +198,7 @@ class ReportRenderResolverTest extends TestCase
             ->method('dumpFile')
             ->with(
                 'fileName.json',
-                '{"testChecker":{"docUrl":"docUrl","violation":{"target":"target","message":"testMessage"}}}',
+                '{"testChecker":{"docUrl":"docUrl","violations":[{"message":"testMessage","target":"target"}]}}',
             );
 
         // Act

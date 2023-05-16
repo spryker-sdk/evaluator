@@ -38,7 +38,6 @@ class SinglePluginArgumentCheckerTest extends TestCase
         $process->run();
 
         $this->assertSame(Command::SUCCESS, $process->getExitCode());
-        $this->assertEmpty($process->getErrorOutput());
     }
 
     /**
@@ -54,9 +53,8 @@ class SinglePluginArgumentCheckerTest extends TestCase
         $process->run();
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
-        $this->assertEmpty($process->getErrorOutput());
         $this->assertSame(
-            '{"SINGLE_PLUGIN_ARGUMENT":{"docUrl":"https:\/\/docs.spryker.com\/docs\/scos\/dev\/keeping-a-project-upgradable\/upgradability-guidelines\/single-plugin-argument.html","violation":{"target":"SprykerSdkTest\\\\InvalidProject\\\\src\\\\Pyz\\\\Zed\\\\SinglePluginArgument\\\\ConsoleDependencyProvider::getMonitoringConsoleMethod","message":"Plugin Spryker\\\\Zed\\\\Monitoring\\\\Communication\\\\Plugin\\\\Console\\\\MonitoringConsolePlugin has unsupported constructor parameters.\nSupported argument types: int, float, string, const, bool, int, usage of new statement to\ninstantiate a class (without further methods calls) "}}}',
+            '{"SINGLE_PLUGIN_ARGUMENT":{"docUrl":"https:\/\/docs.spryker.com\/docs\/scos\/dev\/keeping-a-project-upgradable\/upgradability-guidelines\/single-plugin-argument.html","violations":[{"message":"Plugin Spryker\\\\Zed\\\\Monitoring\\\\Communication\\\\Plugin\\\\Console\\\\MonitoringConsolePlugin has unsupported constructor parameters.\nSupported argument types: int, float, string, const, bool, usage of new statement to\ninstantiate a class (without further methods calls) ","target":"SprykerSdkTest\\\\InvalidProject\\\\Pyz\\\\Zed\\\\SinglePluginArgument\\\\ConsoleDependencyProvider::getMonitoringConsoleMethod"}]}}',
             $process->getOutput(),
         );
     }

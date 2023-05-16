@@ -53,8 +53,7 @@ class JsonReportRenderer extends AbstractOutputReport
             $checkerReport = [];
             $checkerReport['docUrl'] = $reportLine->getDocUrl();
             foreach ($reportLine->getViolations() as $violation) {
-                $checkerReport['violation']['target'] = $violation->getTarget();
-                $checkerReport['violation']['message'] = $violation->getMessage();
+                $checkerReport['violations'][] = ['message' => $violation->getMessage(), 'target' => $violation->getTarget()];
             }
             $reportData[$reportLine->getCheckerName()] = $checkerReport;
         }

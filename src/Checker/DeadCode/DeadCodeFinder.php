@@ -1,0 +1,146 @@
+<?php
+
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+declare(strict_types=1);
+
+namespace SprykerSdk\Evaluator\Checker\DeadCode;
+
+use SprykerSdk\Evaluator\Finder\SourceFinderInterface;
+use Symfony\Component\Finder\Finder;
+
+class DeadCodeFinder
+{
+    /**
+     * @var string
+     */
+    protected const SPRYKER_NAMESPACE = 'Spryker';
+
+    /**
+     * @var \SprykerSdk\Evaluator\Finder\SourceFinderInterface
+     */
+    private SourceFinderInterface $sourceFinder;
+
+    /**
+     * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
+     */
+    public function __construct(SourceFinderInterface $sourceFinder)
+    {
+        $this->sourceFinder = $sourceFinder;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return array<string, string>
+     */
+    public function find(string $path): array
+    {
+        $classNames = $this->getAllExtendedCoreClasses($path);
+        $useNames = $this->getAllUse($path);
+
+        $deadClasses = [];
+        foreach ($classNames as $className => $classPath) {
+            if (!isset($useNames[$className])) {
+                $deadClasses[$className] = $classPath;
+            }
+        }
+
+        return $deadClasses;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return array<string|int, true>
+     */
+    protected function getAllUse(string $path): array
+    {
+        $useNames = [];
+        foreach ($this->getFinderIterator($path, ['*.php']) as $file) {
+            $fileContent = $file->getContents();
+
+            preg_match_all('/use (?<useClasses>\S*)(;| )/m', $fileContent, $matches);
+            if (isset($matches['useClasses'])) {
+                foreach ($matches['useClasses'] as $useClass) {
+                    $useNames[$useClass] = true;
+                }
+            }
+        }
+
+        return $useNames;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return array<string, string>
+     */
+    protected function getAllExtendedCoreClasses(string $path): array
+    {
+        $classNames = [];
+        $patterns = [
+            '*.php',
+            '!*Factory.php',
+            '!*Facade.php',
+            '!*DependencyProvider.php',
+            '!*Trait.php',
+            '!*Client.php',
+            '!*Interface.php',
+        ];
+        foreach ($this->getFinderIterator($path, $patterns) as $file) {
+            $fileContent = $file->getContents();
+            preg_match('/ extends (?<extendedClass>\S+)\\n/', $fileContent, $matches);
+
+            if (!isset($matches['extendedClass']) || !$this->isSprykerNamespace($fileContent, $matches['extendedClass'])) {
+                continue;
+            }
+
+            preg_match('/namespace (?<namespace>\S*);\\n/', $fileContent, $matchesNamespace);
+            preg_match('/class (?<class>\S*) /', $fileContent, $matchesClass);
+
+            if (!isset($matchesNamespace['namespace'], $matchesClass['class'])) {
+                continue;
+            }
+
+            $classNames[sprintf('%s\%s', $matchesNamespace['namespace'], $matchesClass['class'])] = $file->getRealPath();
+        }
+
+        return $classNames;
+    }
+
+    /**
+     * @param string $fileContent
+     * @param string $extendedClass
+     *
+     * @return bool
+     */
+    protected function isSprykerNamespace(string $fileContent, string $extendedClass): bool
+    {
+        if (strpos($extendedClass, '\\') !== false) {
+            return strpos($extendedClass, '\\' . static::SPRYKER_NAMESPACE) || strpos($extendedClass, static::SPRYKER_NAMESPACE) !== false;
+        }
+
+        preg_match(sprintf('/use (?<useClass>%s\S*)(%s| as %s)/', static::SPRYKER_NAMESPACE, $extendedClass, $extendedClass), $fileContent, $matches);
+
+        if (!isset($matches['useClass'])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param string $path
+     * @param array<string> $patterns
+     *
+     * @return \Symfony\Component\Finder\Finder
+     */
+    protected function getFinderIterator(string $path, array $patterns = []): Finder
+    {
+        return $this->sourceFinder->find($patterns, [$path], ['Generated', 'Orm']);
+    }
+}
