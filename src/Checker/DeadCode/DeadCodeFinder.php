@@ -89,6 +89,9 @@ class DeadCodeFinder
             '!*DependencyProvider.php',
             '!*Trait.php',
             '!*Client.php',
+            '!*Config.php',
+            '!*Controller.php',
+            '!*Bootstrap.php',
             '!*Interface.php',
         ];
         foreach ($this->getFinderIterator($path, $patterns) as $file) {
