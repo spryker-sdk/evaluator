@@ -20,6 +20,11 @@ class DeadCodeFinder
     protected const SPRYKER_NAMESPACE = 'Spryker';
 
     /**
+     * @var string
+     */
+    protected const ANNOTATION_SKIP = '@evaluator-skip-dead-code';
+
+    /**
      * @var \SprykerSdk\Evaluator\Finder\SourceFinderInterface
      */
     private SourceFinderInterface $sourceFinder;
@@ -96,6 +101,11 @@ class DeadCodeFinder
         ];
         foreach ($this->getFinderIterator($path, $patterns) as $file) {
             $fileContent = $file->getContents();
+
+            if (strpos($fileContent, static::ANNOTATION_SKIP) !== false) {
+                continue;
+            }
+
             preg_match('/ extends (?<extendedClass>\S+)\\n/', $fileContent, $matches);
 
             if (!isset($matches['extendedClass']) || !$this->isSprykerNamespace($fileContent, $matches['extendedClass'])) {
