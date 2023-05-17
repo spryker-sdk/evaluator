@@ -35,7 +35,6 @@
             "symfony/flex": true,
             "symfony/runtime": true,
             "dealerdirect/phpcodesniffer-composer-installer": false,
-            "phpstan/extension-installer": true
         },
         "optimize-autoloader": true,
         "preferred-install": {
