@@ -39,12 +39,12 @@ class DeadCodeFinder
      */
     public function find(string $path): array
     {
-        $classNames = $this->getAllExtendedCoreClasses($path);
-        $useNames = $this->getAllUse($path);
+        $extendedCoreClassesInUse = $this->getAllExtendedCoreClasses($path);
+        $allClassesInUse = $this->getAllClassesInUse($path);
 
         $deadClasses = [];
-        foreach ($classNames as $className => $classPath) {
-            if (!isset($useNames[$className])) {
+        foreach ($extendedCoreClassesInUse as $className => $classPath) {
+            if (!isset($allClassesInUse[$className])) {
                 $deadClasses[$className] = $classPath;
             }
         }
@@ -57,21 +57,21 @@ class DeadCodeFinder
      *
      * @return array<string|int, true>
      */
-    protected function getAllUse(string $path): array
+    protected function getAllClassesInUse(string $path): array
     {
-        $useNames = [];
+        $allClassesInUse = [];
         foreach ($this->getFinderIterator($path, ['*.php']) as $file) {
             $fileContent = $file->getContents();
 
             preg_match_all('/use (?<useClasses>\S*)(;| )/m', $fileContent, $matches);
             if (isset($matches['useClasses'])) {
                 foreach ($matches['useClasses'] as $useClass) {
-                    $useNames[$useClass] = true;
+                    $allClassesInUse[$useClass] = true;
                 }
             }
         }
 
-        return $useNames;
+        return $allClassesInUse;
     }
 
     /**
@@ -81,7 +81,7 @@ class DeadCodeFinder
      */
     protected function getAllExtendedCoreClasses(string $path): array
     {
-        $classNames = [];
+        $extendedCoreClassesInUse = [];
         $patterns = [
             '*.php',
             '!*Factory.php',
@@ -106,10 +106,10 @@ class DeadCodeFinder
                 continue;
             }
 
-            $classNames[sprintf('%s\%s', $matchesNamespace['namespace'], $matchesClass['class'])] = $file->getRealPath();
+            $extendedCoreClassesInUse[sprintf('%s\%s', $matchesNamespace['namespace'], $matchesClass['class'])] = $file->getRealPath();
         }
 
-        return $classNames;
+        return $extendedCoreClassesInUse;
     }
 
     /**
@@ -126,11 +126,7 @@ class DeadCodeFinder
 
         preg_match(sprintf('/use (?<useClass>%s\S*)(%s| as %s)/', static::SPRYKER_NAMESPACE, $extendedClass, $extendedClass), $fileContent, $matches);
 
-        if (!isset($matches['useClass'])) {
-            return false;
-        }
-
-        return true;
+        return isset($matches['useClass']);
     }
 
     /**
