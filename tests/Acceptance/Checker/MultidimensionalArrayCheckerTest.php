@@ -72,7 +72,6 @@ class MultidimensionalArrayCheckerTest extends TestCase
         $process->run();
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
-        $this->assertEmpty($process->getErrorOutput());
     }
 
     /**

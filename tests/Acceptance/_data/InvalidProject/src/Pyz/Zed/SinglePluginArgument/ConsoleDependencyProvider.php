@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace SprykerSdkTest\InvalidProject\src\Pyz\Zed\SinglePluginArgument;
+namespace SprykerSdkTest\InvalidProject\Pyz\Zed\SinglePluginArgument;
 
 use Spryker\Zed\Monitoring\Communication\Plugin\Console\MonitoringConsolePlugin;
 use stdClass;

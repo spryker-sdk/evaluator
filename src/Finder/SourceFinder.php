@@ -13,9 +13,14 @@ use Symfony\Component\Finder\Finder;
 
 class SourceFinder implements SourceFinderInterface
 {
- /**
-  * @var array<string>
-  */
+    /**
+     * @var string
+     */
+    protected const NOT_PREFIX = '!';
+
+    /**
+     * @var array<string>
+     */
     protected const DEFAULT_EXCLUDE_DIRS = [
         'src' . DIRECTORY_SEPARATOR . 'Generated',
         'vendor',
@@ -30,6 +35,28 @@ class SourceFinder implements SourceFinderInterface
      */
     public function find(array $pattern, array $paths, array $exclude = self::DEFAULT_EXCLUDE_DIRS): Finder
     {
-        return Finder::create()->in($paths)->name($pattern)->exclude($exclude);
+        $name = [];
+        $notName = [];
+        foreach ($pattern as $item) {
+            if (strpos($item, static::NOT_PREFIX) !== 0) {
+                $name[] = $item;
+
+                continue;
+            }
+
+            $notName[] = ltrim($item, static::NOT_PREFIX);
+        }
+
+        $finder = Finder::create();
+        $finder->in($paths);
+        if ($name) {
+            $finder->name($name);
+        }
+        if ($notName) {
+            $finder->notName($notName);
+        }
+        $finder->exclude($exclude);
+
+        return $finder;
     }
 }
