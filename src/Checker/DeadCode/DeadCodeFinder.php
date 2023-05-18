@@ -98,6 +98,7 @@ class DeadCodeFinder
             '!*Controller.php',
             '!*Bootstrap.php',
             '!*Interface.php',
+            '!*QueryContainer.php',
         ];
         foreach ($this->getFinderIterator($path, $patterns) as $file) {
             $fileContent = $file->getContents();
