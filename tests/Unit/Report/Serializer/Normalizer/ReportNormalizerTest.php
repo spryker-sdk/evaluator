@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace SprykerSdkTest\Evaluator\Unit\Serializer\Normalizer;
+namespace SprykerSdkTest\Evaluator\Unit\Report\Serializer\Normalizer;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
