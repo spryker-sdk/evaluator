@@ -1,0 +1,25 @@
+parameters:
+    report_send_endpoint_url: https://data.prod.spryker-dwh.net/upgrader
+    report_send_timeout: 10
+    report_send_connection_timeout: 4
+
+    report_send_auth_token: "%env(default:report_send_auth_token_default:string:REPORT_SEND_AUTH_TOKEN)%"
+    report_send_auth_token_default: ''
+
+    reporting_enabled: "%env(default:reporting_enabled_default:bool:REPORTING_ENABLED)%"
+    reporting_enabled_default: false
+
+    source_code_provider: "%env(default:source_code_provider_default:string:SOURCE_CODE_PROVIDER)%"
+    source_code_provider_default: 'github'
+
+    app_env: "%env(default:app_env_default:string:APP_ENV)%"
+    app_env_default: ''
+
+    project_id: "%env(default:project_id_default:string:PROJECT_ID)%"
+    project_id_default: ''
+
+    repository_name: "%env(default:repository_name_default:string:REPOSITORY_NAME)%"
+    repository_name_default: ''
+
+    organization_name: "%env(default:organization_name_default:string:ORGANIZATION_NAME)%"
+    organization_name_default: ''

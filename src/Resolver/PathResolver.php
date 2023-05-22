@@ -59,6 +59,10 @@ class PathResolver implements PathResolverInterface
      */
     public function createPath(string $relativePath = ''): string
     {
+        if ($this->filesystem->isAbsolutePath($relativePath)) {
+            return $relativePath;
+        }
+
         $relativePath = trim($relativePath, " \t\n\r\0\x0B" . DIRECTORY_SEPARATOR);
 
         $projectDir = $this->getProjectDir();

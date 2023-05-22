@@ -15,6 +15,7 @@ use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto;
 use SprykerSdk\Evaluator\Dto\ReportDto;
 use SprykerSdk\Evaluator\Dto\ReportLineDto;
+use SprykerSdk\Evaluator\Report\ReportSendProcessorInterface;
 
 class EvaluatorExecutor implements EvaluatorExecutorInterface
 {
@@ -24,11 +25,18 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
     protected CheckerRegistryInterface $checkerRegistry;
 
     /**
-     * @param \SprykerSdk\Evaluator\Checker\CheckerRegistryInterface $checkerRegistry
+     * @var \SprykerSdk\Evaluator\Report\ReportSendProcessorInterface
      */
-    public function __construct(CheckerRegistryInterface $checkerRegistry)
+    protected ReportSendProcessorInterface $reportSendProcessor;
+
+    /**
+     * @param \SprykerSdk\Evaluator\Checker\CheckerRegistryInterface $checkerRegistry
+     * @param \SprykerSdk\Evaluator\Report\ReportSendProcessorInterface $reportSendProcessor
+     */
+    public function __construct(CheckerRegistryInterface $checkerRegistry, ReportSendProcessorInterface $reportSendProcessor)
     {
         $this->checkerRegistry = $checkerRegistry;
+        $this->reportSendProcessor = $reportSendProcessor;
     }
 
     /**
@@ -47,6 +55,8 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
                 new ReportLineDto($checker->getName(), $checkerResponse->getViolations(), $checkerResponse->getDocUrl()),
             );
         }
+
+        $this->reportSendProcessor->process($report);
 
         return $report;
     }
