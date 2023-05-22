@@ -26,7 +26,7 @@ class ReportDtoBuilder implements ReportDtoBuilderInterface
     /**
      * @var string
      */
-    public const REPORT_SCOPE = 'Static Evaluator';
+    public const REPORT_SCOPE = 'Static_Evaluator';
 
     /**
      * @var int
