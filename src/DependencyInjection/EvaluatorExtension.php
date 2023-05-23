@@ -27,5 +27,6 @@ class EvaluatorExtension extends Extension
         $configDirPath = __DIR__ . '/../../config/';
 
         (new YamlFileLoader($container, new FileLocator($configDirPath)))->load('services.yaml');
+        $container->setParameter('evaluator_dir', __DIR__ . '/../..');
     }
 }
