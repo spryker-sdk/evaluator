@@ -21,18 +21,28 @@ class ReportLineDto
      */
     protected array $violations;
 
+    /**
+     * @var string
+     */
     protected string $docUrl;
+
+    /**
+     * @var \SprykerSdk\Evaluator\Dto\DebugInfoDto|null
+     */
+    private ?DebugInfoDto $debugInfo;
 
     /**
      * @param string $checkerName
      * @param array<\SprykerSdk\Evaluator\Dto\ViolationDto> $violations
      * @param string $docUrl
+     * @param \SprykerSdk\Evaluator\Dto\DebugInfoDto|null $debugInfo
      */
-    public function __construct(string $checkerName, array $violations = [], string $docUrl = '')
+    public function __construct(string $checkerName, array $violations = [], string $docUrl = '', ?DebugInfoDto $debugInfo = null)
     {
         $this->checkerName = $checkerName;
         $this->violations = $violations;
         $this->docUrl = $docUrl;
+        $this->debugInfo = $debugInfo;
     }
 
     /**
@@ -57,6 +67,14 @@ class ReportLineDto
     public function getDocUrl(): string
     {
         return $this->docUrl;
+    }
+
+    /**
+     * @return \SprykerSdk\Evaluator\Dto\DebugInfoDto|null
+     */
+    public function getDebugInfo(): ?DebugInfoDto
+    {
+        return $this->debugInfo;
     }
 
     /**
