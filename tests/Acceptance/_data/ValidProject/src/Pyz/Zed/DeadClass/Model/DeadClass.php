@@ -13,4 +13,12 @@ class DeadClass extends SprykerDeadClass
     {
         return new DeadClassSameNamespace();
     }
+
+    /**
+     * @return string
+     */
+    public function getDeadClassSameNamespaceName(): string
+    {
+        return DeadClassSameNamespace::class;
+    }
 }
