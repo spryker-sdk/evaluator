@@ -50,11 +50,37 @@ class DeadCodeFinder
         $deadClasses = [];
         foreach ($extendedCoreClassesInUse as $className => $classPath) {
             if (!isset($allClassesInUse[$className])) {
-                $deadClasses[$className] = $classPath;
+                if (!$this->isInCurrentNamespace($className, $classPath)) {
+                    $deadClasses[$className] = $classPath;
+                }
             }
         }
 
         return $deadClasses;
+    }
+
+    /**
+     * @param string $className
+     * @param string $classPath
+     *
+     * @return bool
+     */
+    protected function isInCurrentNamespace(string $className, string $classPath): bool
+    {
+        foreach ($this->getFinderIterator(dirname($classPath)) as $file) {
+            if ($classPath === $file->getRealPath()) {
+                continue;
+            }
+            $shortClassName = substr($className, (strrpos($className, '\\') ?: -1) + 1);
+
+            preg_match(sprintf('/(?<class>new %s ?\()/', $shortClassName), $file->getContents(), $matchesClass);
+
+            if (!empty($matchesClass['class'])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

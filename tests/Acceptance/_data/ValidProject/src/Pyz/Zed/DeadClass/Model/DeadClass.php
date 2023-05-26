@@ -6,5 +6,11 @@ use Spryker\Zed\DeadClass as SprykerDeadClass;
 
 class DeadClass extends SprykerDeadClass
 {
-
+    /**
+     * @return \SprykerSdkTest\ValidProject\Pyz\Zed\DeadClass\Model\DeadClassSameNamespace
+     */
+    public function createDeadClassSameNamespace(): DeadClassSameNamespace
+    {
+        return new DeadClassSameNamespace();
+    }
 }
