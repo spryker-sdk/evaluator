@@ -44,19 +44,19 @@ class DeadCodeCheckerTest extends TestCase
         );
     }
 
-//    /**
-//     * @return void
-//     */
-//    public function testReturnViolationWhenProjectHasIssues(): void
-//    {
-//        $process = new Process(
-//            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', DeadCodeChecker::NAME, '--format', 'json'],
-//            null,
-//            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH],
-//        );
-//        $process->run();
-//
-//        $this->assertSame(Command::FAILURE, $process->getExitCode());
-//        $this->assertJson($process->getOutput());
-//    }
+    /**
+     * @return void
+     */
+    public function testReturnViolationWhenProjectHasIssues(): void
+    {
+        $process = new Process(
+            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', DeadCodeChecker::NAME, '--format', 'json'],
+            null,
+            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH],
+        );
+        $process->run();
+
+        $this->assertSame(Command::FAILURE, $process->getExitCode());
+        $this->assertJson($process->getOutput());
+    }
 }
