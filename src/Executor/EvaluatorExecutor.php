@@ -12,9 +12,11 @@ namespace SprykerSdk\Evaluator\Executor;
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Checker\CheckerRegistryInterface;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
+use SprykerSdk\Evaluator\Dto\DebugInfoDto;
 use SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto;
 use SprykerSdk\Evaluator\Dto\ReportDto;
 use SprykerSdk\Evaluator\Dto\ReportLineDto;
+use SprykerSdk\Evaluator\Stopwatch\StopwatchFactory;
 use SprykerSdk\Evaluator\Report\ReportSendProcessorInterface;
 
 class EvaluatorExecutor implements EvaluatorExecutorInterface
@@ -25,17 +27,24 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
     protected CheckerRegistryInterface $checkerRegistry;
 
     /**
+     * @var \SprykerSdk\Evaluator\Stopwatch\StopwatchFactory
+     */
+    protected StopwatchFactory $stopwatchFactory;
+
+    /**
      * @var \SprykerSdk\Evaluator\Report\ReportSendProcessorInterface
      */
     protected ReportSendProcessorInterface $reportSendProcessor;
 
     /**
      * @param \SprykerSdk\Evaluator\Checker\CheckerRegistryInterface $checkerRegistry
+     * @param \SprykerSdk\Evaluator\Stopwatch\StopwatchFactory $stopwatchFactory
      * @param \SprykerSdk\Evaluator\Report\ReportSendProcessorInterface $reportSendProcessor
      */
-    public function __construct(CheckerRegistryInterface $checkerRegistry, ReportSendProcessorInterface $reportSendProcessor)
+    public function __construct(CheckerRegistryInterface $checkerRegistry, StopwatchFactory $stopwatchFactory, ReportSendProcessorInterface $reportSendProcessor)
     {
         $this->checkerRegistry = $checkerRegistry;
+        $this->stopwatchFactory = $stopwatchFactory;
         $this->reportSendProcessor = $reportSendProcessor;
     }
 
@@ -47,12 +56,22 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
     public function execute(EvaluatorInputDataDto $inputData): ReportDto
     {
         $report = new ReportDto();
+        $stopWatch = $this->stopwatchFactory->getStopWatch();
 
         foreach ($this->getCheckers($inputData) as $checker) {
+            $stopWatch->start($checker->getName());
+
             $checkerResponse = $checker->check(new CheckerInputDataDto($inputData->getPath()));
 
+            $event = $stopWatch->stop($checker->getName());
+
             $report->addReportLine(
-                new ReportLineDto($checker->getName(), $checkerResponse->getViolations(), $checkerResponse->getDocUrl()),
+                new ReportLineDto(
+                    $checker->getName(),
+                    $checkerResponse->getViolations(),
+                    $checkerResponse->getDocUrl(),
+                    new DebugInfoDto((int)$event->getDuration(), $event->getMemory()),
+                ),
             );
         }
 
