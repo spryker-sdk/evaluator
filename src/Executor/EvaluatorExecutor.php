@@ -16,8 +16,8 @@ use SprykerSdk\Evaluator\Dto\DebugInfoDto;
 use SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto;
 use SprykerSdk\Evaluator\Dto\ReportDto;
 use SprykerSdk\Evaluator\Dto\ReportLineDto;
-use SprykerSdk\Evaluator\Stopwatch\StopwatchFactory;
 use SprykerSdk\Evaluator\Report\ReportSendProcessorInterface;
+use SprykerSdk\Evaluator\Stopwatch\StopwatchFactory;
 
 class EvaluatorExecutor implements EvaluatorExecutorInterface
 {
@@ -41,8 +41,11 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
      * @param \SprykerSdk\Evaluator\Stopwatch\StopwatchFactory $stopwatchFactory
      * @param \SprykerSdk\Evaluator\Report\ReportSendProcessorInterface $reportSendProcessor
      */
-    public function __construct(CheckerRegistryInterface $checkerRegistry, StopwatchFactory $stopwatchFactory, ReportSendProcessorInterface $reportSendProcessor)
-    {
+    public function __construct(
+        CheckerRegistryInterface $checkerRegistry,
+        StopwatchFactory $stopwatchFactory,
+        ReportSendProcessorInterface $reportSendProcessor
+    ) {
         $this->checkerRegistry = $checkerRegistry;
         $this->stopwatchFactory = $stopwatchFactory;
         $this->reportSendProcessor = $reportSendProcessor;
