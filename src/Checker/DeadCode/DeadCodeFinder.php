@@ -71,7 +71,7 @@ class DeadCodeFinder
             }
             $shortClassName = substr($className, (strrpos($className, '\\') ?: -1) + 1);
 
-            preg_match(sprintf('/(?<class>%s ?(\(|:))/', $shortClassName), $file->getContents(), $matchesClass);
+            preg_match(sprintf('/(?<class>extends %s|new %s\(|%s:)/', $shortClassName, $shortClassName, $shortClassName), $file->getContents(), $matchesClass);
 
             if (!empty($matchesClass['class'])) {
                 return true;
