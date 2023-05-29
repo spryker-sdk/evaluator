@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Checker\DeadCode\DeadCodeChecker;
 use SprykerSdk\Evaluator\Console\Command\EvaluatorCommand;
 use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Process\Process;
 
 /**
@@ -36,7 +37,7 @@ class DeadCodeCheckerTest extends TestCase
         );
         $process->run();
 
-//        $this->assertSame(Command::SUCCESS, $process->getExitCode());
+        $this->assertSame(Command::SUCCESS, $process->getExitCode());
         $this->assertSame(
             '[]',
             $process->getOutput(),
@@ -46,16 +47,16 @@ class DeadCodeCheckerTest extends TestCase
     /**
      * @return void
      */
-//    public function testReturnViolationWhenProjectHasIssues(): void
-//    {
-//        $process = new Process(
-//            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', DeadCodeChecker::NAME, '--format', 'json'],
-//            null,
-//            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH],
-//        );
-//        $process->run();
-//
-//        $this->assertSame(Command::FAILURE, $process->getExitCode());
-//        $this->assertJson($process->getOutput());
-//    }
+    public function testReturnViolationWhenProjectHasIssues(): void
+    {
+        $process = new Process(
+            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', DeadCodeChecker::NAME, '--format', 'json'],
+            null,
+            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH],
+        );
+        $process->run();
+
+        $this->assertSame(Command::FAILURE, $process->getExitCode());
+        $this->assertJson($process->getOutput());
+    }
 }
