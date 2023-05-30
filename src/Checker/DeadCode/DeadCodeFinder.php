@@ -175,6 +175,6 @@ class DeadCodeFinder
      */
     protected function getFinderIterator(string $path, array $patterns = []): Finder
     {
-        return $this->sourceFinder->find($patterns, [$path], ['Generated', 'Orm']);
+        return $this->sourceFinder->find($patterns, [$path], ['Generated', 'Orm', 'Dependency']);
     }
 }
