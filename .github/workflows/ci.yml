@@ -66,6 +66,9 @@ jobs:
       - name: Run Tests
         run: composer test
 
+      - name: Run tests
+        run: XDEBUG_MODE=coverage vendor/bin/phpunit tests/ --coverage-clover coverage.xml
+
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env:
