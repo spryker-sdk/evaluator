@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/spryker-sdk/evaluator/branch/master/graph/badge.svg?token=PkAXEay5ir)](https://codecov.io/gh/spryker-sdk/evaluator)
+
 # evaluator
 
 To run evaluator for the project execute the command
