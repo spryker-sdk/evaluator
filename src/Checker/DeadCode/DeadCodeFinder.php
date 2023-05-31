@@ -138,7 +138,7 @@ class DeadCodeFinder
             }
 
             preg_match('/^namespace (?<namespace>\S*);/m', $fileContent, $matchesNamespace);
-            preg_match('/^class (?<class>\S*) /m', $fileContent, $matchesClass);
+            preg_match('/^(abstract|final|) ?class (?<class>\S*) /m', $fileContent, $matchesClass);
 
             if (!isset($matchesNamespace['namespace'], $matchesClass['class'])) {
                 continue;
