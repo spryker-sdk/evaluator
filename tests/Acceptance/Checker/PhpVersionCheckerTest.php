@@ -63,7 +63,7 @@ class PhpVersionCheckerTest extends TestCase
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
         | # | Message                                                                     | Target                                                 |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
-        | 1 | Composer json PHP constraint ">=8.1" does not match allowed php versions    | tests/Acceptance/_data/InvalidProject/composer.json    |
+        | 1 | Composer json PHP constraint ">=8.2" does not match allowed php versions    | tests/Acceptance/_data/InvalidProject/composer.json    |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
         | 2 | Deploy file uses not allowed PHP image version "spryker/php:7.2-alpine3.12" | tests/Acceptance/_data/InvalidProject/deploy.yml       |
         |   | Image tag must contain allowed PHP version (image:abc-8.0)                  |                                                        |
