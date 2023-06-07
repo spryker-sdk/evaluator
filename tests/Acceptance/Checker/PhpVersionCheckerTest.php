@@ -71,7 +71,7 @@ class PhpVersionCheckerTest extends TestCase
         | 3 | Not all the targets have same PHP versions                                  | Current php version $phpVersion: php7.4                     |
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/composer.json: - |
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/deploy**.yml: -  |
-        |   |                                                                             | SDK php versions: php7.4, php8.0                       |
+        |   |                                                                             | SDK php versions: php7.4, php8.0, php8.1               |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
 
         Read more: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/php-version.html
