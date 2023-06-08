@@ -32,7 +32,7 @@ class PhpVersionCheckerTest extends TestCase
         $process = new Process(
             ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', 'PHP_VERSION_CHECKER'],
             null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH],
+            ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH, 'PROJECT_PHP_VERSION' => '7.3.4'],
         );
         $process->run();
 
@@ -47,11 +47,11 @@ class PhpVersionCheckerTest extends TestCase
         $process = new Process(
             ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', 'PHP_VERSION_CHECKER'],
             null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH],
+            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH, 'PROJECT_PHP_VERSION' => '6.6.6'],
         );
         $process->run();
 
-        $phpVersion = PHP_VERSION;
+        $phpVersion = '6.6.6';
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
         $this->assertSame(
@@ -63,15 +63,20 @@ class PhpVersionCheckerTest extends TestCase
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
         | # | Message                                                                     | Target                                                 |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
-        | 1 | Composer json PHP constraint ">=8.2" does not match allowed php versions    | tests/Acceptance/_data/InvalidProject/composer.json    |
+        | 1 | Current PHP version "6.6.6" is not allowed.                                 | Current php version 6.6.6                              |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
-        | 2 | Deploy file uses not allowed PHP image version "spryker/php:7.2-alpine3.12" | tests/Acceptance/_data/InvalidProject/deploy.yml       |
+        | 2 | Composer json PHP constraint ">=9.2" does not match allowed php versions    | tests/Acceptance/_data/InvalidProject/composer.json    |
+        +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
+        | 3 | Deploy file uses not allowed PHP image version "spryker/php:6.4-alpine3.12" | tests/Acceptance/_data/InvalidProject/deploy.dev.yml   |
         |   | Image tag must contain allowed PHP version (image:abc-8.0)                  |                                                        |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
-        | 3 | Not all the targets have same PHP versions                                  | Current php version $phpVersion: php7.4                     |
+        | 4 | Deploy file uses not allowed PHP image version "spryker/php:6.2-alpine3.12" | tests/Acceptance/_data/InvalidProject/deploy.yml       |
+        |   | Image tag must contain allowed PHP version (image:abc-8.0)                  |                                                        |
+        +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
+        | 5 | Not all the targets have same PHP versions                                  | Current php version 6.6.6: -                           |
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/composer.json: - |
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/deploy**.yml: -  |
-        |   |                                                                             | SDK php versions: php7.4, php8.0, php8.1               |
+        |   |                                                                             | SDK php versions: php7, php8                           |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
 
         Read more: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/php-version.html

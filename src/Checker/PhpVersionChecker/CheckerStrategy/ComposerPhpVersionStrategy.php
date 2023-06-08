@@ -29,6 +29,11 @@ class ComposerPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
     public const MESSAGE_USED_NOT_ALLOWED_PHP_VERSION = 'Composer json PHP constraint "%s" does not match allowed php versions';
 
     /**
+     * @var string
+     */
+    protected const MAX_MINOR_VERSION_SUFFIX = '.9999';
+
+    /**
      * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
      */
     protected PathResolverInterface $pathResolver;
@@ -68,7 +73,7 @@ class ComposerPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
 
         $validVersions = array_filter(
             $allowedPhpVersions,
-            static fn (string $allowedVersion): bool => Semver::satisfies($allowedVersion, $composerData['require']['php'])
+            static fn (string $allowedVersion): bool => Semver::satisfies($allowedVersion . static::MAX_MINOR_VERSION_SUFFIX, $composerData['require']['php'])
         );
 
         if (count($validVersions) === 0) {

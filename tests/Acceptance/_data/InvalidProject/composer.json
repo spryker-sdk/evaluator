@@ -3,7 +3,7 @@
     "description": "Spryker B2C Demo Shop",
     "license": "proprietary",
     "require": {
-        "php": ">=8.2",
+        "php": ">=9.2",
         "ext-bcmath": "*",
         "ext-redis": "*",
         "spryker-eco/loggly": "^0.1.1",
