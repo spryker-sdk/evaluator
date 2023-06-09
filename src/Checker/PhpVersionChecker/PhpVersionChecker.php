@@ -95,7 +95,12 @@ class PhpVersionChecker implements CheckerInterface
     protected function checkConsistency(array $usedVersions): array
     {
         $versions = array_values($usedVersions);
-
+        foreach ($versions as $partKey => $partVersions) {
+            foreach ($partVersions as $key => $version) {
+                $versionParts = explode('.', $version);
+                $versions[$partKey][$key] = $versionParts[0];
+            }
+        }
         $commonPhpVersions = count($usedVersions) > 1
             ? array_intersect(...$versions)
             : $versions[0] ?? [];

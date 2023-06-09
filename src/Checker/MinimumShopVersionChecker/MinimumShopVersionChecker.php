@@ -43,6 +43,11 @@ class MinimumShopVersionChecker implements CheckerInterface
     protected const FEATURE_PACKAGE_NAME_PREFIX = 'spryker-feature';
 
     /**
+     * @var string
+     */
+    protected const DEV_MASTER = 'dev-master';
+
+    /**
      * @var \SprykerSdk\Evaluator\Reader\ComposerReaderInterface
      */
     protected ComposerReaderInterface $composerReader;
@@ -154,7 +159,7 @@ class MinimumShopVersionChecker implements CheckerInterface
      */
     protected function checkFeaturePackage(string $packageName, string $packageVersion): ?ViolationDto
     {
-        if (version_compare($packageVersion, $this->minimumFeatureVersion, '>=')) {
+        if ($packageVersion === static::DEV_MASTER || version_compare($packageVersion, $this->minimumFeatureVersion, '>=')) {
             return null;
         }
 

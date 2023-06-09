@@ -20,7 +20,7 @@ class CurrentPhpVersionStrategyTest extends TestCase
     public function testCheckShouldReturnViolationWhenSdkPhpVersionIsNotAllowed(): void
     {
         //Arrange
-        $checkerStrategy = new CurrentPhpVersionStrategy();
+        $checkerStrategy = new CurrentPhpVersionStrategy('7.3');
 
         //Act
         $response = $checkerStrategy->check(['5.0'], '');
@@ -37,13 +37,13 @@ class CurrentPhpVersionStrategyTest extends TestCase
     public function testCheckShouldReturnAllowedPhpVersions(): void
     {
         //Arrange
-        $checkerStrategy = new CurrentPhpVersionStrategy();
+        $checkerStrategy = new CurrentPhpVersionStrategy('7.3');
 
         //Act
-        $response = $checkerStrategy->check([PHP_VERSION], '');
+        $response = $checkerStrategy->check(['7.3'], '');
 
         //Assert
         $this->assertEmpty($response->getViolations());
-        $this->assertSame([PHP_VERSION], $response->getUsedVersions());
+        $this->assertSame(['7.3'], $response->getUsedVersions());
     }
 }
