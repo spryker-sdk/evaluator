@@ -5,6 +5,7 @@ parameters:
 
     php_version_checker_doc_url: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/php-version.html
 
+    evaluator_dir: '%kernel.project_dir%'
     # Dead code checker
     dead_code_checker_doc_url: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/dead-code-checker.html
 
@@ -26,4 +27,4 @@ parameters:
     # Minimum allowed shop version
     minimum_allowed_shop_version_checker_doc_url: https://docs.spryker.com/docs/scos/dev/keeping-a-project-upgradable/upgradability-guidelines/minimum-allowed-shop-version.html
     minimum_allowed_shop_version_checker_version: '202204.0'
-    minimum_allowed_shop_version_checker_file: '%kernel.project_dir%/data/minimum-allowed-package-versions.json'
+    minimum_allowed_shop_version_checker_file: '%evaluator_dir%/data/minimum-allowed-package-versions.json'

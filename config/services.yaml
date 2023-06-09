@@ -1,5 +1,6 @@
 imports:
     - {resource: checkers.yaml}
+    - {resource: reports.yaml}
 
 parameters:
     env(EVALUATOR_PROJECT_DIR): ~
@@ -113,4 +114,34 @@ services:
     PhpParser\ParserFactory: ~
     Symfony\Component\Finder\Finder: ~
 
+    #Report
+    GuzzleHttp\Client:
+
+    serializer.json_encoder:
+        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+
+    report.serializer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            - [ '@SprykerSdk\Evaluator\Report\Serializer\Normalizer\ReportNormalizer' ]
+            - [ "@serializer.json_encoder" ]
+    SprykerSdk\Evaluator\Report\OperationsReportSendProcessor:
+        arguments:
+            $isReportingEnabled: '%reporting_enabled%'
+
+    SprykerSdk\Evaluator\Report\Sender\RemoteEndpointJsonReportSender:
+        arguments:
+            - '@GuzzleHttp\Client'
+            - '@report.serializer'
+            - '%report_send_auth_token%'
+            - '%report_send_endpoint_url%'
+            - '%report_send_timeout%'
+            - '%report_send_connection_timeout%'
+    SprykerSdk\Evaluator\Report\Builder\ReportDtoBuilder:
+        arguments:
+            - '%source_code_provider%'
+            - '%app_env%'
+            - '%project_id%'
+            - '%repository_name%'
+            - '%organization_name%'
 

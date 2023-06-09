@@ -49,12 +49,36 @@ class DeadCodeFinder
 
         $deadClasses = [];
         foreach ($extendedCoreClassesInUse as $className => $classPath) {
-            if (!isset($allClassesInUse[$className])) {
+            if (!isset($allClassesInUse[$className]) && !$this->isInCurrentNamespace($className, $classPath)) {
                 $deadClasses[$className] = $classPath;
             }
         }
 
         return $deadClasses;
+    }
+
+    /**
+     * @param string $className
+     * @param string $classPath
+     *
+     * @return bool
+     */
+    protected function isInCurrentNamespace(string $className, string $classPath): bool
+    {
+        foreach ($this->getFinderIterator(dirname($classPath)) as $file) {
+            if ($classPath === $file->getRealPath()) {
+                continue;
+            }
+            $shortClassName = substr($className, (strrpos($className, '\\') ?: -1) + 1);
+
+            preg_match(sprintf('/(?<class>extends %s|new %s\(|%s:)/', $shortClassName, $shortClassName, $shortClassName), $file->getContents(), $matchesClass);
+
+            if (!empty($matchesClass['class'])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -114,8 +138,8 @@ class DeadCodeFinder
                 continue;
             }
 
-            preg_match('/namespace (?<namespace>\S*);\\n/', $fileContent, $matchesNamespace);
-            preg_match('/class (?<class>\S*) /', $fileContent, $matchesClass);
+            preg_match('/^namespace (?<namespace>\S*);/m', $fileContent, $matchesNamespace);
+            preg_match('/^(abstract|final|) ?class (?<class>\S*) /m', $fileContent, $matchesClass);
 
             if (!isset($matchesNamespace['namespace'], $matchesClass['class'])) {
                 continue;
@@ -152,6 +176,6 @@ class DeadCodeFinder
      */
     protected function getFinderIterator(string $path, array $patterns = []): Finder
     {
-        return $this->sourceFinder->find($patterns, [$path], ['Generated', 'Orm']);
+        return $this->sourceFinder->find($patterns, [$path], ['Generated', 'Orm', 'Dependency']);
     }
 }

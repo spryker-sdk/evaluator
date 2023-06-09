@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Console\ReportRenderer;
 
+use SprykerSdk\Evaluator\Dto\DebugInfoDto;
 use SprykerSdk\Evaluator\Dto\ReportDto;
 use SprykerSdk\Evaluator\Dto\ReportLineDto;
 use Symfony\Component\Console\Helper\Table;
@@ -18,6 +19,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class OutputReportRenderer extends AbstractOutputReport
 {
+    /**
+     * @var int
+     */
+    protected const BYTES_IN_MB = 1024 * 1024;
+
     /**
      * @var string
      */
@@ -54,6 +60,10 @@ class OutputReportRenderer extends AbstractOutputReport
 
             if ($reportLine->getViolations() && $reportLine->getDocUrl() !== '') {
                 $this->renderDocUrl($reportLine->getDocUrl(), $output);
+            }
+
+            if ($output->isVerbose() && $reportLine->getDebugInfo()) {
+                $this->renderDebugInfo($reportLine->getDebugInfo(), $output);
             }
 
             $output->writeln('');
@@ -105,6 +115,18 @@ class OutputReportRenderer extends AbstractOutputReport
     {
         $output->writeln('');
         $output->writeln(sprintf('Read more: %s', $docUrl));
+    }
+
+    /**
+     * @param \SprykerSdk\Evaluator\Dto\DebugInfoDto $debugInfo
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return void
+     */
+    protected function renderDebugInfo(DebugInfoDto $debugInfo, OutputInterface $output): void
+    {
+        $output->writeln('');
+        $output->writeln(sprintf('%.2F MiB - %d ms', $debugInfo->getMemoryInBytes() / static::BYTES_IN_MB, $debugInfo->getDurationInMs()));
     }
 
     /**
