@@ -44,14 +44,13 @@ class PhpVersionCheckerTest extends TestCase
      */
     public function testReturnViolationWhenProjectHasIssues(): void
     {
+        $phpVersion = '6.6.6';
         $process = new Process(
             ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', 'PHP_VERSION_CHECKER'],
             null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH, 'PROJECT_PHP_VERSION' => '6.6.6'],
+            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH, 'PROJECT_PHP_VERSION' => $phpVersion],
         );
         $process->run();
-
-        $phpVersion = '6.6.6';
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
         $this->assertSame(
@@ -63,7 +62,7 @@ class PhpVersionCheckerTest extends TestCase
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
         | # | Message                                                                     | Target                                                 |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
-        | 1 | Current PHP version "6.6.6" is not allowed.                                 | Current php version 6.6.6                              |
+        | 1 | Current PHP version "$phpVersion" is not allowed.                                 | Current php version $phpVersion                              |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
         | 2 | Composer json PHP constraint ">=9.2" does not match allowed php versions    | tests/Acceptance/_data/InvalidProject/composer.json    |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
@@ -73,7 +72,7 @@ class PhpVersionCheckerTest extends TestCase
         | 4 | Deploy file uses not allowed PHP image version "spryker/php:6.2-alpine3.12" | tests/Acceptance/_data/InvalidProject/deploy.yml       |
         |   | Image tag must contain allowed PHP version (image:abc-8.0)                  |                                                        |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
-        | 5 | Not all the targets have same PHP versions                                  | Current php version 6.6.6: -                           |
+        | 5 | Not all the targets have same PHP versions                                  | Current php version $phpVersion: -                           |
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/composer.json: - |
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/deploy**.yml: -  |
         |   |                                                                             | SDK php versions: php7, php8                           |
