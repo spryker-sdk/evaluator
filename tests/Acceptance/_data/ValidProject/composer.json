@@ -13,7 +13,8 @@
         "spryker-feature/cart": "^202204.0",
         "spryker-feature/catalog": "^202204.0",
         "spryker-feature/category-management": "dev-master",
-        "spryker/availability-gui": "^6.6.2"
+        "spryker/availability-gui": "^6.6.2",
+        "spryker/availability-gui": "dev-master"
     },
     "autoload": {
         "psr-4": {
