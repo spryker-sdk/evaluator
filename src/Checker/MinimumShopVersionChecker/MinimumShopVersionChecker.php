@@ -175,11 +175,11 @@ class MinimumShopVersionChecker implements CheckerInterface
      */
     protected function checkPackage(string $packageName, string $packageVersion, array $minimumAllowedPackageVersions): ?ViolationDto
     {
-        if (!isset($minimumAllowedPackageVersions[$packageName])) {
-            return null;
-        }
-
-        if (version_compare($packageVersion, $minimumAllowedPackageVersions[$packageName], '>=')) {
+        if (
+            $packageVersion === static::DEV_MASTER ||
+            !isset($minimumAllowedPackageVersions[$packageName]) ||
+            version_compare($packageVersion, $minimumAllowedPackageVersions[$packageName], '>=')
+        ) {
             return null;
         }
 
