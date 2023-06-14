@@ -16,7 +16,7 @@ parameters:
     multidimensional_array_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/multidimensional-array.html
 
     # Dependency provider additional logic checker
-    dp_additional_logic_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/dependency-provider-contains-addition-logic.html
+    dp_additional_logic_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/additional-logic-in-dependency-provider.html
 
     # Plugin registration with restriction checker
     plugin_registration_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/plugin-registration-with-restrintions.html
