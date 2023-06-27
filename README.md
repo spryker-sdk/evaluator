@@ -19,7 +19,7 @@ vendor/bin/evaluator evaluate --checks=<comma separated checkers names>
 
 To run evaluator with specific output format (output by default)
 ```bash
-vendor/bin/evaluator evaluate --format=<output, json>
+vendor/bin/evaluator evaluate --format=<output, json, compact>
 ```
 
 To run evaluator with specific output redirect to project file `./report`
