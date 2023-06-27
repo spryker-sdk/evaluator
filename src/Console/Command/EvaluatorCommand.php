@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Console\Command;
 
-use SprykerSdk\Evaluator\Console\ReportRenderer\CompactReportRenderer;
+use SprykerSdk\Evaluator\Console\ReportRenderer\OutputReportRenderer;
 use SprykerSdk\Evaluator\Console\ReportRenderer\ReportRenderResolver;
 use SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto;
 use SprykerSdk\Evaluator\Executor\EvaluatorExecutor;
@@ -103,7 +103,7 @@ class EvaluatorCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 '',
-                CompactReportRenderer::NAME,
+                OutputReportRenderer::NAME,
             )
             ->addOption(
                 static::FILE_OPTION,
