@@ -20,6 +20,9 @@ services:
         SprykerSdk\Evaluator\Checker\CheckerInterface:
             tags: ['evaluator.checker']
 
+        SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererInterface:
+            tags: ['evaluator.report_renderer']
+
     SprykerSdk\Evaluator\:
         resource: '../src/'
         exclude:
@@ -36,8 +39,7 @@ services:
 
     SprykerSdk\Evaluator\Console\ReportRenderer\ReportRenderResolver:
         arguments:
-            - - '@SprykerSdk\Evaluator\Console\ReportRenderer\OutputReportRenderer'
-              - '@SprykerSdk\Evaluator\Console\ReportRenderer\JsonReportRenderer'
+            - !tagged_iterator evaluator.report_renderer
 
     SprykerSdk\Evaluator\Checker\CheckerRegistry:
         arguments:
@@ -137,6 +139,7 @@ services:
             - '%report_send_endpoint_url%'
             - '%report_send_timeout%'
             - '%report_send_connection_timeout%'
+
     SprykerSdk\Evaluator\Report\Builder\ReportDtoBuilder:
         arguments:
             - '%source_code_provider%'

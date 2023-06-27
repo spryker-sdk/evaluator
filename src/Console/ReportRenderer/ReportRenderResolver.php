@@ -14,14 +14,14 @@ use InvalidArgumentException;
 class ReportRenderResolver
 {
     /**
-     * @var array<\SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererInterface>
+     * @var iterable<\SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererInterface>
      */
-    protected array $reportRenderers;
+    protected iterable $reportRenderers;
 
     /**
-     * @param array<\SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererInterface> $reportRenderers
+     * @param iterable<\SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererInterface> $reportRenderers
      */
-    public function __construct(array $reportRenderers)
+    public function __construct(iterable $reportRenderers)
     {
         $this->reportRenderers = $reportRenderers;
     }
