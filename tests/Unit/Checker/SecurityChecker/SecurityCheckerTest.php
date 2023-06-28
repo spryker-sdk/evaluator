@@ -47,7 +47,7 @@ class SecurityCheckerTest extends TestCase
         $result = $securityChecker->check(new CheckerInputDataDto('/path'));
 
         $this->assertCount(1, $result->getViolations());
-        $this->assertSame('Internal error', $result->getViolations()[0]->getMessage());
+        $this->assertSame('Internal error. Original error: ', $result->getViolations()[0]->getMessage());
         $this->assertSame(SecurityChecker::NAME, $result->getViolations()[0]->getTarget());
     }
 

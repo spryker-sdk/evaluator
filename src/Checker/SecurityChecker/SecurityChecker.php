@@ -91,12 +91,13 @@ class SecurityChecker implements CheckerInterface
         $violations = json_decode($securityOutput->fetch(), true);
 
         if (!is_array($violations)) {
-            return new CheckerResponseDto([
-                new ViolationDto(
-                    'Internal error',
-                    static::NAME,
-                ),
-            ], $this->checkerDocUrl);
+            $rawViolations = $securityOutput->fetch();
+            $violationDto = new ViolationDto(
+                "Internal error. Original error: $rawViolations",
+                static::NAME,
+            );
+
+            return new CheckerResponseDto([$violationDto], $this->checkerDocUrl);
         }
 
         $violationMessages = [];
