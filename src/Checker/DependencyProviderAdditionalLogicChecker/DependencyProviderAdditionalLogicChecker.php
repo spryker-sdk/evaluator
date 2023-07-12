@@ -96,7 +96,7 @@ class DependencyProviderAdditionalLogicChecker implements CheckerInterface
 
                 $conditionString = $this->getConditionString($conditionStm, $dependencyProvider->getContents());
                 $violations[] = new ViolationDto(
-                    sprintf('The condition statement %s is forbidden in the DependencyProvider', $conditionString),
+                    sprintf('The %s condition statement is forbidden in DependencyProvider', $conditionString),
                     $dependencyProvider->getPathname(),
                 );
             }

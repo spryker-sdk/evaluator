@@ -59,11 +59,11 @@ class DependencyProviderAdditionalLogicCheckerTest extends TestCase
         DEPENDENCY PROVIDER ADDITIONAL LOGIC CHECKER
         ============================================
 
-        +---+----------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+
-        | # | Message                                                                                | Target                                                                                                                   |
-        +---+----------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+
-        | 1 | The condition statement if (!static::IS_DEV) {} is forbidden in the DependencyProvider | tests/Acceptance/_data/InvalidProject/src/Pyz/Zed/DependencyProviderAdditionalLogicChecker/ConsoleDependencyProvider.php |
-        +---+----------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+
+        +---+------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+
+        | # | Message                                                                            | Target                                                                                                                   |
+        +---+------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+
+        | 1 | The if (!static::IS_DEV) {} condition statement is forbidden in DependencyProvider | tests/Acceptance/_data/InvalidProject/src/Pyz/Zed/DependencyProviderAdditionalLogicChecker/ConsoleDependencyProvider.php |
+        +---+------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+
 
         Read more: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/additional-logic-in-dependency-provider.html
 
