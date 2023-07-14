@@ -77,6 +77,6 @@ class PathResolver implements PathResolverInterface
      */
     public function getProjectDir(): string
     {
-        return $this->projectDirEnv ?? (string)getcwd();
+        return $this->projectDirEnv ?: (string)getcwd();
     }
 }
