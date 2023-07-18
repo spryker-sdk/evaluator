@@ -58,5 +58,10 @@ class DeadCodeCheckerTest extends TestCase
 
         $this->assertSame(Command::FAILURE, $process->getExitCode());
         $this->assertJson($process->getOutput());
+        $this->assertStringContainsString(
+            'https:\/\/docs.spryker.com\/docs\/scos\/dev\/guidelines\/keeping-a-project-upgradable\/upgradability-guidelines\/dead-code-checker.html',
+            $process->getOutput(),
+            'The output must contain correct link.',
+        );
     }
 }
