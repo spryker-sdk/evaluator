@@ -61,7 +61,7 @@ class DeadCodeCheckerTest extends TestCase
         $this->assertStringContainsString(
             'https:\/\/docs.spryker.com\/docs\/scos\/dev\/guidelines\/keeping-a-project-upgradable\/upgradability-guidelines\/dead-code-checker.html',
             $process->getOutput(),
-            'The output must contain correct link.'
+            'The output must contain correct link.',
         );
     }
 }
