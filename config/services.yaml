@@ -36,7 +36,6 @@ services:
     SprykerSdk\Evaluator\Console\Command\EvaluatorCommand:
         arguments:
             $fileReport: '%report_file%'
-            $pathResolver: '@SprykerSdk\Evaluator\Resolver\PathResolver'
 
     SprykerSdk\Evaluator\Console\ReportRenderer\ReportRenderResolver:
         arguments:
