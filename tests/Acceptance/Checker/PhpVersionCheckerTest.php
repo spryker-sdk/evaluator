@@ -9,11 +9,10 @@ declare(strict_types=1);
 
 namespace SprykerSdkTest\Evaluator\Acceptance\Checker;
 
-use PHPUnit\Framework\TestCase;
-use SprykerSdk\Evaluator\Console\Command\EvaluatorCommand;
+use SprykerSdk\Evaluator\Checker\PhpVersionChecker\PhpVersionChecker;
+use SprykerSdkTest\Evaluator\Acceptance\ApplicationTestCase;
 use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Process\Process;
 
 /**
  * @group SprykerSdkTest
@@ -22,21 +21,17 @@ use Symfony\Component\Process\Process;
  * @group Checker
  * @group PhpVersionCheckerTest
  */
-class PhpVersionCheckerTest extends TestCase
+class PhpVersionCheckerTest extends ApplicationTestCase
 {
     /**
      * @return void
      */
     public function testReturnSuccessOnValidProject(): void
     {
-        $process = new Process(
-            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', 'PHP_VERSION_CHECKER'],
-            null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH, 'PROJECT_PHP_VERSION' => '7.3.4'],
-        );
-        $process->run();
+        $commandTester = $this->createCommandTester(TestHelper::VALID_PROJECT_PATH, ['PROJECT_PHP_VERSION' => '7.3.4']);
+        $commandTester->execute(['--checkers' => PhpVersionChecker::NAME]);
 
-        $this->assertSame(Command::SUCCESS, $process->getExitCode());
+        $commandTester->assertCommandIsSuccessful();
     }
 
     /**
@@ -45,14 +40,10 @@ class PhpVersionCheckerTest extends TestCase
     public function testReturnViolationWhenProjectHasIssues(): void
     {
         $phpVersion = '6.6.6';
-        $process = new Process(
-            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', 'PHP_VERSION_CHECKER'],
-            null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH, 'PROJECT_PHP_VERSION' => $phpVersion],
-        );
-        $process->run();
+        $commandTester = $this->createCommandTester(TestHelper::INVALID_PROJECT_PATH, ['PROJECT_PHP_VERSION' => $phpVersion]);
+        $commandTester->execute(['--checkers' => PhpVersionChecker::NAME]);
 
-        $this->assertSame(Command::FAILURE, $process->getExitCode());
+        $this->assertSame(Command::FAILURE, $commandTester->getStatusCode());
         $this->assertSame(
             <<<OUT
         ===================
@@ -82,7 +73,7 @@ class PhpVersionCheckerTest extends TestCase
 
 
         OUT,
-            $process->getOutput(),
+            $commandTester->getDisplay(),
         );
     }
 }

@@ -9,12 +9,10 @@ declare(strict_types=1);
 
 namespace SprykerSdkTest\Evaluator\Acceptance\Checker;
 
-use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Checker\SinglePluginArgumentChecker\SinglePluginArgumentChecker;
-use SprykerSdk\Evaluator\Console\Command\EvaluatorCommand;
+use SprykerSdkTest\Evaluator\Acceptance\ApplicationTestCase;
 use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Process\Process;
 
 /**
  * @group SprykerSdkTest
@@ -23,21 +21,17 @@ use Symfony\Component\Process\Process;
  * @group Checker
  * @group SinglePluginArgumentCheckerTest
  */
-class SinglePluginArgumentCheckerTest extends TestCase
+class SinglePluginArgumentCheckerTest extends ApplicationTestCase
 {
     /**
      * @return void
      */
     public function testReturnSuccessOnValidProject(): void
     {
-        $process = new Process(
-            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', SinglePluginArgumentChecker::NAME],
-            null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH . '/src/Pyz/Zed/SinglePluginArgument'],
-        );
-        $process->run();
+        $commandTester = $this->createCommandTester(TestHelper::VALID_PROJECT_PATH);
+        $commandTester->execute(['--checkers' => SinglePluginArgumentChecker::NAME, '--path' => 'src/Pyz/Zed/SinglePluginArgument']);
 
-        $this->assertSame(Command::SUCCESS, $process->getExitCode());
+        $commandTester->assertCommandIsSuccessful();
     }
 
     /**
@@ -45,18 +39,18 @@ class SinglePluginArgumentCheckerTest extends TestCase
      */
     public function testReturnViolationWhenProjectHasIssues(): void
     {
-        $process = new Process(
-            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', SinglePluginArgumentChecker::NAME, '--format', 'json'],
-            null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH . '/src/Pyz/Zed/SinglePluginArgument'],
-        );
-        $process->run();
+        $commandTester = $this->createCommandTester(TestHelper::INVALID_PROJECT_PATH);
+        $commandTester->execute([
+            '--checkers' => SinglePluginArgumentChecker::NAME,
+            '--path' => 'src/Pyz/Zed/SinglePluginArgument',
+            '--format' => 'json',
+        ]);
 
-        $this->assertSame(Command::FAILURE, $process->getExitCode());
-        $this->assertJson($process->getOutput());
+        $this->assertSame(Command::FAILURE, $commandTester->getStatusCode());
+        $this->assertJson($commandTester->getDisplay());
         $this->assertSame(
             '{"SINGLE_PLUGIN_ARGUMENT":{"docUrl":"https:\/\/docs.spryker.com\/docs\/scos\/dev\/guidelines\/keeping-a-project-upgradable\/upgradability-guidelines\/single-plugin-argument.html","violations":[{"message":"Plugin Spryker\\\\Zed\\\\Monitoring\\\\Communication\\\\Plugin\\\\Console\\\\MonitoringConsolePlugin has unsupported constructor parameters.\nSupported argument types: int, float, string, const, bool, usage of new statement to\ninstantiate a class (without further methods calls) ","target":"SprykerSdkTest\\\\InvalidProject\\\\Pyz\\\\Zed\\\\SinglePluginArgument\\\\ConsoleDependencyProvider::getMonitoringConsoleMethod"}]}}',
-            $process->getOutput(),
+            $commandTester->getDisplay(),
         );
     }
 }

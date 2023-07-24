@@ -9,12 +9,10 @@ declare(strict_types=1);
 
 namespace SprykerSdkTest\Evaluator\Acceptance\Checker;
 
-use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\MultidimensionalArrayChecker;
-use SprykerSdk\Evaluator\Console\Command\EvaluatorCommand;
+use SprykerSdkTest\Evaluator\Acceptance\ApplicationTestCase;
 use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Process\Process;
 
 /**
  * @group SprykerSdkTest
@@ -23,29 +21,18 @@ use Symfony\Component\Process\Process;
  * @group Checker
  * @group MultidimensionalArrayCheckerTest
  */
-class MultidimensionalArrayCheckerTest extends TestCase
+class MultidimensionalArrayCheckerTest extends ApplicationTestCase
 {
     /**
      * @return void
      */
     public function testReturnSuccessOnValidProject(): void
     {
-        $process = new Process(
-            [
-                'bin/console',
-                EvaluatorCommand::COMMAND_NAME,
-                '--checkers',
-                MultidimensionalArrayChecker::NAME,
-                '--format',
-                'json',
-            ],
-            null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH],
-        );
-        $process->run();
+        $commandTester = $this->createCommandTester(TestHelper::VALID_PROJECT_PATH);
+        $commandTester->execute(['--checkers' => MultidimensionalArrayChecker::NAME, '--format' => 'json']);
 
-        $this->assertSame(Command::SUCCESS, $process->getExitCode());
-        $this->assertSame('[]', $process->getOutput());
+        $commandTester->assertCommandIsSuccessful();
+        $this->assertSame('[]', $commandTester->getDisplay());
     }
 
     /**
@@ -57,25 +44,14 @@ class MultidimensionalArrayCheckerTest extends TestCase
      */
     public function testReturnViolationWhenProjectHasIssues(string $path): void
     {
-        $process = new Process(
-            [
-            'bin/console',
-            EvaluatorCommand::COMMAND_NAME,
-            '--path',
-            $path,
-            '--checkers',
-            MultidimensionalArrayChecker::NAME,
-            ],
-            null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH],
-        );
-        $process->run();
+        $commandTester = $this->createCommandTester(TestHelper::INVALID_PROJECT_PATH);
+        $commandTester->execute(['--checkers' => MultidimensionalArrayChecker::NAME, '--format' => 'json', '--path' => $path]);
 
-        $this->assertSame(Command::FAILURE, $process->getExitCode());
+        $this->assertSame(Command::FAILURE, $commandTester->getStatusCode());
 
         $this->assertStringContainsString(
-            'https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/multidimensional-array.html',
-            $process->getOutput(),
+            'https:\/\/docs.spryker.com\/docs\/scos\/dev\/guidelines\/keeping-a-project-upgradable\/upgradability-guidelines\/multidimensional-array.html',
+            $commandTester->getDisplay(),
             'The output must contain correct link.',
         );
     }

@@ -9,12 +9,10 @@ declare(strict_types=1);
 
 namespace SprykerSdkTest\Evaluator\Acceptance\Checker;
 
-use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Checker\PluginsRegistrationWithRestrictionsChecker\PluginsRegistrationWithRestrictionsChecker;
-use SprykerSdk\Evaluator\Console\Command\EvaluatorCommand;
+use SprykerSdkTest\Evaluator\Acceptance\ApplicationTestCase;
 use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Process\Process;
 
 /**
  * @group SprykerSdkTest
@@ -23,28 +21,17 @@ use Symfony\Component\Process\Process;
  * @group Checker
  * @group PluginsRegistrationWithRestrictionsCheckerTest
  */
-class PluginsRegistrationWithRestrictionsCheckerTest extends TestCase
+class PluginsRegistrationWithRestrictionsCheckerTest extends ApplicationTestCase
 {
     /**
      * @return void
      */
     public function testReturnSuccessOnValidProject(): void
     {
-        $process = new Process(
-            [
-                'bin/console',
-                EvaluatorCommand::COMMAND_NAME,
-                '--path',
-                'src/Pyz/Zed/PluginsRegistrationWithRestrictionsChecker',
-                '--checkers',
-                PluginsRegistrationWithRestrictionsChecker::NAME,
-            ],
-            null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH],
-        );
-        $process->run();
+        $commandTester = $this->createCommandTester(TestHelper::VALID_PROJECT_PATH);
+        $commandTester->execute(['--checkers' => PluginsRegistrationWithRestrictionsChecker::NAME, '--path' => 'src/Pyz/Zed/PluginsRegistrationWithRestrictionsChecker']);
 
-        $this->assertSame(Command::SUCCESS, $process->getExitCode());
+        $commandTester->assertCommandIsSuccessful();
     }
 
     /**
@@ -52,21 +39,10 @@ class PluginsRegistrationWithRestrictionsCheckerTest extends TestCase
      */
     public function testReturnViolationWhenProjectHasIssues(): void
     {
-        $process = new Process(
-            [
-                'bin/console',
-                EvaluatorCommand::COMMAND_NAME,
-                '--path',
-                'src/Pyz/Zed/PluginsRegistrationWithRestrictionsChecker',
-                '--checkers',
-                PluginsRegistrationWithRestrictionsChecker::NAME,
-            ],
-            null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH],
-        );
-        $process->run();
+        $commandTester = $this->createCommandTester(TestHelper::INVALID_PROJECT_PATH);
+        $commandTester->execute(['--checkers' => PluginsRegistrationWithRestrictionsChecker::NAME, '--path' => 'src/Pyz/Zed/PluginsRegistrationWithRestrictionsChecker']);
 
-        $this->assertSame(Command::FAILURE, $process->getExitCode());
+        $this->assertSame(Command::FAILURE, $commandTester->getStatusCode());
 
         $this->assertSame(
             <<<OUT
@@ -88,7 +64,7 @@ class PluginsRegistrationWithRestrictionsCheckerTest extends TestCase
 
 
         OUT,
-            $process->getOutput(),
+            $commandTester->getDisplay(),
         );
     }
 }
