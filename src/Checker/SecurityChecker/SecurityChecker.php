@@ -88,10 +88,11 @@ class SecurityChecker implements CheckerInterface
             $securityOutput,
         );
 
-        $violations = json_decode($securityOutput->fetch(), true);
+        $rawViolations = $securityOutput->fetch();
+
+        $violations = json_decode($rawViolations, true);
 
         if (!is_array($violations)) {
-            $rawViolations = $securityOutput->fetch();
             $violationDto = new ViolationDto(
                 "Internal error. Original error: $rawViolations",
                 static::NAME,
