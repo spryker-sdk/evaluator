@@ -15,9 +15,9 @@ use Symfony\Component\Filesystem\Filesystem;
 class PathResolver implements PathResolverInterface
 {
     /**
-     * @var string|null
+     * @var string
      */
-    protected ?string $projectDirEnv;
+    protected string $projectDirEnv;
 
     /**
      * @var \Symfony\Component\Filesystem\Filesystem
@@ -25,10 +25,10 @@ class PathResolver implements PathResolverInterface
     protected Filesystem $filesystem;
 
     /**
-     * @param string|null $projectDirEnv
+     * @param string $projectDirEnv
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      */
-    public function __construct(?string $projectDirEnv, Filesystem $filesystem)
+    public function __construct(string $projectDirEnv, Filesystem $filesystem)
     {
         $this->projectDirEnv = $projectDirEnv;
         $this->filesystem = $filesystem;
@@ -77,6 +77,6 @@ class PathResolver implements PathResolverInterface
      */
     public function getProjectDir(): string
     {
-        return $this->projectDirEnv ?? (string)getcwd();
+        return $this->projectDirEnv ?: (string)getcwd();
     }
 }
