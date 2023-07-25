@@ -25,7 +25,7 @@ class MinimumShopVersionChecker implements CheckerInterface
     /**
      * @var string
      */
-    public const MESSAGE_INVALID_PACKAGE = 'Package "%s" version "%s" is not supported. Minimum allowed version is "%s"';
+    public const MESSAGE_INVALID_PACKAGE = 'The package "%s" version %s is not supported. The minimum allowed version is %s';
 
     /**
      * @var string
