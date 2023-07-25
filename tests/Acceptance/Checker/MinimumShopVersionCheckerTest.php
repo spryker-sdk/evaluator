@@ -9,12 +9,10 @@ declare(strict_types=1);
 
 namespace SprykerSdkTest\Evaluator\Acceptance\Checker;
 
-use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Checker\MinimumShopVersionChecker\MinimumShopVersionChecker;
-use SprykerSdk\Evaluator\Console\Command\EvaluatorCommand;
+use SprykerSdkTest\Evaluator\Acceptance\ApplicationTestCase;
 use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Process\Process;
 
 /**
  * @group SprykerSdkTest
@@ -23,21 +21,17 @@ use Symfony\Component\Process\Process;
  * @group Checker
  * @group MinimumShopVersionCheckerTest
  */
-class MinimumShopVersionCheckerTest extends TestCase
+class MinimumShopVersionCheckerTest extends ApplicationTestCase
 {
     /**
      * @return void
      */
     public function testReturnSuccessOnValidProject(): void
     {
-        $process = new Process(
-            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', MinimumShopVersionChecker::NAME],
-            null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH],
-        );
-        $process->run();
+        $commandTester = $this->createCommandTester(TestHelper::VALID_PROJECT_PATH);
+        $commandTester->execute(['--checkers' => MinimumShopVersionChecker::NAME]);
 
-        $this->assertSame(Command::SUCCESS, $process->getExitCode());
+        $commandTester->assertCommandIsSuccessful();
     }
 
     /**
@@ -45,13 +39,10 @@ class MinimumShopVersionCheckerTest extends TestCase
      */
     public function testReturnViolationWhenProjectHasIssues(): void
     {
-        $process = new Process(
-            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', MinimumShopVersionChecker::NAME],
-            null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH],
-        );
-        $process->run();
+        $commandTester = $this->createCommandTester(TestHelper::INVALID_PROJECT_PATH);
+        $commandTester->execute(['--checkers' => MinimumShopVersionChecker::NAME]);
 
+        $this->assertSame(Command::FAILURE, $commandTester->getStatusCode());
         $this->assertSame(
             <<<OUT
         ============================
@@ -70,9 +61,7 @@ class MinimumShopVersionCheckerTest extends TestCase
 
 
         OUT,
-            $process->getOutput(),
+            $commandTester->getDisplay(),
         );
-
-        $this->assertSame(Command::FAILURE, $process->getExitCode());
     }
 }

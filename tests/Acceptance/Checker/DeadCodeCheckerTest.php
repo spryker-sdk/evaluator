@@ -9,12 +9,10 @@ declare(strict_types=1);
 
 namespace SprykerSdkTest\Evaluator\Acceptance\Checker;
 
-use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Checker\DeadCode\DeadCodeChecker;
-use SprykerSdk\Evaluator\Console\Command\EvaluatorCommand;
+use SprykerSdkTest\Evaluator\Acceptance\ApplicationTestCase;
 use SprykerSdkTest\Evaluator\Acceptance\TestHelper;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Process\Process;
 
 /**
  * @group SprykerSdkTest
@@ -23,24 +21,24 @@ use Symfony\Component\Process\Process;
  * @group Checker
  * @group DeadCodeCheckerTest
  */
-class DeadCodeCheckerTest extends TestCase
+class DeadCodeCheckerTest extends ApplicationTestCase
 {
     /**
      * @return void
      */
     public function testReturnSuccessOnValidProject(): void
     {
-        $process = new Process(
-            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', DeadCodeChecker::NAME, '--format', 'json'],
-            null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::VALID_PROJECT_PATH],
-        );
-        $process->run();
+        $commandTester = $this->createCommandTester(TestHelper::VALID_PROJECT_PATH);
+        $commandTester->execute([
+            // pass arguments to the helper
+            '--checkers' => DeadCodeChecker::NAME,
+            '--format' => 'json',
+        ]);
 
-        $this->assertSame(Command::SUCCESS, $process->getExitCode());
+        $commandTester->assertCommandIsSuccessful();
         $this->assertSame(
             '[]',
-            $process->getOutput(),
+            $commandTester->getDisplay(),
         );
     }
 
@@ -49,18 +47,17 @@ class DeadCodeCheckerTest extends TestCase
      */
     public function testReturnViolationWhenProjectHasIssues(): void
     {
-        $process = new Process(
-            ['bin/console', EvaluatorCommand::COMMAND_NAME, '--checkers', DeadCodeChecker::NAME, '--format', 'json'],
-            null,
-            ['EVALUATOR_PROJECT_DIR' => TestHelper::INVALID_PROJECT_PATH],
-        );
-        $process->run();
+        $commandTester = $this->createCommandTester(TestHelper::INVALID_PROJECT_PATH);
+        $commandTester->execute([
+            // pass arguments to the helper
+            '--checkers' => DeadCodeChecker::NAME,
+            '--format' => 'json',
+        ]);
 
-        $this->assertSame(Command::FAILURE, $process->getExitCode());
-        $this->assertJson($process->getOutput());
+        $this->assertSame(Command::FAILURE, $commandTester->getStatusCode());
         $this->assertStringContainsString(
             'https:\/\/docs.spryker.com\/docs\/scos\/dev\/guidelines\/keeping-a-project-upgradable\/upgradability-guidelines\/dead-code-checker.html',
-            $process->getOutput(),
+            $commandTester->getDisplay(),
             'The output must contain correct link.',
         );
     }
