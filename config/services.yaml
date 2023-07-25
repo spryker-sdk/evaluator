@@ -3,7 +3,7 @@ imports:
     - {resource: reports.yaml}
 
 parameters:
-    env(EVALUATOR_PROJECT_DIR): ~
+    env(EVALUATOR_PROJECT_DIR): ''
     env(GITHUB_AUTH): ~
     report_file: 'reports/evaluator.*'
     current_php_version: "%env(default:current_server_php_version:string:PROJECT_PHP_VERSION)%"
@@ -147,4 +147,3 @@ services:
             - '%project_id%'
             - '%repository_name%'
             - '%organization_name%'
-
