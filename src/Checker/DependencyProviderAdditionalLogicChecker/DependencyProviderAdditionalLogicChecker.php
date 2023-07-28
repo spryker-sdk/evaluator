@@ -15,7 +15,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeFinder;
-use SprykerSdk\Evaluator\Checker\CheckerInterface;
+use SprykerSdk\Evaluator\Checker\AbstractChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
@@ -23,7 +23,7 @@ use SprykerSdk\Evaluator\Finder\SourceFinderInterface;
 use SprykerSdk\Evaluator\Parser\PhpParserInterface;
 use Symfony\Component\Finder\Finder;
 
-class DependencyProviderAdditionalLogicChecker implements CheckerInterface
+class DependencyProviderAdditionalLogicChecker extends AbstractChecker
 {
     /**
      * @var string

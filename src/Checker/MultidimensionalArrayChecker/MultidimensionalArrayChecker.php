@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker;
 
 use PhpParser\Node\Stmt\ClassMethod;
-use SprykerSdk\Evaluator\Checker\CheckerInterface;
+use SprykerSdk\Evaluator\Checker\AbstractChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
@@ -19,7 +19,7 @@ use SprykerSdk\Evaluator\Finder\StatementFinderInterface;
 use SprykerSdk\Evaluator\Parser\PhpParserInterface;
 use Symfony\Component\Finder\Finder;
 
-class MultidimensionalArrayChecker implements CheckerInterface
+class MultidimensionalArrayChecker extends AbstractChecker
 {
     /**
      * @var string
