@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Checker\SecurityChecker;
 
+use RuntimeException;
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
@@ -71,7 +72,21 @@ class SecurityUpdateChecker implements CheckerInterface
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $violationMessages = [];
-        $releaseAppResponse = $this->releaseAppService->getNewSecurityReleaseGroups($this->createDataProviderRequest());
+
+        try {
+            $releaseAppResponse = $this->releaseAppService->getNewSecurityReleaseGroups($this->createDataProviderRequest());
+        } catch (RuntimeException $exception) {
+            $violationMessages[] = new ViolationDto(
+                sprintf(
+                    'Service is not available, please try latter. Error: %s %s',
+                    $exception->getCode(),
+                    $exception->getMessage(),
+                ),
+                $this->getName(),
+            );
+
+            return new CheckerResponseDto($violationMessages, $this->checkerDocUrl);
+        }
 
         foreach ($releaseAppResponse->getReleaseGroupCollection()->toArray() as $releaseGroupDto) {
             foreach ($releaseGroupDto->getModuleCollection()->toArray() as $moduleDto) {

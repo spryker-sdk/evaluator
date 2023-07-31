@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\ReleaseApp\Domain\Entities;
 
-use RuntimeException;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Response\Response;
+use SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException;
 
 class UpgradeInstructions extends Response
 {
@@ -20,7 +20,7 @@ class UpgradeInstructions extends Response
     protected const RELEASE_GROUP_KEY = 'release_group';
 
     /**
-     * @throws \RuntimeException
+     * @throws \SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException
      *
      * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeInstructionsReleaseGroup
      */
@@ -29,7 +29,7 @@ class UpgradeInstructions extends Response
         $bodyArray = $this->getBody();
 
         if (!$bodyArray) {
-            throw new RuntimeException('Response body not found');
+            throw new ReleaseAppException('Response body not found');
         }
 
         return new UpgradeInstructionsReleaseGroup($bodyArray[static::RELEASE_GROUP_KEY]);

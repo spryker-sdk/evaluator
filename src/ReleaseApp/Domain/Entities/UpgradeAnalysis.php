@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\ReleaseApp\Domain\Entities;
 
-use RuntimeException;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Response\Response;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeAnalysisModuleCollection;
+use SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException;
 
 class UpgradeAnalysis extends Response
 {
@@ -44,7 +44,7 @@ class UpgradeAnalysis extends Response
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws \SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException
      *
      * @return array<mixed>
      */
@@ -53,11 +53,11 @@ class UpgradeAnalysis extends Response
         $body = $this->getBody();
 
         if (!$body) {
-            throw new RuntimeException('Response body not found');
+            throw new ReleaseAppException('Response body not found');
         }
 
         if (!array_key_exists(static::MODULES_KEY, $body)) {
-            throw new RuntimeException('Key modules not found');
+            throw new ReleaseAppException('Key modules not found');
         }
 
         return $body[static::MODULES_KEY];

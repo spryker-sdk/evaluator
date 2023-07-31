@@ -14,7 +14,7 @@ use GuzzleHttp\Client as GuzzleHttp;
 use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use RuntimeException;
+use SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Configuration\ConfigurationProvider;
 
 class HttpRequestExecutor implements HttpRequestExecutorInterface
@@ -67,7 +67,7 @@ class HttpRequestExecutor implements HttpRequestExecutorInterface
                 throw $exception;
             }
 
-            throw new RuntimeException('Entities request error ' . $request->getUri());
+            throw new ReleaseAppException('Entities request error ' . $request->getUri());
         }
 
         return $guzzleResponse;

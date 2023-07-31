@@ -11,9 +11,9 @@ namespace SprykerSdk\Evaluator\ReleaseApp\Domain\Entities;
 
 use DateTime;
 use DateTimeInterface;
-use RuntimeException;
 use SprykerSdk\Evaluator\ReleaseApp\Application\Configuration\ReleaseAppConstant;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructionModuleCollection;
+use SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException;
 
 class UpgradeInstructionsReleaseGroup
 {
@@ -118,7 +118,7 @@ class UpgradeInstructionsReleaseGroup
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws \SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException
      *
      * @return \DateTimeInterface
      */
@@ -127,7 +127,7 @@ class UpgradeInstructionsReleaseGroup
         if (!isset($this->body[static::RELEASED_KEY])) {
             $message = sprintf('%s %s', 'Undefined key:', static::RELEASED_KEY);
 
-            throw new RuntimeException($message);
+            throw new ReleaseAppException($message);
         }
 
         $dataTime = DateTime::createFromFormat(
@@ -138,7 +138,7 @@ class UpgradeInstructionsReleaseGroup
         if (!$dataTime) {
             $message = sprintf('%s %s', 'API invalid datatime format:', $this->body[static::RELEASED_KEY]);
 
-            throw new RuntimeException($message);
+            throw new ReleaseAppException($message);
         }
 
         return $dataTime;

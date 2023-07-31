@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\ReleaseApp\Domain\Entities;
 
-use RuntimeException;
+use SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException;
 
 class UpgradeInstructionModule
 {
@@ -52,14 +52,14 @@ class UpgradeInstructionModule
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws \SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException
      *
      * @return string
      */
     public function getVersion(): string
     {
         if (!array_key_exists(static::VERSION_KEY, $this->body)) {
-            throw new RuntimeException(sprintf('Key %s not found', static::VERSION_KEY));
+            throw new ReleaseAppException(sprintf('Key %s not found', static::VERSION_KEY));
         }
 
         return $this->body[static::VERSION_KEY];
@@ -76,14 +76,14 @@ class UpgradeInstructionModule
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws \SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException
      *
      * @return string
      */
     public function getType(): string
     {
         if (!array_key_exists(static::TYPE_KEY, $this->body)) {
-            throw new RuntimeException(sprintf('Key %s not found', static::TYPE_KEY));
+            throw new ReleaseAppException(sprintf('Key %s not found', static::TYPE_KEY));
         }
 
         return $this->body[static::TYPE_KEY];

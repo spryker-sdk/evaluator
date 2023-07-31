@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\ReleaseApp\Domain\Entities;
 
-use RuntimeException;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeAnalysisModuleVersionCollection;
+use SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException;
 
 class UpgradeAnalysisModule
 {
@@ -61,14 +61,14 @@ class UpgradeAnalysisModule
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws \SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException
      *
      * @return string
      */
     public function getPackage(): string
     {
         if (!array_key_exists(static::PACKAGE_KEY, $this->body)) {
-            throw new RuntimeException(sprintf('Key %s not found', static::PACKAGE_KEY));
+            throw new ReleaseAppException(sprintf('Key %s not found', static::PACKAGE_KEY));
         }
 
         return $this->body[static::PACKAGE_KEY];

@@ -11,8 +11,8 @@ namespace SprykerSdk\Evaluator\ReleaseApp\Domain\Entities;
 
 use DateTime;
 use DateTimeInterface;
-use RuntimeException;
 use SprykerSdk\Evaluator\ReleaseApp\Application\Configuration\ReleaseAppConstant;
+use SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException;
 
 class UpgradeAnalysisModuleVersion
 {
@@ -50,28 +50,28 @@ class UpgradeAnalysisModuleVersion
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws \SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException
      *
      * @return int
      */
     public function getId(): int
     {
         if (!array_key_exists(static::ID_KEY, $this->body)) {
-            throw new RuntimeException(sprintf('Key %s not found', static::ID_KEY));
+            throw new ReleaseAppException(sprintf('Key %s not found', static::ID_KEY));
         }
 
         return $this->body[static::ID_KEY];
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws \SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException
      *
      * @return int
      */
     public function getName(): int
     {
         if (!array_key_exists(static::NAME_KEY, $this->body)) {
-            throw new RuntimeException(sprintf('Key %s not found', static::NAME_KEY));
+            throw new ReleaseAppException(sprintf('Key %s not found', static::NAME_KEY));
         }
 
         return $this->body[static::NAME_KEY];
@@ -90,7 +90,7 @@ class UpgradeAnalysisModuleVersion
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws \SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException
      *
      * @return \DateTimeInterface
      */
@@ -104,7 +104,7 @@ class UpgradeAnalysisModuleVersion
         if (!$dataTime) {
             $message = sprintf('%s %s', 'Invalid datatime format:', $this->body[static::CREATED_KEY]);
 
-            throw new RuntimeException($message);
+            throw new ReleaseAppException($message);
         }
 
         return $dataTime;
