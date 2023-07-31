@@ -25,6 +25,26 @@ class ComposerReader implements ComposerReaderInterface
     protected const COMPOSER_LOCK_FILE_NAME = 'composer.lock';
 
     /**
+     * @var string
+     */
+    protected const PACKAGES_KEY = 'packages';
+
+    /**
+     * @var string
+     */
+    protected const PACKAGES_DEV_KEY = 'packages-dev';
+
+    /**
+     * @var string
+     */
+    protected const NAME_KEY = 'name';
+
+    /**
+     * @var string
+     */
+    protected const VERSION_KEY = 'version';
+
+    /**
      * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
      */
     protected PathResolverInterface $pathResolver;
@@ -69,5 +89,39 @@ class ComposerReader implements ComposerReaderInterface
         }
 
         return json_decode($content, true, 512, \JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * @param string $packageName
+     *
+     * @return string|null
+     */
+    public function getPackageVersion(string $packageName): ?string
+    {
+        $composerLock = $this->getComposerLockData();
+
+        foreach ($composerLock[static::PACKAGES_KEY] as $package) {
+            if ($package[static::NAME_KEY] == $packageName) {
+                return $package[static::VERSION_KEY];
+            }
+        }
+
+        foreach ($composerLock[static::PACKAGES_DEV_KEY] as $package) {
+            if ($package[static::NAME_KEY] == $packageName) {
+                return $package[static::VERSION_KEY];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProjectName(): string
+    {
+        $composerJsonContent = $this->getComposerData();
+
+        return $composerJsonContent[static::NAME_KEY];
     }
 }

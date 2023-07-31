@@ -82,6 +82,12 @@ services:
             - '@SprykerSdk\Evaluator\Resolver\PathResolver'
             - '%security_checker_doc_url%'
 
+    SprykerSdk\Evaluator\Checker\SecurityChecker\SecurityUpdateChecker:
+        arguments:
+            - '@SprykerSdk\Evaluator\Reader\ComposerReaderInterface'
+            - '@SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppService'
+            - '%security_update_checker_doc_url%'
+
     SprykerSdk\Evaluator\Checker\DependencyProviderAdditionalLogicChecker\DependencyProviderAdditionalLogicChecker:
         arguments:
             $checkerDocUrl: '%dp_additional_logic_checker_doc_url%'

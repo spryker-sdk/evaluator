@@ -11,6 +11,7 @@ parameters:
 
     # Security checker
     security_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/security.html
+    security_update_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/security_update.html
 
     # Multidimensional array checker
     multidimensional_array_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/multidimensional-array.html
