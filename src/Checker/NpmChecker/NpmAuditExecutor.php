@@ -76,11 +76,11 @@ class NpmAuditExecutor
             return [];
         }
 
-        $stdOut = $process->getOutput();
-        $stdErr = $process->getErrorOutput();
+        $stdOut = trim($process->getOutput());
+        $stdErr = trim($process->getErrorOutput());
 
-        if ($stdErr) {
-            throw new NpmExecutorException(sprintf('Out: %s Err: %s', $stdOut, $stdErr));
+        if ($stdErr && !$stdOut) {
+            throw new NpmExecutorException($stdErr);
         }
 
         try {
@@ -149,7 +149,7 @@ class NpmAuditExecutor
         $message = $violationSource[static::TITLE_KEY];
 
         if (isset($violationSource[static::URL_KEY])) {
-            $message .= PHP_EOL . $violationSource[static::TITLE_KEY];
+            $message .= PHP_EOL . $violationSource[static::URL_KEY];
         }
 
         return new ViolationDto(sprintf('[%s] %s', $severity, $message), $target);

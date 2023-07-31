@@ -28,3 +28,6 @@ parameters:
     minimum_allowed_shop_version_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/minimum-allowed-shop-version.html
     minimum_allowed_shop_version_checker_version: '202204.0'
     minimum_allowed_shop_version_checker_file: '%evaluator_dir%/data/minimum-allowed-package-versions.json'
+
+    # Npm checker
+    npm_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/npm-checker.html

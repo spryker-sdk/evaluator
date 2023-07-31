@@ -66,7 +66,7 @@ class NpmChecker extends AbstractChecker
         try {
             $violations = $this->npmAuditExecutor->executeNpmAudit();
         } catch (NpmExecutorException $e) {
-            $violations = [new ViolationDto(sprintf('Internal error: %s', $e->getMessage()))];
+            $violations = [new ViolationDto(sprintf('Npm issue: %s', $e->getMessage()))];
         }
 
         return new CheckerResponseDto($violations, $this->checkerDocUrl);
