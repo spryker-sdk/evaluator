@@ -21,9 +21,14 @@ class NpmAuditExecutor
     protected const VULNERABILITIES_KEY = 'vulnerabilities';
 
     /**
-     * @var array<string>
+     * @var array<string> to skip info level
      */
-    protected const SEVERITY_LEVELS = ['low', 'moderate', 'high', 'critical'];
+    protected const ALLOWED_SEVERITY_LEVELS = ['low', 'moderate', 'high', 'critical'];
+
+    /**
+     * @var string
+     */
+    protected const DEFAULT_AUDIT_LEVEL = 'low';
 
     /**
      * @var string
@@ -70,7 +75,7 @@ class NpmAuditExecutor
      */
     public function executeNpmAudit(): array
     {
-        $process = $this->processRunner->run(['npm', 'audit', '--json']);
+        $process = $this->processRunner->run(['npm', 'audit', '--json', '--audit-level', static::DEFAULT_AUDIT_LEVEL]);
 
         if ($process->isSuccessful()) {
             return [];
@@ -111,7 +116,7 @@ class NpmAuditExecutor
 
             $severity = $violation[static::SEVERITY_KEY];
 
-            if (!in_array($severity, static::SEVERITY_LEVELS, true)) {
+            if (!in_array($severity, static::ALLOWED_SEVERITY_LEVELS, true)) {
                 continue;
             }
 

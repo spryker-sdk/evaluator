@@ -22,6 +22,11 @@ class NpmChecker extends AbstractChecker
     public const NAME = 'NPM_CHECKER';
 
     /**
+     * @var string
+     */
+    public const NPM_ISSUE_MESSAGE_PREFIX = 'Npm audit issue';
+
+    /**
      * @var \SprykerSdk\Evaluator\Checker\NpmChecker\NpmInstallationValidator
      */
     private NpmInstallationValidator $npmInstallationValidator;
@@ -66,7 +71,7 @@ class NpmChecker extends AbstractChecker
         try {
             $violations = $this->npmAuditExecutor->executeNpmAudit();
         } catch (NpmExecutorException $e) {
-            $violations = [new ViolationDto(sprintf('Npm issue: %s', $e->getMessage()))];
+                $violations = [new ViolationDto(sprintf('%s: %s', static::NPM_ISSUE_MESSAGE_PREFIX, $e->getMessage()))];
         }
 
         return new CheckerResponseDto($violations, $this->checkerDocUrl);
