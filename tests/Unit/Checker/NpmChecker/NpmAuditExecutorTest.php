@@ -116,9 +116,8 @@ class NpmAuditExecutorTest extends TestCase
         //Arrange
         $processMock = $this->createProcessMock(
             '{"vulnerabilities": {
-            "datatables.net": {"name": "datatables.net", "severity": "critical", "via": [{"title": "Test violation", "url": "https://violation-url"}]},
-            "datatables.net": {"name": "datatables.net", "severity": "critical", "via": [{"title": "Test violation", "url": "https://violation-url"}]}}
-            }',
+            "datatables.net": {"name": "datatables.net", "severity": "critical", "via": [{"title": "Test violation", "url": "https://violation-url"}, {"title": "Test violation", "url": "https://violation-url"}]}
+            }}',
         );
         $processRunnerMock = $this->createProcessRunnerMock($processMock);
         $npmAuditExecutor = new NpmAuditExecutor($processRunnerMock);
