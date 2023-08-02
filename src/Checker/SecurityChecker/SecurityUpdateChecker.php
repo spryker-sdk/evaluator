@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Checker\SecurityChecker;
 
+use Composer\Semver\Comparator;
 use RuntimeException;
 use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
@@ -98,6 +99,9 @@ class SecurityUpdateChecker implements CheckerInterface
                 $installedMajorVersion = SemanticVersionHelper::getMajorVersion($installedVersion);
                 $securityUpdateMajorVersion = SemanticVersionHelper::getMajorVersion($moduleDto->getVersion());
                 if ($securityUpdateMajorVersion !== $installedMajorVersion) {
+                    continue;
+                }
+                if (!Comparator::greaterThan($moduleDto->getVersion(), $installedVersion)) {
                     continue;
                 }
 

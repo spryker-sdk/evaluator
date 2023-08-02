@@ -1,0 +1,24 @@
+{
+    "name": "spryker-shop/shop-test",
+    "description": "Spryker Shop",
+    "license": "proprietary",
+    "require": {
+        "php": ">=7.4"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "preferred-install": "dist",
+        "platform": {
+            "php": "7.4.20"
+        },
+        "use-include-path": true,
+        "sort-packages": true,
+        "github-protocols": [
+            "https"
+        ],
+        "process-timeout": 900,
+        "chromium-revision": 814168,
+        "allow-plugins": {}
+    }
+}

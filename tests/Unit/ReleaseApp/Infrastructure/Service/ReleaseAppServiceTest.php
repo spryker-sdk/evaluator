@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace SprykerSdkTest\Evaluator\Unit\ReleaseApp\Infrastructure\Service;
 
+use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeAnalysisRequest;
@@ -63,6 +64,23 @@ class ReleaseAppServiceTest extends KernelTestCase
     }
 
     /**
+     * @return void
+     */
+    public function testGetNewReleaseGroupsError(): void
+    {
+        // Assert
+        $this->expectException(ServerException::class);
+
+        // Arrange
+        $container = static::bootKernel()->getContainer();
+        $container->set(HttpRequestExecutor::class, $this->createRequestExecutorMockWithError());
+        $request = new UpgradeAnalysisRequest('project-name', [], []);
+
+        // Act
+        $container->get(ReleaseAppService::class)->getNewSecurityReleaseGroups($request);
+    }
+
+    /**
      * @return \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\HttpRequestExecutor
      */
     protected function createRequestExecutorMock(): HttpRequestExecutor
@@ -75,6 +93,25 @@ class ReleaseAppServiceTest extends KernelTestCase
         $executorMock->expects($this->any())
             ->method('execute')
             ->will($this->returnCallback($callback));
+
+        return $executorMock;
+    }
+
+    /**
+     * @return \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\HttpRequestExecutor
+     */
+    protected function createRequestExecutorMockWithError(): HttpRequestExecutor
+    {
+        $executorMock = $this->createMock(HttpRequestExecutor::class);
+        $executorMock->expects($this->any())
+            ->method('execute')
+            ->willThrowException(
+                new ServerException(
+                    '500 Service is unavailable',
+                    new Request('GET', 'https://api.release.spryker.com'),
+                    new Response(),
+                ),
+            );
 
         return $executorMock;
     }
