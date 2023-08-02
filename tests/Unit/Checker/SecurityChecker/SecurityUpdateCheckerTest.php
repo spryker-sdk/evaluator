@@ -172,6 +172,8 @@ class SecurityUpdateCheckerTest extends TestCase
     }
 
     /**
+     * @param string $path
+     *
      * @return \SprykerSdk\Evaluator\Resolver\PathResolverInterface
      */
     protected function createPathResolverMock(string $path): PathResolverInterface
