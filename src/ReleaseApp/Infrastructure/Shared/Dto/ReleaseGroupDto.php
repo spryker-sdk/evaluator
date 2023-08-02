@@ -59,19 +59,22 @@ class ReleaseGroupDto
      * @param bool $containsProjectChanges
      * @param string $link
      * @param bool $hasConflict
+     * @param bool $isSecurity
      */
     public function __construct(
         string $name,
         ModuleDtoCollection $moduleCollection,
         bool $containsProjectChanges,
         string $link,
-        bool $hasConflict = false
+        bool $hasConflict = false,
+        bool $isSecurity = false
     ) {
         $this->name = $name;
         $this->link = $link;
         $this->moduleCollection = $moduleCollection;
         $this->containsProjectChanges = $containsProjectChanges;
         $this->hasConflict = $hasConflict;
+        $this->isSecurity = $isSecurity;
     }
 
     /**
