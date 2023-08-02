@@ -9,6 +9,7 @@ ignore:
     - "src/EvaluatorBundle.php"
     - "**/*Dto.php"
     - "**/*Collection.php"
+    - "**/*ConfigurationProvider.php"
     - "src/ReleaseApp/Domain/Entities/*"
     - "src/ReleaseApp/Infrastructure/Client/Request/*"
     - "src/ReleaseApp/Infrastructure/Client/Response/*"
