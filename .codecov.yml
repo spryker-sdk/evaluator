@@ -13,7 +13,6 @@ ignore:
     - "src/ReleaseApp/Domain/Entities/*"
     - "src/ReleaseApp/Infrastructure/Client/Request/*"
     - "src/ReleaseApp/Infrastructure/Client/Response/*"
-    - "src/ReleaseApp/Domain/Client/Response/*"
     - "bin"
     - "tests"
     - "**/*.md"
