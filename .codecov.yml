@@ -10,6 +10,8 @@ ignore:
     - "*Dto.php"
     - "*Collection.php"
     - "src/ReleaseApp/Domain/Entities/*"
+    - "src/ReleaseApp/Infrastructure/Client/Request/*"
+    - "src/ReleaseApp/Infrastructure/Client/Response/*"
     - "bin"
     - "tests"
     - "**/*.md"
