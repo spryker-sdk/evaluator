@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\Client as GuzzleHttp;
 use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Message\RequestInterface;
@@ -22,7 +21,7 @@ class HttpRequestExecutor implements HttpRequestExecutorInterface
     /**
      * @var \GuzzleHttp\Client
      */
-    protected Client $guzzleClient;
+    protected GuzzleHttp $guzzleClient;
 
     /**
      * @var \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Configuration\ConfigurationProvider
@@ -31,10 +30,11 @@ class HttpRequestExecutor implements HttpRequestExecutorInterface
 
     /**
      * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Configuration\ConfigurationProvider $config
+     * @param \GuzzleHttp\Client|null $guzzleClient
      */
-    public function __construct(ConfigurationProvider $config)
+    public function __construct(ConfigurationProvider $config, ?GuzzleHttp $guzzleClient = null)
     {
-        $this->guzzleClient = new GuzzleHttp();
+        $this->guzzleClient = $guzzleClient ?? new GuzzleHttp();
         $this->config = $config;
     }
 

@@ -19,6 +19,7 @@ use SprykerSdk\Evaluator\Helper\SemanticVersionHelper;
 use SprykerSdk\Evaluator\Reader\ComposerReaderInterface;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeAnalysisRequest;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppServiceInterface;
+use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseAppResponse;
 
 class SecurityUpdateChecker implements CheckerInterface
 {
@@ -72,12 +73,10 @@ class SecurityUpdateChecker implements CheckerInterface
      */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
-        $violationMessages = [];
-
         try {
             $releaseAppResponse = $this->releaseAppService->getNewSecurityReleaseGroups($this->createDataProviderRequest());
         } catch (RuntimeException $exception) {
-            $violationMessages[] = new ViolationDto(
+            $violation = new ViolationDto(
                 sprintf(
                     'Service is not available, please try latter. Error: %s %s',
                     $exception->getCode(),
@@ -86,8 +85,20 @@ class SecurityUpdateChecker implements CheckerInterface
                 $this->getName(),
             );
 
-            return new CheckerResponseDto($violationMessages, $this->checkerDocUrl);
+            return new CheckerResponseDto([$violation], $this->checkerDocUrl);
         }
+
+        return new CheckerResponseDto($this->buildViolationList($releaseAppResponse), $this->checkerDocUrl);
+    }
+
+    /**
+     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseAppResponse $releaseAppResponse
+     *
+     * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
+     */
+    protected function buildViolationList(ReleaseAppResponse $releaseAppResponse): array
+    {
+        $violations = [];
 
         foreach ($releaseAppResponse->getReleaseGroupCollection()->toArray() as $releaseGroupDto) {
             foreach ($releaseGroupDto->getModuleCollection()->toArray() as $moduleDto) {
@@ -105,7 +116,7 @@ class SecurityUpdateChecker implements CheckerInterface
                     continue;
                 }
 
-                $violationMessages[] = new ViolationDto(
+                $violations[] = new ViolationDto(
                     sprintf(
                         'Security update available for the module %s, actual version %s',
                         $moduleDto->getName(),
@@ -116,7 +127,7 @@ class SecurityUpdateChecker implements CheckerInterface
             }
         }
 
-        return new CheckerResponseDto($violationMessages, $this->checkerDocUrl);
+        return $violations;
     }
 
     /**

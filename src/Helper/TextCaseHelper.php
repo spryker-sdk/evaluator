@@ -27,12 +27,7 @@ class TextCaseHelper
     {
         $filterChain = new FilterChain();
 
-        if ($separateAbbreviation) {
-            $filterChain->attach(new CamelCaseToDash());
-        } else {
-            $filterChain->attach(new CamelCaseToDashWithoutAbbreviation());
-        }
-
+        $filterChain->attach($separateAbbreviation ? new CamelCaseToDash() : new CamelCaseToDashWithoutAbbreviation());
         $filterChain->attach(new StringToLower());
 
         return $filterChain->filter($value);
