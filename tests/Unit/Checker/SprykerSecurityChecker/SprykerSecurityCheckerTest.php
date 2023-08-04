@@ -7,10 +7,10 @@
 
 declare(strict_types=1);
 
-namespace SprykerSdkTest\Evaluator\Unit\Checker\SecurityChecker;
+namespace SprykerSdkTest\Evaluator\Unit\Checker\SprykerSecurityChecker;
 
 use PHPUnit\Framework\TestCase;
-use SprykerSdk\Evaluator\Checker\SecurityChecker\SecurityUpdateChecker;
+use SprykerSdk\Evaluator\Checker\SecurityChecker\SprykerSecurityChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
@@ -33,7 +33,7 @@ use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
  * @group SecurityChecker
  * @group SecurityCheckerTest
  */
-class SecurityUpdateCheckerTest extends TestCase
+class SprykerSecurityCheckerTest extends TestCase
 {
     /**
      * @var string
@@ -51,7 +51,7 @@ class SecurityUpdateCheckerTest extends TestCase
     public function testCheckFoundViolation(): void
     {
         //Arrange
-        $checker = new SecurityUpdateChecker(
+        $checker = new SprykerSecurityChecker(
             new ComposerReader($this->createPathResolverMock(static::INVALID_PROJECT_PATH)),
             $this->createReleaseAppServiceMock(),
             'doc url',
@@ -81,7 +81,7 @@ class SecurityUpdateCheckerTest extends TestCase
     public function testCheckNoViolation(): void
     {
         //Arrange
-        $checker = new SecurityUpdateChecker(
+        $checker = new SprykerSecurityChecker(
             new ComposerReader($this->createPathResolverMock(static::VALID_PROJECT_PATH)),
             $this->createReleaseAppServiceMock(),
             'doc url',
@@ -100,7 +100,7 @@ class SecurityUpdateCheckerTest extends TestCase
     public function testCheckServiceUnavailable(): void
     {
         //Arrange
-        $checker = new SecurityUpdateChecker(
+        $checker = new SprykerSecurityChecker(
             new ComposerReader($this->createPathResolverMock(static::INVALID_PROJECT_PATH)),
             $this->createReleaseAppServiceMockThrowException(),
             'doc url',
@@ -115,7 +115,7 @@ class SecurityUpdateCheckerTest extends TestCase
                 [
                     new ViolationDto(
                         'Service is not available, please try latter. Error: 0 Something went wrong',
-                        'SECURITY_UPDATE_CHECKER',
+                        'SPRYKER_SECURITY_CHECKER',
                     ),
                 ],
                 'doc url',

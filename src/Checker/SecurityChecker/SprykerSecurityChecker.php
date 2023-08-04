@@ -22,12 +22,12 @@ use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppServiceInte
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseAppResponse;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseGroupDto;
 
-class SecurityUpdateChecker implements CheckerInterface
+class SprykerSecurityChecker implements CheckerInterface
 {
     /**
      * @var string
      */
-    public const NAME = 'SECURITY_UPDATE_CHECKER';
+    public const NAME = 'SPRYKER_SECURITY_CHECKER';
 
     /**
      * @var \SprykerSdk\Evaluator\Reader\ComposerReaderInterface
