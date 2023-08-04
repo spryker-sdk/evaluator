@@ -12,7 +12,6 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-        public: true
         bind:
             $projectDirEnv: '%env(EVALUATOR_PROJECT_DIR)%'
             $githubAuth: '%env(GITHUB_AUTH)%'
@@ -34,6 +33,7 @@ services:
             - '../src/ReleaseApp/Domain/Entities/*'
             - '../src/ReleaseApp/Domain/Client/Request/*'
             - '../src/ReleaseApp/Domain/Client/Response/*'
+            - '../src/ReleaseApp/Domain/Exception/*'
             - '../src/ReleaseApp/Infrastructure/Client/Request/*'
             - '../src/ReleaseApp/Infrastructure/Shared/Dto/*'
 
@@ -162,3 +162,9 @@ services:
             - '%project_id%'
             - '%repository_name%'
             - '%organization_name%'
+
+    SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\HttpRequestExecutor:
+        public: true
+
+    SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppService:
+        public: true

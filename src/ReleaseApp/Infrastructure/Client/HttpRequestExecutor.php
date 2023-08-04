@@ -67,7 +67,7 @@ class HttpRequestExecutor implements HttpRequestExecutorInterface
                 throw $exception;
             }
 
-            throw new ReleaseAppException('Entities request error ' . $request->getUri());
+            throw new ReleaseAppException('Failed to request url ' . $request->getUri());
         }
 
         return $guzzleResponse;

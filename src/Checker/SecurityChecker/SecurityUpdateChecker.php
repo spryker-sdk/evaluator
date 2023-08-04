@@ -20,6 +20,7 @@ use SprykerSdk\Evaluator\Reader\ComposerReaderInterface;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeAnalysisRequest;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppServiceInterface;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseAppResponse;
+use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseGroupDto;
 
 class SecurityUpdateChecker implements CheckerInterface
 {
@@ -88,7 +89,7 @@ class SecurityUpdateChecker implements CheckerInterface
             return new CheckerResponseDto([$violation], $this->checkerDocUrl);
         }
 
-        return new CheckerResponseDto($this->buildViolationList($releaseAppResponse), $this->checkerDocUrl);
+        return new CheckerResponseDto($this->buildViolations($releaseAppResponse), $this->checkerDocUrl);
     }
 
     /**
@@ -96,35 +97,49 @@ class SecurityUpdateChecker implements CheckerInterface
      *
      * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
      */
-    protected function buildViolationList(ReleaseAppResponse $releaseAppResponse): array
+    protected function buildViolations(ReleaseAppResponse $releaseAppResponse): array
     {
         $violations = [];
 
         foreach ($releaseAppResponse->getReleaseGroupCollection()->toArray() as $releaseGroupDto) {
-            foreach ($releaseGroupDto->getModuleCollection()->toArray() as $moduleDto) {
-                $installedVersion = $this->composerReader->getPackageVersion($moduleDto->getName());
-                if ($installedVersion === null) {
-                    continue;
-                }
+            $violations = [...$violations, ...$this->buildViolationsByReleaseGroup($releaseGroupDto)];
+        }
 
-                $installedMajorVersion = SemanticVersionHelper::getMajorVersion($installedVersion);
-                $securityUpdateMajorVersion = SemanticVersionHelper::getMajorVersion($moduleDto->getVersion());
-                if ($securityUpdateMajorVersion !== $installedMajorVersion) {
-                    continue;
-                }
-                if (!Comparator::greaterThan($moduleDto->getVersion(), $installedVersion)) {
-                    continue;
-                }
+        return $violations;
+    }
 
-                $violations[] = new ViolationDto(
-                    sprintf(
-                        'Security update available for the module %s, actual version %s',
-                        $moduleDto->getName(),
-                        $installedVersion,
-                    ),
-                    sprintf('%s:%s', $moduleDto->getName(), $moduleDto->getVersion()),
-                );
+    /**
+     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseGroupDto $releaseGroupDto
+     *
+     * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
+     */
+    protected function buildViolationsByReleaseGroup(ReleaseGroupDto $releaseGroupDto): array
+    {
+        $violations = [];
+
+        foreach ($releaseGroupDto->getModuleCollection()->toArray() as $moduleDto) {
+            $installedVersion = $this->composerReader->getPackageVersion($moduleDto->getName());
+            if ($installedVersion === null) {
+                continue;
             }
+
+            $installedMajorVersion = SemanticVersionHelper::getMajorVersion($installedVersion);
+            $securityUpdateMajorVersion = SemanticVersionHelper::getMajorVersion($moduleDto->getVersion());
+            if ($securityUpdateMajorVersion !== $installedMajorVersion) {
+                continue;
+            }
+            if (!Comparator::greaterThan($moduleDto->getVersion(), $installedVersion)) {
+                continue;
+            }
+
+            $violations[] = new ViolationDto(
+                sprintf(
+                    'Security update available for the module %s, actual version %s',
+                    $moduleDto->getName(),
+                    $installedVersion,
+                ),
+                sprintf('%s:%s', $moduleDto->getName(), $moduleDto->getVersion()),
+            );
         }
 
         return $violations;

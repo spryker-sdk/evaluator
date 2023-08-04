@@ -127,7 +127,7 @@ class ReleaseGroupDtoCollectionMapper
         UpgradeInstructionMeta $meta
     ): UpgradeInstructionModuleCollection {
         foreach ($meta->getInclude()->toArray() as $moduleInclude) {
-            $module = $moduleCollection->getByName($moduleInclude->getName());
+            $module = $moduleCollection->getFirstByName($moduleInclude->getName());
             if ($module) {
                 $module->setVersion($moduleInclude->getVersion());
 

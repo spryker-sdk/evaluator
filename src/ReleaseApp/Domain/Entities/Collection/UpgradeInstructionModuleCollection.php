@@ -75,7 +75,7 @@ class UpgradeInstructionModuleCollection
      *
      * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeInstructionModule|null
      */
-    public function getByName(string $name): ?UpgradeInstructionModule
+    public function getFirstByName(string $name): ?UpgradeInstructionModule
     {
         foreach ($this->elements as $module) {
             if ($module->getName() === $name) {
