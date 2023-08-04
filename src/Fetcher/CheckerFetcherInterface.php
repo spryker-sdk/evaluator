@@ -7,12 +7,16 @@
 
 declare(strict_types=1);
 
-namespace SprykerSdk\Evaluator\Checker;
+namespace SprykerSdk\Evaluator\Fetcher;
 
-interface CheckerRegistryInterface
+use SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto;
+
+interface CheckerFetcherInterface
 {
     /**
+     * @param \SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto $inputData
+     *
      * @return array<\SprykerSdk\Evaluator\Checker\CheckerInterface>
      */
-    public function getAllCheckers(): array;
+    public function getCheckersFilteredByInputData(EvaluatorInputDataDto $inputData): array;
 }
