@@ -10,7 +10,10 @@ parameters:
     dead_code_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/dead-code-checker.html
 
     # Security checker
-    security_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/security.html
+    open_source_vulnerabilities_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/open-source-vulnerabilities.html
+
+    # Spryker security checker
+    spryker_open_source_vulnerabilities_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/spryker-security.html
 
     # Multidimensional array checker
     multidimensional_array_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/multidimensional-array.html

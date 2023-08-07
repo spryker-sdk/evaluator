@@ -7,10 +7,10 @@
 
 declare(strict_types=1);
 
-namespace SprykerSdkTest\Evaluator\Unit\Checker\SecurityChecker;
+namespace SprykerSdkTest\Evaluator\Unit\Checker\OpenSourceVulnerabilitiesChecker;
 
 use PHPUnit\Framework\TestCase;
-use SprykerSdk\Evaluator\Checker\SecurityChecker\SecurityChecker;
+use SprykerSdk\Evaluator\Checker\OpenSourceVulnerabilitiesChecker\OpenSourceVulnerabilitiesChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 use Symfony\Component\Console\Application;
@@ -25,7 +25,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
  * @group SecurityChecker
  * @group SecurityCheckerTest
  */
-class SecurityCheckerTest extends TestCase
+class OpenSourceVulnerabilitiesCheckerTest extends TestCase
 {
     /**
      * @return void
@@ -43,12 +43,12 @@ class SecurityCheckerTest extends TestCase
                 ]),
                 new BufferedOutput(),
             );
-        $securityChecker = new SecurityChecker($applicationMock, $this->createPathResolverMock());
+        $securityChecker = new OpenSourceVulnerabilitiesChecker($applicationMock, $this->createPathResolverMock());
         $result = $securityChecker->check(new CheckerInputDataDto('/path'));
 
         $this->assertCount(1, $result->getViolations());
         $this->assertSame('Internal error. Original error: ', $result->getViolations()[0]->getMessage());
-        $this->assertSame(SecurityChecker::NAME, $result->getViolations()[0]->getTarget());
+        $this->assertSame(OpenSourceVulnerabilitiesChecker::NAME, $result->getViolations()[0]->getTarget());
     }
 
     /**
