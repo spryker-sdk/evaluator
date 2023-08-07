@@ -74,7 +74,7 @@ class DeadCodeChecker extends AbstractChecker
 
         foreach ($this->deadCodeFinder->find($path) as $class => $file) {
             $violations[] = new ViolationDto(
-                sprintf('Class "%s" is not used in project', $class),
+                sprintf('Class "%s" is not used in the project', $class),
                 $file,
             );
         }

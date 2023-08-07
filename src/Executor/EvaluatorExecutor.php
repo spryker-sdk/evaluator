@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Executor;
 
-use SprykerSdk\Evaluator\Checker\CheckerInterface;
 use SprykerSdk\Evaluator\Checker\CheckerRegistryInterface;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\DebugInfoDto;
 use SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto;
 use SprykerSdk\Evaluator\Dto\ReportDto;
 use SprykerSdk\Evaluator\Dto\ReportLineDto;
+use SprykerSdk\Evaluator\Fetcher\CheckerFetcherInterface;
 use SprykerSdk\Evaluator\Report\ReportSendProcessorInterface;
 use SprykerSdk\Evaluator\Stopwatch\StopwatchFactory;
 
@@ -37,18 +37,26 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
     protected ReportSendProcessorInterface $reportSendProcessor;
 
     /**
+     * @var \SprykerSdk\Evaluator\Fetcher\CheckerFetcherInterface
+     */
+    private CheckerFetcherInterface $checkerFetcher;
+
+    /**
      * @param \SprykerSdk\Evaluator\Checker\CheckerRegistryInterface $checkerRegistry
      * @param \SprykerSdk\Evaluator\Stopwatch\StopwatchFactory $stopwatchFactory
      * @param \SprykerSdk\Evaluator\Report\ReportSendProcessorInterface $reportSendProcessor
+     * @param \SprykerSdk\Evaluator\Fetcher\CheckerFetcherInterface $checkerFetcher
      */
     public function __construct(
         CheckerRegistryInterface $checkerRegistry,
         StopwatchFactory $stopwatchFactory,
-        ReportSendProcessorInterface $reportSendProcessor
+        ReportSendProcessorInterface $reportSendProcessor,
+        CheckerFetcherInterface $checkerFetcher
     ) {
         $this->checkerRegistry = $checkerRegistry;
         $this->stopwatchFactory = $stopwatchFactory;
         $this->reportSendProcessor = $reportSendProcessor;
+        $this->checkerFetcher = $checkerFetcher;
     }
 
     /**
@@ -61,7 +69,7 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
         $report = new ReportDto();
         $stopWatch = $this->stopwatchFactory->getStopWatch();
 
-        foreach ($this->getCheckers($inputData) as $checker) {
+        foreach ($this->checkerFetcher->getCheckersFilteredByInputData($inputData) as $checker) {
             if (!$checker->isApplicable()) {
                 continue;
             }
@@ -85,22 +93,5 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
         $this->reportSendProcessor->process($report);
 
         return $report;
-    }
-
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto $inputData
-     *
-     * @return array<\SprykerSdk\Evaluator\Checker\CheckerInterface>
-     */
-    protected function getCheckers(EvaluatorInputDataDto $inputData): array
-    {
-        if (count($inputData->getCheckerNames()) === 0) {
-            return $this->checkerRegistry->getAllCheckers();
-        }
-
-        return array_map(
-            fn (string $name): CheckerInterface => $this->checkerRegistry->getCheckerByName($name),
-            $inputData->getCheckerNames(),
-        );
     }
 }

@@ -20,4 +20,16 @@ interface ComposerReaderInterface
      * @return array<mixed>
      */
     public function getComposerLockData(): array;
+
+    /**
+     * @param string $packageName
+     *
+     * @return string|null
+     */
+    public function getPackageVersion(string $packageName): ?string;
+
+    /**
+     * @return string
+     */
+    public function getProjectName(): string;
 }

@@ -27,6 +27,15 @@ services:
         resource: '../src/'
         exclude:
             - '../src/Kernel.php'
+            - '../src/Dto/*'
+            - '../src/Report/Dto/*'
+            - '../src/Checker/PhpVersionChecker/CheckerStrategyResponse.php'
+            - '../src/ReleaseApp/Domain/Entities/*'
+            - '../src/ReleaseApp/Domain/Client/Request/*'
+            - '../src/ReleaseApp/Domain/Client/Response/*'
+            - '../src/ReleaseApp/Domain/Exception/*'
+            - '../src/ReleaseApp/Infrastructure/Client/Request/*'
+            - '../src/ReleaseApp/Infrastructure/Shared/Dto/*'
 
     symfony.console.application:
         class: Symfony\Bundle\FrameworkBundle\Console\Application
@@ -76,11 +85,17 @@ services:
                 - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\ArrayMergeNestingStructure'
                 - '@SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\ReturnArrayNestingStructure'
 
-    SprykerSdk\Evaluator\Checker\SecurityChecker\SecurityChecker:
+    SprykerSdk\Evaluator\Checker\OpenSourceVulnerabilitiesChecker\OpenSourceVulnerabilitiesChecker:
         arguments:
             - '@symfony.console.application'
             - '@SprykerSdk\Evaluator\Resolver\PathResolver'
-            - '%security_checker_doc_url%'
+            - '%open_source_vulnerabilities_checker_doc_url%'
+
+    SprykerSdk\Evaluator\Checker\SprykerSecurityChecker\SprykerSecurityChecker:
+        arguments:
+            - '@SprykerSdk\Evaluator\Reader\ComposerReaderInterface'
+            - '@SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppService'
+            - '%spryker_security_checker_doc_url%'
 
     SprykerSdk\Evaluator\Checker\DependencyProviderAdditionalLogicChecker\DependencyProviderAdditionalLogicChecker:
         arguments:
@@ -151,3 +166,9 @@ services:
             - '%project_id%'
             - '%repository_name%'
             - '%organization_name%'
+
+    SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\HttpRequestExecutor:
+        public: true
+
+    SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppService:
+        public: true

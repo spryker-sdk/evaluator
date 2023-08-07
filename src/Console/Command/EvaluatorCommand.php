@@ -47,6 +47,11 @@ class EvaluatorCommand extends Command
     protected const CHECKERS_OPTION = 'checkers';
 
     /**
+     * @var string
+     */
+    protected const EXCLUDE_CHECKERS_OPTION = 'exclude-checkers';
+
+    /**
      * @var \SprykerSdk\Evaluator\Executor\EvaluatorExecutor
      */
     protected EvaluatorExecutor $evaluatorExecutor;
@@ -118,6 +123,12 @@ class EvaluatorCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Run evaluator with specific checkers. Use comma to set multiply checkers',
             )
+            ->addOption(
+                static::EXCLUDE_CHECKERS_OPTION,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Run evaluator without specific checkers. Use comma to set multiply checkers',
+            )
             ->setHelp('Run evaluator for the current project')
             ->setDescription('Run evaluator for the current project');
     }
@@ -132,12 +143,12 @@ class EvaluatorCommand extends Command
     {
         $path = $input->getOption(static::PATH_OPTION);
 
-        $checkers = $input->getOption(static::CHECKERS_OPTION)
-            ? explode(',', (string)$input->getOption(static::CHECKERS_OPTION))
-            : [];
+        $checkers = $this->getCheckersFromInput($input, static::CHECKERS_OPTION);
+
+        $excludedCheckers = $this->getCheckersFromInput($input, static::EXCLUDE_CHECKERS_OPTION);
 
         $report = $this->evaluatorExecutor->execute(
-            new EvaluatorInputDataDto($this->pathResolver->resolvePath($path), $checkers),
+            new EvaluatorInputDataDto($this->pathResolver->resolvePath($path), $checkers, $excludedCheckers),
         );
 
         $this->reportRenderResolver
@@ -149,5 +160,18 @@ class EvaluatorCommand extends Command
             );
 
         return $report->isSuccessful() ? static::SUCCESS : static::FAILURE;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param string $inputOption
+     *
+     * @return array<string>
+     */
+    protected function getCheckersFromInput(InputInterface $input, string $inputOption): array
+    {
+        return $input->getOption($inputOption)
+            ? explode(',', (string)$input->getOption($inputOption))
+            : [];
     }
 }

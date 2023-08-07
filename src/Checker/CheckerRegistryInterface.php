@@ -12,13 +12,6 @@ namespace SprykerSdk\Evaluator\Checker;
 interface CheckerRegistryInterface
 {
     /**
-     * @param string $name
-     *
-     * @return \SprykerSdk\Evaluator\Checker\CheckerInterface
-     */
-    public function getCheckerByName(string $name): CheckerInterface;
-
-    /**
      * @return array<\SprykerSdk\Evaluator\Checker\CheckerInterface>
      */
     public function getAllCheckers(): array;

@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace SprykerSdk\Evaluator\Checker\SecurityChecker;
+namespace SprykerSdk\Evaluator\Checker\OpenSourceVulnerabilitiesChecker;
 
 use SprykerSdk\Evaluator\Checker\AbstractChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
@@ -18,12 +18,12 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class SecurityChecker extends AbstractChecker
+class OpenSourceVulnerabilitiesChecker extends AbstractChecker
 {
     /**
      * @var string
      */
-    public const NAME = 'SECURITY_CHECKER';
+    public const NAME = 'OPEN_SOURCE_VULNERABILITIES_CHECKER';
 
     /**
      * @var string
