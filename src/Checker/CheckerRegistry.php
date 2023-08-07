@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Checker;
 
-use InvalidArgumentException;
 use Traversable;
 
 class CheckerRegistry implements CheckerRegistryInterface
@@ -25,24 +24,6 @@ class CheckerRegistry implements CheckerRegistryInterface
     public function __construct(iterable $checkers)
     {
         $this->checkers = $checkers instanceof Traversable ? iterator_to_array($checkers) : $checkers;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return \SprykerSdk\Evaluator\Checker\CheckerInterface
-     */
-    public function getCheckerByName(string $name): CheckerInterface
-    {
-        foreach ($this->checkers as $checker) {
-            if ($checker->getName() === $name) {
-                return $checker;
-            }
-        }
-
-        throw new InvalidArgumentException(sprintf('Checker `%s` is not found', $name));
     }
 
     /**

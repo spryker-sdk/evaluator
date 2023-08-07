@@ -22,13 +22,20 @@ class EvaluatorInputDataDto
     protected array $checkerNames;
 
     /**
+     * @var array<string>
+     */
+    private array $excludedCheckerNames;
+
+    /**
      * @param string $path
      * @param array<string> $checkerNames
+     * @param array<string> $excludedCheckerNames
      */
-    public function __construct(string $path, array $checkerNames = [])
+    public function __construct(string $path, array $checkerNames = [], array $excludedCheckerNames = [])
     {
         $this->path = $path;
         $this->checkerNames = $checkerNames;
+        $this->excludedCheckerNames = $excludedCheckerNames;
     }
 
     /**
@@ -45,5 +52,13 @@ class EvaluatorInputDataDto
     public function getCheckerNames(): array
     {
         return $this->checkerNames;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getExcludedCheckerNames(): array
+    {
+        return $this->excludedCheckerNames;
     }
 }
