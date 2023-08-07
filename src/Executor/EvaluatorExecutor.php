@@ -70,6 +70,10 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
         $stopWatch = $this->stopwatchFactory->getStopWatch();
 
         foreach ($this->checkerFetcher->getCheckersFilteredByInputData($inputData) as $checker) {
+            if (!$checker->isApplicable()) {
+                continue;
+            }
+
             $stopWatch->start($checker->getName());
 
             $checkerResponse = $checker->check(new CheckerInputDataDto($inputData->getPath()));

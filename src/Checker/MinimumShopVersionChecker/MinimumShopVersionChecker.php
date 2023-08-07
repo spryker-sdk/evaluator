@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Checker\MinimumShopVersionChecker;
 
-use SprykerSdk\Evaluator\Checker\CheckerInterface;
+use SprykerSdk\Evaluator\Checker\AbstractChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
 use SprykerSdk\Evaluator\Reader\ComposerReaderInterface;
 
-class MinimumShopVersionChecker implements CheckerInterface
+class MinimumShopVersionChecker extends AbstractChecker
 {
     /**
      * @var string

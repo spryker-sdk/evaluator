@@ -11,7 +11,7 @@ namespace SprykerSdk\Evaluator\Checker\SecurityChecker;
 
 use Composer\Semver\Comparator;
 use RuntimeException;
-use SprykerSdk\Evaluator\Checker\CheckerInterface;
+use SprykerSdk\Evaluator\Checker\AbstractChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
@@ -22,7 +22,7 @@ use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppServiceInte
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseAppResponse;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseGroupDto;
 
-class SprykerSecurityChecker implements CheckerInterface
+class SprykerSecurityChecker extends AbstractChecker
 {
     /**
      * @var string

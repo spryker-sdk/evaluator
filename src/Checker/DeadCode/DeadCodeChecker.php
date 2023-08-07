@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Checker\DeadCode;
 
-use SprykerSdk\Evaluator\Checker\CheckerInterface;
+use SprykerSdk\Evaluator\Checker\AbstractChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
 
-class DeadCodeChecker implements CheckerInterface
+class DeadCodeChecker extends AbstractChecker
 {
     /**
      * @var string

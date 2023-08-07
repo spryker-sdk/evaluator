@@ -19,7 +19,7 @@ use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
-use SprykerSdk\Evaluator\Checker\CheckerInterface;
+use SprykerSdk\Evaluator\Checker\AbstractChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
@@ -28,7 +28,7 @@ use SprykerSdk\Evaluator\Finder\StatementFinderInterface;
 use SprykerSdk\Evaluator\Parser\PhpParserInterface;
 use Symfony\Component\Finder\Finder;
 
-class SinglePluginArgumentChecker implements CheckerInterface
+class SinglePluginArgumentChecker extends AbstractChecker
 {
     /**
      * @var string
