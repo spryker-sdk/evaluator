@@ -3,7 +3,7 @@ version: "0.1"
 namespace: spryker_b2c_dev
 tag: 'prod'
 
-environment: docker.dev
+environment: docker.prod
 image: spryker/php:7.4-alpine3.12
 
 composer:
