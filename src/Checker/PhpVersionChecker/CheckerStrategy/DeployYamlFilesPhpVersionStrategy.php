@@ -78,7 +78,7 @@ class DeployYamlFilesPhpVersionStrategy implements PhpVersionCheckerStrategyInte
      */
     protected function checkDeployFile(string $fileName, array $deployStructure, array $allowedPhpVersions): CheckerStrategyResponse
     {
-        if (!isset($deployStructure['image']['tag']) && !is_string($deployStructure['image'])) {
+        if (!isset($deployStructure['image']['tag']) && (!isset($deployStructure['image']) || !is_string($deployStructure['image']))) {
             return new CheckerStrategyResponse([], [new ViolationDto(sprintf(static::MESSAGE_YAML_PATH_NOT_FOUND, '[image][tag]'), $fileName)]);
         }
 
