@@ -1,16 +1,16 @@
 version: "0.1"
 
 namespace: spryker_b2c_dev
-tag: 'prod'
+tag: 'stag'
 
-environment: docker.prod
+environment: docker.staging
 image: spryker/php:7.4-alpine3.12
 
 composer:
     mode: ''
     autoload: ''
 assets:
-    mode: development
+    mode: staging
 
 regions:
     EU:
