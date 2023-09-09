@@ -1,22 +1,19 @@
 <?php
 
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Checker\ContainerSetFunctionChecker;
 
-use App\Manifest\Generator\Exception\SyntaxTreeException;
-use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name;
-use PhpParser\Node\Stmt;
-use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
-use PhpParser\Node\Stmt\If_;
-use PhpParser\NodeFinder;
+use PhpParser\Node\Stmt\Return_;
 use SprykerSdk\Evaluator\Checker\AbstractChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
@@ -70,9 +67,9 @@ class ContainerSetFunctionChecker extends AbstractChecker
     protected string $checkerDocUrl;
 
     /**
-     * @param SourceFinderInterface $sourceFinder
-     * @param PhpParserInterface $phpParser
-     * @param NodeFinderInterface $nodeFinder
+     * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
+     * @param \SprykerSdk\Evaluator\Parser\PhpParserInterface $phpParser
+     * @param \SprykerSdk\Evaluator\Parser\NodeFinderInterface $nodeFinder
      * @param string $checkerDocUrl
      */
     public function __construct(
@@ -80,14 +77,12 @@ class ContainerSetFunctionChecker extends AbstractChecker
         PhpParserInterface $phpParser,
         NodeFinderInterface $nodeFinder,
         string $checkerDocUrl
-    )
-    {
+    ) {
         $this->sourceFinder = $sourceFinder;
         $this->phpParser = $phpParser;
         $this->nodeFinder = $nodeFinder;
         $this->checkerDocUrl = $checkerDocUrl;
     }
-
 
     /**
      * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
@@ -114,8 +109,9 @@ class ContainerSetFunctionChecker extends AbstractChecker
     }
 
     /**
-     * @param SplFileInfo $fileInfo
-     * @return array<ViolationDto>
+     * @param \Symfony\Component\Finder\SplFileInfo $fileInfo
+     *
+     * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
      */
     protected function getViolationFromFile(SplFileInfo $fileInfo): array
     {
@@ -125,12 +121,12 @@ class ContainerSetFunctionChecker extends AbstractChecker
         $returnStmList = $this->findReturnStm($containerSetStmList);
 
         foreach ($returnStmList as $returnStm) {
-            if (!$this->isContainArray($returnStm)){
+            if (!$this->isContainArray($returnStm)) {
                 continue;
             }
 
             $violations[] = new ViolationDto(
-                self::VIOLATION_MESSAGE,
+                static::VIOLATION_MESSAGE,
                 sprintf('%s:%s', $fileInfo->getPathname(), $returnStm->getLine()),
             );
         }
@@ -140,6 +136,7 @@ class ContainerSetFunctionChecker extends AbstractChecker
 
     /**
      * @param array<\PhpParser\Node> $syntaxTree
+     *
      * @return array<\PhpParser\Node>
      */
     protected function findContainerSetStm(array $syntaxTree): array
@@ -155,20 +152,25 @@ class ContainerSetFunctionChecker extends AbstractChecker
 
     /**
      * @param array<\PhpParser\Node> $syntaxTree
-     * @return array<Stmt\Return_>
+     *
+     * @return array<\PhpParser\Node\Stmt\Return_>
      */
     protected function findReturnStm(array $syntaxTree): array
     {
-        return $this->nodeFinder->findInstanceOf($syntaxTree, Stmt\Return_::class);
+        /** @var array<\PhpParser\Node\Stmt\Return_> $nodes */
+        $nodes = $this->nodeFinder->findInstanceOf($syntaxTree, Return_::class);
+
+        return $nodes;
     }
 
     /**
-     * @param Stmt\Return_ $returnStmt
+     * @param \PhpParser\Node\Stmt\Return_ $returnStmt
+     *
      * @return bool
      */
-    protected function isContainArray(Stmt\Return_ $returnStmt): bool
+    protected function isContainArray(Return_ $returnStmt): bool
     {
-        return $returnStmt->expr instanceof Node\Expr\Array_;
+        return $returnStmt->expr instanceof Array_;
     }
 
     /**

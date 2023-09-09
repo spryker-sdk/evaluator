@@ -4,3 +4,5 @@ parameters:
         - src/
     checkGenericClassInNonGenericObjectType: false
     treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        - '#Access to an undefined property PhpParser\\Node\\Expr|PhpParser\\Node\\Identifier::\$name.#'

@@ -93,7 +93,7 @@ services:
 
     SprykerSdk\Evaluator\Checker\ContainerSetFunctionChecker\ContainerSetFunctionChecker:
         arguments:
-            $checkerDocUrl: '%dp_additional_logic_checker_doc_url%'
+            $checkerDocUrl: '%container_set_function_checker_doc_url%'
 
     SprykerSdk\Evaluator\Checker\SprykerSecurityChecker\SprykerSecurityChecker:
         arguments:
