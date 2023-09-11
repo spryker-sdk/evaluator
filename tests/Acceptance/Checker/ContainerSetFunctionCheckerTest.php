@@ -56,7 +56,7 @@ class ContainerSetFunctionCheckerTest extends ApplicationTestCase
         | 1 | The callback function inside `container->set()` should not return an array directly but instead call another method. Please review your code and make the necessary changes. | tests/Acceptance/_data/InvalidProject/src/Pyz/Zed/ContainerSetFunctionChecker/ExampleDependencyProvider.php:17 |
         +---+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------+
 
-        Read more: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/additional-logic-in-dependency-provider.html
+        Read more: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/container-set-function.html
 
 
         OUT,
