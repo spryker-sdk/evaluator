@@ -1,12 +1,13 @@
 evaluator:
     ignoreErrors:
         - messages:
-              - '#SprykerSdkTest\\InvalidProject\\Pyz\\Zed\\DeadClass\\Model\\DeadClassPlugin#'
-              - '#SprykerSdkTest\\InvalidProject\\Pyz\\Zed\\DeadClass\\Model\\DeadClass#'
-          checker: DEAD_CODE_CHECKER
-        - messages:
               - '#composer.json#'
               - '#deploy.dev.yml#'
               - '#deploy.yml#'
               - '#Current PHP version#'
           checker: PHP_VERSION_CHECKER
+        - messages:
+              - '#SprykerSdkTest\\InvalidProject\\MultidimensionalArray\\Application1\\ApplicationDependencyProvider#'
+              - '#SprykerSdkTest\\InvalidProject\\MultidimensionalArray\\Application2\\ApplicationDependencyProvider#'
+              - '#SprykerSdkTest\\ValidProject\\MultidimensionalArray\\Application\\ApplicationDependencyProvider#'
+          checker: MULTIDIMENSIONAL_ARRAY_CHECKER

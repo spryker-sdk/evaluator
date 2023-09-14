@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace SprykerSdkTest\Evaluator\Acceptance\ToolingSettings;
 
 use SprykerSdk\Evaluator\Checker\DeadCode\DeadCodeChecker;
+use SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\MultidimensionalArrayChecker;
 use SprykerSdk\Evaluator\Checker\PhpVersionChecker\PhpVersionChecker;
 use SprykerSdkTest\Evaluator\Acceptance\ApplicationTestCase;
 use Symfony\Component\Console\Command\Command;
@@ -28,27 +29,27 @@ class IgnoreErrorsTest extends ApplicationTestCase
      */
     public function testIgnoreErrorsAndReturnFailureWhenErrorsIgnorePartially(): void
     {
-        $pathToProject = realpath(__DIR__ . '/../../..');
         $phpVersion = '6.6.6';
 
         $commandTester = $this->createCommandTester('tests/Acceptance/_data/IgnoreErrorsCheckProject', ['PROJECT_PHP_VERSION' => $phpVersion]);
-        $commandTester->execute(['--checkers' => implode(',', [DeadCodeChecker::NAME, PhpVersionChecker::NAME])]);
+        $commandTester->execute(['--checkers' => implode(',', [MultidimensionalArrayChecker::NAME, PhpVersionChecker::NAME])]);
 
         $this->assertSame(Command::FAILURE, $commandTester->getStatusCode());
 
         $this->assertSame(
             <<<OUT
-        =================
-        DEAD CODE CHECKER
-        =================
+        ==============================
+        MULTIDIMENSIONAL ARRAY CHECKER
+        ==============================
 
-        +---+----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
-        | # | Message                                                                                            | Target                                                                                                                       |
-        +---+----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
-        | 1 | Class "SprykerSdkTest\InvalidProject\Pyz\Zed\DeadClass\Model\DeadClass" is not used in the project | $pathToProject/tests/Acceptance/_data/IgnoreErrorsCheckProject/src/Pyz/Zed/DeadClass/Model/DeadClass.php |
-        +---+----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
+        +---+----------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------+
+        | # | Message                                                                                                                    | Target                                                                                      |
+        +---+----------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------+
+        | 1 | Reached max level of nesting for the plugin registration in the {ApplicationDependencyProvider::getPlugins()}.             | SprykerSdkTest\ValidProject\MultidimensionalArray\Application\ApplicationDependencyProvider |
+        |   | The maximum allowed nesting level is 2. Please, refactor code, otherwise it will cause upgradability issues in the future. |                                                                                             |
+        +---+----------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------+
 
-        Read more: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/dead-code-checker.html
+        Read more: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/multidimensional-array.html
 
         ===================
         PHP VERSION CHECKER
@@ -57,7 +58,7 @@ class IgnoreErrorsTest extends ApplicationTestCase
         +---+-----------------------------------------------------------------------------+------------------------------------------------------------+
         | # | Message                                                                     | Target                                                     |
         +---+-----------------------------------------------------------------------------+------------------------------------------------------------+
-        | 1 | Current PHP version "$phpVersion" is not allowed.                                 | Current php version 6.6.6                                  |
+        | 1 | Current PHP version "$phpVersion" is not allowed.                                 | Current php version $phpVersion                                  |
         +---+-----------------------------------------------------------------------------+------------------------------------------------------------+
         | 2 | Deploy file uses not allowed PHP image version "spryker/php:6.2-alpine3.12" | tests/Acceptance/_data/IgnoreErrorsCheckProject/deploy.yml |
         |   | Image tag must contain allowed PHP version (image:abc-8.0)                  |                                                            |
@@ -77,7 +78,7 @@ class IgnoreErrorsTest extends ApplicationTestCase
     public function testReturnSuccessWhenAllErrorsIgnored(): void
     {
         $commandTester = $this->createCommandTester('tests/Acceptance/_data/IgnoreErrorsCheckProject', ['EVALUATOR_TOOLING_FILE' => 'ignore_all_errors_tooling.yml']);
-        $commandTester->execute(['--checkers' => implode(',', [DeadCodeChecker::NAME, PhpVersionChecker::NAME])]);
+        $commandTester->execute(['--checkers' => implode(',', [MultidimensionalArrayChecker::NAME, PhpVersionChecker::NAME])]);
 
         $this->assertSame(Command::SUCCESS, $commandTester->getStatusCode());
     }
