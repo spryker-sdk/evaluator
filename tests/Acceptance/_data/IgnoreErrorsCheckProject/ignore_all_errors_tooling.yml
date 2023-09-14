@@ -8,4 +8,5 @@ evaluator:
               - '#composer.json#'
               - '#deploy.dev.yml#'
               - '#deploy.yml#'
+              - '#Current PHP version#'
           checker: PHP_VERSION_CHECKER

@@ -28,7 +28,10 @@ class IgnoreErrorsTest extends ApplicationTestCase
      */
     public function testIgnoreErrorsAndReturnFailureWhenErrorsIgnorePartially(): void
     {
-        $commandTester = $this->createCommandTester('tests/Acceptance/_data/IgnoreErrorsCheckProject');
+        $pathToProject = realpath(__DIR__ . '/../../..');
+        $phpVersion = '6.6.6';
+
+        $commandTester = $this->createCommandTester('tests/Acceptance/_data/IgnoreErrorsCheckProject', ['PROJECT_PHP_VERSION' => $phpVersion]);
         $commandTester->execute(['--checkers' => implode(',', [DeadCodeChecker::NAME, PhpVersionChecker::NAME])]);
 
         $this->assertSame(Command::FAILURE, $commandTester->getStatusCode());
@@ -42,7 +45,7 @@ class IgnoreErrorsTest extends ApplicationTestCase
         +---+----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
         | # | Message                                                                                            | Target                                                                                                                       |
         +---+----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
-        | 1 | Class "SprykerSdkTest\InvalidProject\Pyz\Zed\DeadClass\Model\DeadClass" is not used in the project | /data/vendor/spryker-sdk/evaluator/tests/Acceptance/_data/IgnoreErrorsCheckProject/src/Pyz/Zed/DeadClass/Model/DeadClass.php |
+        | 1 | Class "SprykerSdkTest\InvalidProject\Pyz\Zed\DeadClass\Model\DeadClass" is not used in the project | $pathToProject/tests/Acceptance/_data/IgnoreErrorsCheckProject/src/Pyz/Zed/DeadClass/Model/DeadClass.php |
         +---+----------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
 
         Read more: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/dead-code-checker.html
@@ -54,7 +57,9 @@ class IgnoreErrorsTest extends ApplicationTestCase
         +---+-----------------------------------------------------------------------------+------------------------------------------------------------+
         | # | Message                                                                     | Target                                                     |
         +---+-----------------------------------------------------------------------------+------------------------------------------------------------+
-        | 1 | Deploy file uses not allowed PHP image version "spryker/php:6.2-alpine3.12" | tests/Acceptance/_data/IgnoreErrorsCheckProject/deploy.yml |
+        | 1 | Current PHP version "$phpVersion" is not allowed.                                 | Current php version 6.6.6                                  |
+        +---+-----------------------------------------------------------------------------+------------------------------------------------------------+
+        | 2 | Deploy file uses not allowed PHP image version "spryker/php:6.2-alpine3.12" | tests/Acceptance/_data/IgnoreErrorsCheckProject/deploy.yml |
         |   | Image tag must contain allowed PHP version (image:abc-8.0)                  |                                                            |
         +---+-----------------------------------------------------------------------------+------------------------------------------------------------+
 
