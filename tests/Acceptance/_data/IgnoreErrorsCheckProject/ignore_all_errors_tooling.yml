@@ -1,0 +1,11 @@
+evaluator:
+    ignoreErrors:
+        - messages:
+              - '#SprykerSdkTest\\InvalidProject\\Pyz\\Zed\\DeadClass\\Model\\DeadClassPlugin#'
+              - '#SprykerSdkTest\\InvalidProject\\Pyz\\Zed\\DeadClass\\Model\\DeadClass#'
+          checker: DEAD_CODE_CHECKER
+        - messages:
+              - '#composer.json#'
+              - '#deploy.dev.yml#'
+              - '#deploy.yml#'
+          checker: PHP_VERSION_CHECKER
