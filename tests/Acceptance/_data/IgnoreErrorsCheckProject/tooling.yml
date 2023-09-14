@@ -2,8 +2,8 @@ evaluator:
     ignoreErrors:
         - '#SprykerSdkTest\\InvalidProject\\MultidimensionalArray\\Application1\\ApplicationDependencyProvider#'
         - messages:
-              - '#composer.json#'
-              - '#deploy.dev.yml#'
+              - '#composer\.json#'
+              - '#deploy\.dev\.yml#'
           checker: PHP_VERSION_CHECKER
         - messages:
               - '#SprykerSdkTest\\InvalidProject\\MultidimensionalArray\\Application2\\ApplicationDependencyProvider#'
