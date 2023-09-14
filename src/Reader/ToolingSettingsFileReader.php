@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Reader;
 
-use InvalidArgumentException;
 use SprykerSdk\Evaluator\Filesystem\Filesystem;
 use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -44,8 +43,6 @@ class ToolingSettingsFileReader implements ToolingSettingsReaderInterface
     }
 
     /**
-     * @throws \InvalidArgumentException
-     *
      * @return array<mixed>
      */
     public function readFromFile(): array
@@ -62,13 +59,7 @@ class ToolingSettingsFileReader implements ToolingSettingsReaderInterface
             return [];
         }
 
-        $yaml = Yaml::parse($toolingSettingsString);
-
-        if (!is_array($yaml)) {
-            throw new InvalidArgumentException(sprintf('Invalid yaml format in "%s"', $toolingSettingsFilePath));
-        }
-
-        return $yaml;
+        return Yaml::parse($toolingSettingsString);
     }
 
     /**

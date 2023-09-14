@@ -17,17 +17,17 @@ class ToolingSettingsIgnoreErrorDtoBuilder
     /**
      * @var string
      */
-    protected const IGNORE_ERRORS_KEY = 'ignoreErrors';
+    public const IGNORE_ERRORS_KEY = 'ignoreErrors';
 
     /**
      * @var string
      */
-    protected const MESSAGES_KEY = 'messages';
+    public const MESSAGES_KEY = 'messages';
 
     /**
      * @var string
      */
-    protected const CHECKER_KEY = 'checker';
+    public const CHECKER_KEY = 'checker';
 
     /**
      * @var string

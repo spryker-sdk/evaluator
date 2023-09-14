@@ -88,35 +88,28 @@ class ReportFilter implements ReportFilterInterface
      * @param string $regexp
      * @param string $string
      *
-     * @throws \InvalidArgumentException
-     *
      * @return bool
      */
     protected function checkRegexp(string $regexp, string $string): bool
     {
-        $result = preg_match($regexp, $string);
-
-        if ($result === false) {
+        // disallow using of @
+        set_error_handler(static function (int $errNo, string $errMessage) use ($regexp): void {
             throw new InvalidArgumentException(
                 sprintf(
                     'Invalid regexp "%s". Error: %s.',
                     $regexp,
-                    error_get_last()['message'] ?? '-',
+                    $errMessage,
                 ),
             );
+        });
+
+        try {
+            $result = preg_match($regexp, $string);
+        } finally {
+            restore_error_handler();
         }
 
         return (bool)$result;
-    }
-
-    /**
-     * @param string $string
-     *
-     * @return string
-     */
-    protected function removeNewLines(string $string): string
-    {
-        return str_replace(PHP_EOL, ' ', $string);
     }
 
     /**
