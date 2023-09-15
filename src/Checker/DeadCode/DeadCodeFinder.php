@@ -37,6 +37,7 @@ class DeadCodeFinder
 
     /**
      * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
+     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
      */
     public function __construct(SourceFinderInterface $sourceFinder, PathResolverInterface $pathResolver)
     {
