@@ -91,6 +91,10 @@ services:
             - '@SprykerSdk\Evaluator\Resolver\PathResolver'
             - '%open_source_vulnerabilities_checker_doc_url%'
 
+    SprykerSdk\Evaluator\Checker\ContainerSetFunctionChecker\ContainerSetFunctionChecker:
+        arguments:
+            $checkerDocUrl: '%container_set_function_checker_doc_url%'
+
     SprykerSdk\Evaluator\Checker\SprykerSecurityChecker\SprykerSecurityChecker:
         arguments:
             - '@SprykerSdk\Evaluator\Reader\ComposerReaderInterface'
