@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace SprykerSdk\Evaluator\Checker\DeadCode;
 
 use SprykerSdk\Evaluator\Finder\SourceFinderInterface;
+use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 use Symfony\Component\Finder\Finder;
 
 class DeadCodeFinder
@@ -27,14 +28,21 @@ class DeadCodeFinder
     /**
      * @var \SprykerSdk\Evaluator\Finder\SourceFinderInterface
      */
-    private SourceFinderInterface $sourceFinder;
+    protected SourceFinderInterface $sourceFinder;
+
+    /**
+     * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
+     */
+    protected PathResolverInterface $pathResolver;
 
     /**
      * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
+     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
      */
-    public function __construct(SourceFinderInterface $sourceFinder)
+    public function __construct(SourceFinderInterface $sourceFinder, PathResolverInterface $pathResolver)
     {
         $this->sourceFinder = $sourceFinder;
+        $this->pathResolver = $pathResolver;
     }
 
     /**
@@ -45,7 +53,7 @@ class DeadCodeFinder
     public function find(string $path): array
     {
         $extendedCoreClassesInUse = $this->getAllExtendedCoreClasses($path);
-        $allClassesInUse = $this->getAllClassesInUse($path);
+        $allClassesInUse = $this->getAllClassesInUse($this->pathResolver->getProjectDir());
 
         $deadClasses = [];
         foreach ($extendedCoreClassesInUse as $className => $classPath) {
@@ -126,6 +134,7 @@ class DeadCodeFinder
             '!*Repository.php',
             '!*EntityManager.php',
             '!*DependencyInjector.php',
+            '!*ConstraintValidator.php',
         ];
         foreach ($this->getFinderIterator($path, $patterns) as $file) {
             $fileContent = $file->getContents();
@@ -178,6 +187,6 @@ class DeadCodeFinder
      */
     protected function getFinderIterator(string $path, array $patterns = []): Finder
     {
-        return $this->sourceFinder->find($patterns, [$path], ['Generated', 'Orm', 'Dependency']);
+        return $this->sourceFinder->find($patterns, [$path], ['Generated', 'Orm', 'Dependency', 'vendor', 'tests']);
     }
 }
