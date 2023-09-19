@@ -9,10 +9,14 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Console\Command;
 
+use SprykerSdk\Evaluator\Builder\ToolingSettingsDtoBuilderInterface;
 use SprykerSdk\Evaluator\Console\ReportRenderer\OutputReportRenderer;
 use SprykerSdk\Evaluator\Console\ReportRenderer\ReportRenderResolver;
 use SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto;
+use SprykerSdk\Evaluator\Dto\ToolingSettingsDto;
 use SprykerSdk\Evaluator\Executor\EvaluatorExecutor;
+use SprykerSdk\Evaluator\Filter\ReportFilterInterface;
+use SprykerSdk\Evaluator\Reader\ToolingSettingsReaderInterface;
 use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -67,27 +71,51 @@ class EvaluatorCommand extends Command
     protected PathResolverInterface $pathResolver;
 
     /**
+     * @var \SprykerSdk\Evaluator\Builder\ToolingSettingsDtoBuilderInterface
+     */
+    protected ToolingSettingsDtoBuilderInterface $toolingSettingsDtoBuilder;
+
+    /**
      * @var string $fileReport
      */
     protected string $fileReport;
 
     /**
+     * @var \SprykerSdk\Evaluator\Reader\ToolingSettingsReaderInterface
+     */
+    protected ToolingSettingsReaderInterface $toolingSettingsReader;
+
+    /**
+     * @var \SprykerSdk\Evaluator\Filter\ReportFilterInterface
+     */
+    protected ReportFilterInterface $reportFilter;
+
+    /**
      * @param \SprykerSdk\Evaluator\Executor\EvaluatorExecutor $evaluatorExecutor
      * @param \SprykerSdk\Evaluator\Console\ReportRenderer\ReportRenderResolver $reportRenderResolver
      * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
+     * @param \SprykerSdk\Evaluator\Builder\ToolingSettingsDtoBuilderInterface $toolingSettingsDtoBuilder
+     * @param \SprykerSdk\Evaluator\Reader\ToolingSettingsReaderInterface $toolingSettingsReader
+     * @param \SprykerSdk\Evaluator\Filter\ReportFilterInterface $reportFilter
      * @param string $fileReport
      */
     public function __construct(
         EvaluatorExecutor $evaluatorExecutor,
         ReportRenderResolver $reportRenderResolver,
         PathResolverInterface $pathResolver,
+        ToolingSettingsDtoBuilderInterface $toolingSettingsDtoBuilder,
+        ToolingSettingsReaderInterface $toolingSettingsReader,
+        ReportFilterInterface $reportFilter,
         string $fileReport
     ) {
         parent::__construct(static::COMMAND_NAME);
         $this->evaluatorExecutor = $evaluatorExecutor;
         $this->reportRenderResolver = $reportRenderResolver;
         $this->pathResolver = $pathResolver;
+        $this->toolingSettingsDtoBuilder = $toolingSettingsDtoBuilder;
+        $this->toolingSettingsReader = $toolingSettingsReader;
         $this->fileReport = $fileReport;
+        $this->reportFilter = $reportFilter;
     }
 
     /**
@@ -151,6 +179,10 @@ class EvaluatorCommand extends Command
             new EvaluatorInputDataDto($this->pathResolver->resolvePath($path), $checkers, $excludedCheckers),
         );
 
+        $toolingSettings = $this->getToolingSettingsDto();
+
+        $report = $this->reportFilter->filterReport($report, $toolingSettings);
+
         $this->reportRenderResolver
             ->resolve($input->getOption(static::FORMAT_OPTION))
             ->render(
@@ -173,5 +205,15 @@ class EvaluatorCommand extends Command
         return $input->getOption($inputOption)
             ? explode(',', (string)$input->getOption($inputOption))
             : [];
+    }
+
+    /**
+     * @return \SprykerSdk\Evaluator\Dto\ToolingSettingsDto
+     */
+    protected function getToolingSettingsDto(): ToolingSettingsDto
+    {
+        return $this->toolingSettingsDtoBuilder->buildFromArray(
+            $this->toolingSettingsReader->readFromFile(),
+        );
     }
 }

@@ -8,6 +8,8 @@ parameters:
     report_file: 'reports/evaluator.*'
     current_php_version: "%env(default:current_server_php_version:string:PROJECT_PHP_VERSION)%"
     current_server_php_version: !php/const PHP_VERSION
+    tooling_file: "%env(default:tooling_file_default:string:EVALUATOR_TOOLING_FILE)%"
+    tooling_file_default: 'tooling.yml'
 services:
     _defaults:
         autowire: true
@@ -15,6 +17,7 @@ services:
         bind:
             $projectDirEnv: '%env(EVALUATOR_PROJECT_DIR)%'
             $githubAuth: '%env(GITHUB_AUTH)%'
+            $toolingFile: '%tooling_file%'
 
     _instanceof:
         SprykerSdk\Evaluator\Checker\CheckerInterface:

@@ -62,6 +62,16 @@ class ReportLineDto
     }
 
     /**
+     * @param array<\SprykerSdk\Evaluator\Dto\ViolationDto> $violations
+     *
+     * @return void
+     */
+    public function setViolations(array $violations): void
+    {
+        $this->violations = $violations;
+    }
+
+    /**
      * @return string
      */
     public function getDocUrl(): string
