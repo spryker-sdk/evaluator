@@ -20,7 +20,7 @@ class ProcessRunner implements ProcessRunnerInterface
      */
     public function run(array $command): Process
     {
-        $process = new Process($command);
+        $process = new Process($command, null, null, null, 120);
         $process->run();
 
         return $process;
