@@ -14,6 +14,11 @@ use Symfony\Component\Process\Process;
 interface ProcessRunnerInterface
 {
     /**
+     * @var int
+     */
+    public const DEFAULT_PROCESS_TIMEOUT = 120;
+
+    /**
      * @param array<string> $command
      *
      * @return \Symfony\Component\Process\Process
