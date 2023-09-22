@@ -1,5 +1,8 @@
 <?php
 
+
+declare(strict_types=1);
+
 namespace Acceptance\Checker;
 
 use SprykerSdk\Evaluator\Checker\DevPackagesChecker\SprykerDevPackagesChecker;
