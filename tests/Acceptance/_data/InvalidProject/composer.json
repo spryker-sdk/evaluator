@@ -13,7 +13,9 @@
         "spryker-feature/cart": "^202204.0",
         "spryker-feature/catalog": "^202204.0",
         "spryker-feature/category-management": "^202204.0",
-        "spryker/availability-gui": "^6.6.2"
+        "spryker/availability-gui": "^6.6.2",
+        "spryker/uuid": "dev-some-branch",
+        "spryker-shop/cart": "dev-master"
     },
     "autoload": {
         "psr-4": {

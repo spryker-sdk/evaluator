@@ -37,3 +37,6 @@ parameters:
 
     # Npm checker
     npm_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/npm-checker.html
+
+    # Spryker dev packages checker
+    spryker_dev_packages_checker_doc_url: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/spryker-dev-packages-checker.html

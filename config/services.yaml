@@ -138,6 +138,10 @@ services:
         arguments:
             $checkerDocUrl: '%npm_checker_doc_url%'
 
+    SprykerSdk\Evaluator\Checker\DevPackagesChecker\SprykerDevPackagesChecker:
+        arguments:
+            $checkerDocUrl: '%spryker_dev_packages_checker_doc_url%'
+
     # Third-party
     PhpParser\ParserFactory: ~
     Symfony\Component\Finder\Finder: ~
