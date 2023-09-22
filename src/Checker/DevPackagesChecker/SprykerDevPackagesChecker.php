@@ -35,7 +35,7 @@ class SprykerDevPackagesChecker extends AbstractChecker
     /**
      * @var string
      */
-    protected const VIOLATION_MESSAGE = 'Spryker package "%s:%s" has forbidden "dev-*" constraint';
+    protected const VIOLATION_MESSAGE = 'Spryker package "%s:%s" has forbidden "dev-*" version constraint';
 
     /**
      * @var \SprykerSdk\Evaluator\Reader\ComposerReaderInterface
