@@ -43,13 +43,13 @@ class SprykerDevPackagesCheckerTest extends ApplicationTestCase
         SPRYKER DEV PACKAGES CHECKER
         ============================
 
-        +---+---------------------------------------------------------------------------------+-------------------+
-        | # | Message                                                                         | Target            |
-        +---+---------------------------------------------------------------------------------+-------------------+
-        | 1 | Spryker package "spryker/uuid:dev-some-branch" has forbidden "dev-*" constraint | spryker/uuid      |
-        +---+---------------------------------------------------------------------------------+-------------------+
-        | 2 | Spryker package "spryker-shop/cart:dev-master" has forbidden "dev-*" constraint | spryker-shop/cart |
-        +---+---------------------------------------------------------------------------------+-------------------+
+        +---+-----------------------------------------------------------------------------------------+-------------------+
+        | # | Message                                                                                 | Target            |
+        +---+-----------------------------------------------------------------------------------------+-------------------+
+        | 1 | Spryker package "spryker/uuid:dev-some-branch" has forbidden "dev-*" version constraint | spryker/uuid      |
+        +---+-----------------------------------------------------------------------------------------+-------------------+
+        | 2 | Spryker package "spryker-shop/cart:dev-master" has forbidden "dev-*" version constraint | spryker-shop/cart |
+        +---+-----------------------------------------------------------------------------------------+-------------------+
 
         Read more: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/spryker-dev-packages-checker.html
 
