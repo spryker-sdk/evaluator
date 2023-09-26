@@ -25,6 +25,13 @@ class ComposerReader implements ComposerReaderInterface
     protected const COMPOSER_LOCK_FILE_NAME = 'composer.lock';
 
     /**
+     * @string
+     *
+     * @var string
+     */
+    protected const REQUIRE_KEY = 'require';
+
+    /**
      * @var string
      */
     protected const PACKAGES_KEY = 'packages';
@@ -71,6 +78,14 @@ class ComposerReader implements ComposerReaderInterface
     public function getComposerLockData(): array
     {
         return $this->readFile($this->pathResolver->resolvePath() . DIRECTORY_SEPARATOR . static::COMPOSER_LOCK_FILE_NAME);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getComposerRequirePackages(): array
+    {
+        return $this->getComposerData()[static::REQUIRE_KEY] ?? [];
     }
 
     /**

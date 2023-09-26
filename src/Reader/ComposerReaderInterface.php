@@ -22,6 +22,11 @@ interface ComposerReaderInterface
     public function getComposerLockData(): array;
 
     /**
+     * @return array<string, string>
+     */
+    public function getComposerRequirePackages(): array;
+
+    /**
      * @param string $packageName
      *
      * @return string|null
