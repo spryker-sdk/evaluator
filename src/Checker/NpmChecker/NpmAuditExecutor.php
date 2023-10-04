@@ -21,9 +21,9 @@ class NpmAuditExecutor
     protected const VULNERABILITIES_KEY = 'vulnerabilities';
 
     /**
-     * @var array<string> to skip info level
+     * @var array<string> to skip low, moderate and info level
      */
-    protected const ALLOWED_SEVERITY_LEVELS = ['low', 'moderate', 'high', 'critical'];
+    protected const ALLOWED_SEVERITY_LEVELS = ['high', 'critical'];
 
     /**
      * @var string
