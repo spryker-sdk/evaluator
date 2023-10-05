@@ -71,18 +71,16 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
         $stopWatch = $this->stopwatchFactory->getStopWatch();
 
         foreach ($this->checkerFetcher->getCheckersFilteredByInputData($inputData) as $checker) {
-            $configDto = $this->getCheckerConfig($inputData->getCheckerConfigs(), $checker->getName());
-            if ($configDto) {
-                $checker->setConfig($configDto->getConfig());
-            }
-
             if (!$checker->isApplicable()) {
                 continue;
             }
 
             $stopWatch->start($checker->getName());
 
-            $checkerResponse = $checker->check(new CheckerInputDataDto($inputData->getPath()));
+            $configDto = $this->getCheckerConfig($inputData->getCheckerConfigs(), $checker->getName());
+            $checkerResponse = $checker->check(
+                new CheckerInputDataDto($inputData->getPath(), $configDto ? $configDto->getConfig() : []),
+            );
 
             $event = $stopWatch->stop($checker->getName());
 
@@ -109,9 +107,7 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
      */
     protected function getCheckerConfig(array $checkerConfigs, string $checkerName): ?CheckerConfigDto
     {
-        $checkerConfig = array_filter($checkerConfigs, function (CheckerConfigDto $checkerConfig) use ($checkerName) {
-            return $checkerConfig->getCheckerName() === $checkerName;
-        });
+        $checkerConfig = array_filter($checkerConfigs, fn (CheckerConfigDto $checkerConfig): bool => $checkerConfig->getCheckerName() === $checkerName);
 
         return array_shift($checkerConfig);
     }

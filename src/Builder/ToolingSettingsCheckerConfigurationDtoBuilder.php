@@ -17,7 +17,7 @@ class ToolingSettingsCheckerConfigurationDtoBuilder
     /**
      * @var string
      */
-    public const CONFIGURATION_KEY = 'configuration';
+    public const CONFIGURATION_KEY = 'checkerConfiguration';
 
     /**
      * @var string

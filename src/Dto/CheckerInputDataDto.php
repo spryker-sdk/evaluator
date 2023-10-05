@@ -17,11 +17,18 @@ class CheckerInputDataDto
     protected string $path;
 
     /**
-     * @param string $path
+     * @var array<mixed>
      */
-    public function __construct(string $path)
+    protected array $configuration = [];
+
+    /**
+     * @param string $path
+     * @param array<mixed> $configuration
+     */
+    public function __construct(string $path, array $configuration = [])
     {
         $this->path = $path;
+        $this->configuration = $configuration;
     }
 
     /**
@@ -30,5 +37,13 @@ class CheckerInputDataDto
     public function getPath(): string
     {
         return $this->path;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getConfiguration(): array
+    {
+        return $this->configuration;
     }
 }

@@ -40,7 +40,7 @@ Tolling configuration example:
 
 ```yaml
 evaluator:
-    configuration:
+    checkerConfiguration:
         - checker: NPM_CHECKER
           var:
               ALLOWED_SEVERITY_LEVELS: [low, moderate, high, critical]

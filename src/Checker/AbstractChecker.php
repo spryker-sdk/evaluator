@@ -12,25 +12,10 @@ namespace SprykerSdk\Evaluator\Checker;
 abstract class AbstractChecker implements CheckerInterface
 {
     /**
-     * @var array<mixed>
-     */
-    protected array $config = [];
-
-    /**
      * @return bool
      */
     public function isApplicable(): bool
     {
         return true;
-    }
-
-    /**
-     * @param array<mixed> $config
-     *
-     * @return void
-     */
-    public function setConfig(array $config): void
-    {
-        $this->config = $config;
     }
 }

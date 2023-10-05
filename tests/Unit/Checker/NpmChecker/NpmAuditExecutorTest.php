@@ -28,7 +28,7 @@ class NpmAuditExecutorTest extends TestCase
         $npmAuditExecutor = new NpmAuditExecutor($processRunnerMock);
 
         //Act
-        $result = $npmAuditExecutor->executeNpmAudit([]);
+        $result = $npmAuditExecutor->executeNpmAudit();
 
         //Assert
         $this->assertEmpty($result);
@@ -48,7 +48,7 @@ class NpmAuditExecutorTest extends TestCase
         $this->expectExceptionMessage('Some Error');
 
         //Act
-        $npmAuditExecutor->executeNpmAudit([]);
+        $npmAuditExecutor->executeNpmAudit();
     }
 
     /**
@@ -64,7 +64,7 @@ class NpmAuditExecutorTest extends TestCase
         $this->expectException(NpmExecutorException::class);
 
         //Act
-        $npmAuditExecutor->executeNpmAudit([]);
+        $npmAuditExecutor->executeNpmAudit();
     }
 
     /**
@@ -84,7 +84,7 @@ class NpmAuditExecutorTest extends TestCase
         $this->expectException(NpmExecutorException::class);
 
         //Act
-        $npmAuditExecutor->executeNpmAudit([]);
+        $npmAuditExecutor->executeNpmAudit();
     }
 
     /**
@@ -123,7 +123,7 @@ class NpmAuditExecutorTest extends TestCase
         $npmAuditExecutor = new NpmAuditExecutor($processRunnerMock);
 
         //Act
-        $result = $npmAuditExecutor->executeNpmAudit([]);
+        $result = $npmAuditExecutor->executeNpmAudit();
 
         //Assert
         $this->assertCount(1, $result);

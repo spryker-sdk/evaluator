@@ -20,13 +20,6 @@ interface CheckerInterface
     public function isApplicable(): bool;
 
     /**
-     * @param array<mixed> $config
-     *
-     * @return void
-     */
-    public function setConfig(array $config): void;
-
-    /**
      * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
      *
      * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto

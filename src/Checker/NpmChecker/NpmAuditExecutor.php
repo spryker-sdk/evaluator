@@ -75,7 +75,7 @@ class NpmAuditExecutor
      *
      * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
      */
-    public function executeNpmAudit(?array $allowedSeverityLevels): array
+    public function executeNpmAudit(?array $allowedSeverityLevels = null): array
     {
         $process = $this->processRunner->run(['npm', 'audit', '--json', '--audit-level', static::DEFAULT_AUDIT_LEVEL]);
 
@@ -102,7 +102,7 @@ class NpmAuditExecutor
         return $this->getUniqueViolations(
             $this->getViolationsFromReport(
                 $report[static::VULNERABILITIES_KEY],
-                $allowedSeverityLevels ?: static::DEFAULT_ALLOWED_SEVERITY_LEVELS,
+                $allowedSeverityLevels ?? static::DEFAULT_ALLOWED_SEVERITY_LEVELS,
             ),
         );
     }

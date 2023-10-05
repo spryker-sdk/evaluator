@@ -74,7 +74,9 @@ class NpmChecker extends AbstractChecker
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         try {
-            $violations = $this->npmAuditExecutor->executeNpmAudit($this->config[static::ALLOWED_SEVERITY_LEVELS_KEY] ?? null);
+            $violations = $this->npmAuditExecutor->executeNpmAudit(
+                $inputData->getConfiguration()[static::ALLOWED_SEVERITY_LEVELS_KEY] ?? null,
+            );
         } catch (NpmExecutorException $e) {
                 $violations = [new ViolationDto(sprintf('%s: %s', static::NPM_ISSUE_MESSAGE_PREFIX, $e->getMessage()))];
         }
