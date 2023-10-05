@@ -27,6 +27,11 @@ class NpmChecker extends AbstractChecker
     public const NPM_ISSUE_MESSAGE_PREFIX = 'Npm audit issue';
 
     /**
+     * @var string
+     */
+    public const ALLOWED_SEVERITY_LEVELS_KEY = 'ALLOWED_SEVERITY_LEVELS';
+
+    /**
      * @var \SprykerSdk\Evaluator\Checker\NpmChecker\NpmInstallationValidator
      */
     private NpmInstallationValidator $npmInstallationValidator;
@@ -69,7 +74,7 @@ class NpmChecker extends AbstractChecker
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         try {
-            $violations = $this->npmAuditExecutor->executeNpmAudit();
+            $violations = $this->npmAuditExecutor->executeNpmAudit($this->config[static::ALLOWED_SEVERITY_LEVELS_KEY] ?? null);
         } catch (NpmExecutorException $e) {
                 $violations = [new ViolationDto(sprintf('%s: %s', static::NPM_ISSUE_MESSAGE_PREFIX, $e->getMessage()))];
         }

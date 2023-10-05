@@ -28,7 +28,7 @@ class NpmAuditExecutorTest extends TestCase
         $npmAuditExecutor = new NpmAuditExecutor($processRunnerMock);
 
         //Act
-        $result = $npmAuditExecutor->executeNpmAudit();
+        $result = $npmAuditExecutor->executeNpmAudit([]);
 
         //Assert
         $this->assertEmpty($result);
@@ -48,7 +48,7 @@ class NpmAuditExecutorTest extends TestCase
         $this->expectExceptionMessage('Some Error');
 
         //Act
-        $npmAuditExecutor->executeNpmAudit();
+        $npmAuditExecutor->executeNpmAudit([]);
     }
 
     /**
@@ -64,7 +64,7 @@ class NpmAuditExecutorTest extends TestCase
         $this->expectException(NpmExecutorException::class);
 
         //Act
-        $npmAuditExecutor->executeNpmAudit();
+        $npmAuditExecutor->executeNpmAudit([]);
     }
 
     /**
@@ -84,7 +84,7 @@ class NpmAuditExecutorTest extends TestCase
         $this->expectException(NpmExecutorException::class);
 
         //Act
-        $npmAuditExecutor->executeNpmAudit();
+        $npmAuditExecutor->executeNpmAudit([]);
     }
 
     /**
@@ -102,7 +102,7 @@ class NpmAuditExecutorTest extends TestCase
         $npmAuditExecutor = new NpmAuditExecutor($processRunnerMock);
 
         //Act
-        $result = $npmAuditExecutor->executeNpmAudit();
+        $result = $npmAuditExecutor->executeNpmAudit(['critical']);
 
         //Assert
         $this->assertEmpty($result);
@@ -123,7 +123,7 @@ class NpmAuditExecutorTest extends TestCase
         $npmAuditExecutor = new NpmAuditExecutor($processRunnerMock);
 
         //Act
-        $result = $npmAuditExecutor->executeNpmAudit();
+        $result = $npmAuditExecutor->executeNpmAudit([]);
 
         //Assert
         $this->assertCount(1, $result);
@@ -155,6 +155,7 @@ class NpmAuditExecutorTest extends TestCase
     {
         return [
             'skipInfoVulnerability' => ['{"vulnerabilities": {"datatables.net": {"name": "datatables.net", "severity": "info", "via": [{"title": "Cross site scripting"}]}}}'],
+            'skipModerateVulnerability' => ['{"vulnerabilities": {"datatables.net": {"name": "datatables.net", "severity": "moderate", "via": [{"title": "Cross site scripting"}]}}}'],
             'skipNoTitleVulnerability' => ['{"vulnerabilities": {"datatables.net": {"name": "datatables.net", "severity": "critical", "via": [{"url": "http://some-url"}]}}}'],
             'skipNonRootVulnerability' => ['{"vulnerabilities": {"datatables.net": {"name": "datatables.net", "severity": "critical", "via": ["@spryker/oryx","autoprefixer"]}}}'],
         ];

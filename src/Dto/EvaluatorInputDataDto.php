@@ -22,6 +22,11 @@ class EvaluatorInputDataDto
     protected array $checkerNames;
 
     /**
+     * @var array<\SprykerSdk\Evaluator\Dto\CheckerConfigDto>
+     */
+    protected array $checkerConfigs;
+
+    /**
      * @var array<string>
      */
     private array $excludedCheckerNames;
@@ -30,12 +35,14 @@ class EvaluatorInputDataDto
      * @param string $path
      * @param array<string> $checkerNames
      * @param array<string> $excludedCheckerNames
+     * @param array<\SprykerSdk\Evaluator\Dto\CheckerConfigDto> $checkerConfigs
      */
-    public function __construct(string $path, array $checkerNames = [], array $excludedCheckerNames = [])
+    public function __construct(string $path, array $checkerNames = [], array $excludedCheckerNames = [], array $checkerConfigs = [])
     {
         $this->path = $path;
         $this->checkerNames = $checkerNames;
         $this->excludedCheckerNames = $excludedCheckerNames;
+        $this->checkerConfigs = $checkerConfigs;
     }
 
     /**
@@ -60,5 +67,13 @@ class EvaluatorInputDataDto
     public function getExcludedCheckerNames(): array
     {
         return $this->excludedCheckerNames;
+    }
+
+    /**
+     * @return array<\SprykerSdk\Evaluator\Dto\CheckerConfigDto>
+     */
+    public function getCheckerConfigs(): array
+    {
+        return $this->checkerConfigs;
     }
 }

@@ -33,3 +33,25 @@ Generate feature packages breakdown file. Should be executed from the evaluator 
 ```shell
 GITHUB_AUTH=<token: ghp_*> bin/console extract-feature-packages -vvv
 ```
+
+# Tooling configuration
+
+Tolling configuration example:
+
+```yaml
+evaluator:
+    configuration:
+        - checker: NPM_CHECKER
+          var:
+              ALLOWED_SEVERITY_LEVELS: [low, moderate, high, critical]
+
+    ignoreErrors:
+        - '#SprykerSdkTest\\InvalidProject\\MultidimensionalArray\\Application1\\ApplicationDependencyProvider#'
+        - messages:
+              - '#composer\.json#'
+              - '#deploy\.dev\.yml#'
+          checker: PHP_VERSION_CHECKER
+        - messages:
+              - '#SprykerSdkTest\\InvalidProject\\MultidimensionalArray\\Application2\\ApplicationDependencyProvider#'
+          checker: MULTIDIMENSIONAL_ARRAY_CHECKER
+```

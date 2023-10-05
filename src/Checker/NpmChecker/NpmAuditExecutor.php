@@ -23,7 +23,7 @@ class NpmAuditExecutor
     /**
      * @var array<string> to skip low, moderate and info level
      */
-    protected const ALLOWED_SEVERITY_LEVELS = ['high', 'critical'];
+    protected const DEFAULT_ALLOWED_SEVERITY_LEVELS = ['high', 'critical'];
 
     /**
      * @var string
@@ -69,11 +69,13 @@ class NpmAuditExecutor
     }
 
     /**
+     * @param array<string>|null $allowedSeverityLevels
+     *
      * @throws \SprykerSdk\Evaluator\Checker\NpmChecker\NpmExecutorException
      *
      * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
      */
-    public function executeNpmAudit(): array
+    public function executeNpmAudit(?array $allowedSeverityLevels): array
     {
         $process = $this->processRunner->run(['npm', 'audit', '--json', '--audit-level', static::DEFAULT_AUDIT_LEVEL]);
 
@@ -98,16 +100,20 @@ class NpmAuditExecutor
         $this->assertArray($report[static::VULNERABILITIES_KEY]);
 
         return $this->getUniqueViolations(
-            $this->getViolationsFromReport($report[static::VULNERABILITIES_KEY]),
+            $this->getViolationsFromReport(
+                $report[static::VULNERABILITIES_KEY],
+                $allowedSeverityLevels ?: static::DEFAULT_ALLOWED_SEVERITY_LEVELS,
+            ),
         );
     }
 
     /**
      * @param array<mixed> $violations
+     * @param array<string> $allowedSeverityLevels
      *
      * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
      */
-    protected function getViolationsFromReport(array $violations): array
+    protected function getViolationsFromReport(array $violations, array $allowedSeverityLevels): array
     {
         $violationDtos = [];
 
@@ -116,7 +122,7 @@ class NpmAuditExecutor
 
             $severity = $violation[static::SEVERITY_KEY];
 
-            if (!in_array($severity, static::ALLOWED_SEVERITY_LEVELS, true)) {
+            if (!in_array($severity, $allowedSeverityLevels, true)) {
                 continue;
             }
 

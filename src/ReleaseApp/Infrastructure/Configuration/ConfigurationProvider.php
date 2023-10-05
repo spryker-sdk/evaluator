@@ -19,6 +19,11 @@ class ConfigurationProvider implements ConfigurationProviderInterface
     protected const DEFAULT_RELEASE_APP_URL = 'https://api.release.spryker.com';
 
     /**
+     * @var string
+     */
+//    protected const DEFAULT_RELEASE_APP_URL = 'http://release.local1';
+
+    /**
      * @var int
      */
     protected const DEFAULT_HTTP_RETRIEVE_ATTEMPTS_COUNT = 5;
