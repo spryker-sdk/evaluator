@@ -28,7 +28,7 @@ class PhpVersionCheckerTest extends ApplicationTestCase
      */
     public function testReturnSuccessOnValidProject(): void
     {
-        $commandTester = $this->createCommandTester(TestHelper::VALID_PROJECT_PATH, ['PROJECT_PHP_VERSION' => '7.3.4']);
+        $commandTester = $this->createCommandTester(TestHelper::VALID_PROJECT_PATH, ['PROJECT_PHP_VERSION' => '8.1']);
         $commandTester->execute(['--checkers' => PhpVersionChecker::NAME]);
 
         $commandTester->assertCommandIsSuccessful();
@@ -66,7 +66,7 @@ class PhpVersionCheckerTest extends ApplicationTestCase
         | 5 | Not all the targets have same PHP versions                                  | Current php version $phpVersion: -                           |
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/composer.json: - |
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/deploy**.yml: -  |
-        |   |                                                                             | SDK php versions: php7, php8                           |
+        |   |                                                                             | SDK php versions: php8                                 |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
 
         Read more: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/php-version.html

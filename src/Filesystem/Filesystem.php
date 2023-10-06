@@ -59,8 +59,9 @@ class Filesystem extends SymfonyFilesystem
         }
 
         static::$lastError = null;
-
-        set_error_handler([static::class, 'handleError']);
+        /** @var callable $callback */
+        $callback = [static::class, 'handleError'];
+        set_error_handler($callback);
         try {
             return $func(...$args);
         } finally {
