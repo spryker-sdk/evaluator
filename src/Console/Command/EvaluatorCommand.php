@@ -170,16 +170,18 @@ class EvaluatorCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $path = $input->getOption(static::PATH_OPTION);
-
         $checkers = $this->getCheckersFromInput($input, static::CHECKERS_OPTION);
-
         $excludedCheckers = $this->getCheckersFromInput($input, static::EXCLUDE_CHECKERS_OPTION);
+        $toolingSettings = $this->getToolingSettingsDto();
 
         $report = $this->evaluatorExecutor->execute(
-            new EvaluatorInputDataDto($this->pathResolver->resolvePath($path), $checkers, $excludedCheckers),
+            new EvaluatorInputDataDto(
+                $this->pathResolver->resolvePath($path),
+                $checkers,
+                $excludedCheckers,
+                $toolingSettings->getCheckerConfigs(),
+            ),
         );
-
-        $toolingSettings = $this->getToolingSettingsDto();
 
         $report = $this->reportFilter->filterReport($report, $toolingSettings);
 

@@ -23,12 +23,18 @@ class ToolingSettingsDtoBuilder implements ToolingSettingsDtoBuilderInterface
      */
     protected ToolingSettingsIgnoreErrorDtoBuilder $toolingSettingsIgnoreErrorDtoBuilder;
 
+    protected ToolingSettingsCheckerConfigurationDtoBuilder $toolingSettingsCheckerConfigurationDtoBuilder;
+
     /**
      * @param \SprykerSdk\Evaluator\Builder\ToolingSettingsIgnoreErrorDtoBuilder $toolingSettingsIgnoreErrorDtoBuilder
+     * @param \SprykerSdk\Evaluator\Builder\ToolingSettingsCheckerConfigurationDtoBuilder $toolingSettingsCheckerConfigurationDtoBuilder
      */
-    public function __construct(ToolingSettingsIgnoreErrorDtoBuilder $toolingSettingsIgnoreErrorDtoBuilder)
-    {
+    public function __construct(
+        ToolingSettingsIgnoreErrorDtoBuilder $toolingSettingsIgnoreErrorDtoBuilder,
+        ToolingSettingsCheckerConfigurationDtoBuilder $toolingSettingsCheckerConfigurationDtoBuilder
+    ) {
         $this->toolingSettingsIgnoreErrorDtoBuilder = $toolingSettingsIgnoreErrorDtoBuilder;
+        $this->toolingSettingsCheckerConfigurationDtoBuilder = $toolingSettingsCheckerConfigurationDtoBuilder;
     }
 
     /**
@@ -40,6 +46,7 @@ class ToolingSettingsDtoBuilder implements ToolingSettingsDtoBuilderInterface
     {
         return new ToolingSettingsDto(
             $this->toolingSettingsIgnoreErrorDtoBuilder->buildFromToolingSettingsArray($toolingSettings[static::EVALUATOR_KEY] ?? []),
+            $this->toolingSettingsCheckerConfigurationDtoBuilder->buildFromToolingSettingsArray($toolingSettings[static::EVALUATOR_KEY] ?? []),
         );
     }
 }
