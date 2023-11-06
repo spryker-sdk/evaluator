@@ -9,20 +9,11 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\ReleaseApp\Domain\Client;
 
-use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeAnalysisRequest;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest;
-use SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeAnalysis;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeInstructions;
 
 interface ReleaseAppClientInterface
 {
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeAnalysisRequest $upgradeAnalysisRequest
-     *
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeAnalysis
-     */
-    public function getUpgradeAnalysis(UpgradeAnalysisRequest $upgradeAnalysisRequest): UpgradeAnalysis;
-
     /**
      * @param \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest $instructionsRequest
      *

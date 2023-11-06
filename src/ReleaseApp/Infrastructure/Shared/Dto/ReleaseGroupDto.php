@@ -24,6 +24,11 @@ class ReleaseGroupDto
     protected bool $containsProjectChanges;
 
     /**
+     * @var int
+     */
+    protected int $id;
+
+    /**
      * @var string
      */
     protected string $name;
@@ -32,6 +37,11 @@ class ReleaseGroupDto
      * @var string
      */
     protected string $link;
+
+    /**
+     * @var int
+     */
+    protected int $rating;
 
     /**
      * @var string|null

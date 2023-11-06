@@ -18,6 +18,7 @@ use SprykerSdk\Evaluator\Dto\ViolationDto;
 use SprykerSdk\Evaluator\Helper\SemanticVersionHelper;
 use SprykerSdk\Evaluator\Reader\ComposerReaderInterface;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeAnalysisRequest;
+use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppServiceInterface;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseAppResponse;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseGroupDto;
@@ -75,7 +76,7 @@ class SprykerSecurityChecker extends AbstractChecker
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         try {
-            $releaseAppResponse = $this->releaseAppService->getNewSecurityReleaseGroups($this->createDataProviderRequest());
+            $releaseAppResponse = $this->releaseAppService->getNewReleaseGroups($this->createDataProviderRequest());
         } catch (RuntimeException $exception) {
             $violation = new ViolationDto(
                 sprintf(
@@ -134,7 +135,7 @@ class SprykerSecurityChecker extends AbstractChecker
 
             $violations[] = new ViolationDto(
                 sprintf(
-                    'Security update available for the module %s, actual version %s',
+                    'Security update available for the module %s, actual version %s ' . $releaseGroupDto->getLink(),
                     $moduleDto->getName(),
                     $installedVersion,
                 ),
@@ -146,14 +147,37 @@ class SprykerSecurityChecker extends AbstractChecker
     }
 
     /**
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeAnalysisRequest
+     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest
      */
-    protected function createDataProviderRequest(): UpgradeAnalysisRequest
+    protected function createDataProviderRequest(): UpgradeInstructionsRequest
     {
-        $projectName = $this->composerReader->getProjectName();
-        $composerJson = $this->composerReader->getComposerData();
-        $composerLock = $this->composerReader->getComposerLockData();
+        $packages = $this->extractLockedPackages($this->composerReader->getComposerLockData());
 
-        return new UpgradeAnalysisRequest($projectName, $composerJson, $composerLock);
+        return new UpgradeInstructionsRequest($packages);
+    }
+
+    /**
+     * @param array<string, mixed> $composerLockArray
+     *
+     * @return array<string, string>
+     */
+    protected function extractLockedPackages(array $composerLockArray): array
+    {
+        if (empty($composerLockArray['packages'])) {
+            return [];
+        }
+
+        $locked = [];
+
+        foreach ($composerLockArray['packages'] as $package) {
+            $name = (string)$package['name'];
+            if (!preg_match('#^spryker.*(?<!feature)/#', $name)) {
+                continue;
+            }
+
+            $locked[$name] = (string)$package['version'];
+        }
+
+        return $locked;
     }
 }

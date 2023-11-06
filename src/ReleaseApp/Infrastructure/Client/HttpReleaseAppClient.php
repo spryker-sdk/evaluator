@@ -10,15 +10,12 @@ declare(strict_types=1);
 namespace SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client;
 
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\ReleaseAppClientInterface;
-use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeAnalysisRequest;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Response\ResponseInterface;
-use SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeAnalysis;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeInstructions;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Builder\HttpRequestBuilderInterface;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Builder\HttpResponseBuilderInterface;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Request\HttpRequestInterface;
-use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Request\HttpUpgradeAnalysisHttpRequest;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Request\HttpUpgradeInstructionsRequest;
 
 class HttpReleaseAppClient implements ReleaseAppClientInterface
@@ -62,19 +59,6 @@ class HttpReleaseAppClient implements ReleaseAppClientInterface
     {
         /** @var \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeInstructions $response */
         $response = $this->getResponse(new HttpUpgradeInstructionsRequest($instructionsRequest));
-
-        return $response;
-    }
-
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeAnalysisRequest $upgradeAnalysisRequest
-     *
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeAnalysis
-     */
-    public function getUpgradeAnalysis(UpgradeAnalysisRequest $upgradeAnalysisRequest): UpgradeAnalysis
-    {
-        /** @var \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeAnalysis $response */
-        $response = $this->getResponse(new HttpUpgradeAnalysisHttpRequest($upgradeAnalysisRequest));
 
         return $response;
     }
