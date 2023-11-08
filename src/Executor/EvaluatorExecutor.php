@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace SprykerSdk\Evaluator\Executor;
 
 use SprykerSdk\Evaluator\Checker\CheckerRegistryInterface;
+use SprykerSdk\Evaluator\Dto\CheckerConfigDto;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\DebugInfoDto;
 use SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto;
@@ -76,7 +77,10 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
 
             $stopWatch->start($checker->getName());
 
-            $checkerResponse = $checker->check(new CheckerInputDataDto($inputData->getPath()));
+            $configDto = $this->getCheckerConfig($inputData->getCheckerConfigs(), $checker->getName());
+            $checkerResponse = $checker->check(
+                new CheckerInputDataDto($inputData->getPath(), $configDto ? $configDto->getConfig() : []),
+            );
 
             $event = $stopWatch->stop($checker->getName());
 
@@ -93,5 +97,18 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
         $this->reportSendProcessor->process($report);
 
         return $report;
+    }
+
+    /**
+     * @param array<mixed> $checkerConfigs
+     * @param string $checkerName
+     *
+     * @return \SprykerSdk\Evaluator\Dto\CheckerConfigDto|null
+     */
+    protected function getCheckerConfig(array $checkerConfigs, string $checkerName): ?CheckerConfigDto
+    {
+        $checkerConfig = array_filter($checkerConfigs, fn (CheckerConfigDto $checkerConfig): bool => $checkerConfig->getCheckerName() === $checkerName);
+
+        return array_shift($checkerConfig);
     }
 }

@@ -131,7 +131,7 @@ class SprykerSecurityCheckerTest extends TestCase
     {
         $executorMock = $this->createMock(ReleaseAppService::class);
         $executorMock->expects($this->any())
-            ->method('getNewSecurityReleaseGroups')
+            ->method('getNewReleaseGroups')
             ->willReturn(
                 new ReleaseAppResponse(
                     new ReleaseGroupDtoCollection(
@@ -163,7 +163,7 @@ class SprykerSecurityCheckerTest extends TestCase
     {
         $executorMock = $this->createMock(ReleaseAppService::class);
         $executorMock->expects($this->any())
-            ->method('getNewSecurityReleaseGroups')
+            ->method('getNewReleaseGroups')
             ->willThrowException(
                 new ReleaseAppException('Something went wrong'),
             );

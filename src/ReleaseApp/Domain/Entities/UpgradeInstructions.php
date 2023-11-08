@@ -21,6 +21,8 @@ class UpgradeInstructions extends Response
     protected const RELEASE_GROUPS_KEY = 'release_groups';
 
     /**
+     * @throws \SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException
+     *
      * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructionsReleaseGroupCollection
      */
     public function getReleaseGroups(): UpgradeInstructionsReleaseGroupCollection

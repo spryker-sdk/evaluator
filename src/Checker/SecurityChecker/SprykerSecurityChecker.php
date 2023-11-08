@@ -17,7 +17,6 @@ use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
 use SprykerSdk\Evaluator\Helper\SemanticVersionHelper;
 use SprykerSdk\Evaluator\Reader\ComposerReaderInterface;
-use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeAnalysisRequest;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppServiceInterface;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseAppResponse;
@@ -135,7 +134,7 @@ class SprykerSecurityChecker extends AbstractChecker
 
             $violations[] = new ViolationDto(
                 sprintf(
-                    'Security update available for the module %s, actual version %s ' . $releaseGroupDto->getLink(),
+                    'Security update available for the module %s, actual version %s',
                     $moduleDto->getName(),
                     $installedVersion,
                 ),
