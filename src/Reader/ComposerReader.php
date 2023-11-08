@@ -139,4 +139,24 @@ class ComposerReader implements ComposerReaderInterface
 
         return $composerJsonContent[static::NAME_KEY];
     }
+
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function getInstalledPackages(): array
+    {
+        $installedPackages = [];
+
+        $composerLock = $this->getComposerLockData();
+
+        foreach ($composerLock[static::PACKAGES_KEY] as $package) {
+            $installedPackages[static::NAME_KEY] = $package[static::NAME_KEY];
+        }
+
+        foreach ($composerLock[static::PACKAGES_DEV_KEY] as $package) {
+            $installedPackages[static::NAME_KEY] = $package[static::NAME_KEY];
+        }
+
+        return $installedPackages;
+    }
 }
