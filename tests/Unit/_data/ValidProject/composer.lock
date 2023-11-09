@@ -17,6 +17,10 @@
         {
             "name": "spryker/cart-gui",
             "version": "2.2.0"
+        },
+        {
+            "name": "spryker-feature/availability-gui",
+            "version": "202300.0"
         }
     ],
     "packages-dev": [],
