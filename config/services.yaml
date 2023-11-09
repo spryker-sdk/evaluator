@@ -5,7 +5,7 @@ imports:
 parameters:
     env(EVALUATOR_PROJECT_DIR): ''
     env(GITHUB_AUTH): ~
-    env(EVALUATOR_RELEASE_APP_URL): 'https://api.release.spryker.com'
+    env(RELEASE_APP_URL): 'https://api.release.spryker.com'
     report_file: 'reports/evaluator.*'
     current_php_version: "%env(default:current_server_php_version:string:PROJECT_PHP_VERSION)%"
     current_server_php_version: !php/const PHP_VERSION
@@ -19,7 +19,7 @@ services:
             $projectDirEnv: '%env(EVALUATOR_PROJECT_DIR)%'
             $githubAuth: '%env(GITHUB_AUTH)%'
             $toolingFile: '%tooling_file%'
-            $releaseAppUrl: '%env(EVALUATOR_RELEASE_APP_URL)%'
+            $releaseAppUrl: '%env(RELEASE_APP_URL)%'
 
     _instanceof:
         SprykerSdk\Evaluator\Checker\CheckerInterface:

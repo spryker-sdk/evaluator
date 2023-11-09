@@ -1,13 +1,20 @@
 <?php
 
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+declare(strict_types=1);
+
 namespace SprykerSdk\Evaluator\Checker\DiscouragedPackagesChecker;
 
+use Psr\Http\Client\ClientExceptionInterface;
 use SprykerSdk\Evaluator\Checker\AbstractChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
 use SprykerSdk\Evaluator\Reader\ComposerReaderInterface;
-use Psr\Http\Client\ClientExceptionInterface;
 
 class DiscouragedPackagesChecker extends AbstractChecker
 {
@@ -53,15 +60,16 @@ class DiscouragedPackagesChecker extends AbstractChecker
      */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
-        $projectInstalledPackages = array_keys($this->composerReader->getComposerRequirePackages());
+        $projectInstalledPackages = array_keys($this->composerReader->getInstalledPackages());
 
         try {
             $discouragedPackages = $this->discouragedPackagesFetcher->fetchDiscouragedPackagesByPackageNames(
-                $projectInstalledPackages
+                $projectInstalledPackages,
             );
-        } catch (ClientExceptionInterface $clientException) {
+        } catch (ClientExceptionInterface | \InvalidArgumentException $clientException) {
             return new CheckerResponseDto(
-                [new ViolationDto(sprintf('Release app api request issue: %s', $clientException->getMessage()))], $this->checkerDocUrl
+                [new ViolationDto(sprintf('Release app api request issue: %s', $clientException->getMessage()))],
+                $this->checkerDocUrl,
             );
         }
 
