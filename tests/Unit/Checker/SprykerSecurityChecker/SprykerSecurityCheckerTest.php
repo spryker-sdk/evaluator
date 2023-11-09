@@ -15,6 +15,8 @@ use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
 use SprykerSdk\Evaluator\Reader\ComposerReader;
+use SprykerSdk\Evaluator\Reader\ComposerReaderInterface;
+use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppService;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppServiceInterface;
@@ -48,12 +50,67 @@ class SprykerSecurityCheckerTest extends TestCase
     /**
      * @return void
      */
+    public function testCheckWrongLock(): void
+    {
+        //Arrange
+        /** @var \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppServiceInterface&\PHPUnit\Framework\MockObject\MockObject $releaseAppServiceMock */
+        $releaseAppServiceMock = $this->createReleaseAppServiceMock();
+        $releaseAppServiceMock->method('getNewReleaseGroups')
+            ->with(new UpgradeInstructionsRequest([]));
+        $composerReaderMock = $this->createMock(ComposerReaderInterface::class);
+        $composerReaderMock->method('getComposerLockData')
+            ->willReturn([]);
+        $checker = new SprykerSecurityChecker(
+            $composerReaderMock,
+            $releaseAppServiceMock,
+            'doc url',
+        );
+
+        //Act
+        $response = $checker->check(new CheckerInputDataDto(''));
+
+        //Assert
+        $this->assertEquals(
+            new CheckerResponseDto(
+                [],
+                'doc url',
+            ),
+            $response,
+        );
+    }
+
+    /**
+     * @return void
+     */
     public function testCheckFoundViolation(): void
     {
         //Arrange
+        /** @var \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppServiceInterface&\PHPUnit\Framework\MockObject\MockObject $releaseAppServiceMock */
+        $releaseAppServiceMock = $this->createReleaseAppServiceMock();
+        $releaseAppServiceMock->method('getNewReleaseGroups')
+            ->willReturn(
+                new ReleaseAppResponse(
+                    new ReleaseGroupDtoCollection(
+                        [
+                            new ReleaseGroupDto(
+                                'RG1',
+                                new ModuleDtoCollection([
+                                    new ModuleDto('spryker/availability-gui', '6.6.0', 'minor'),
+                                    new ModuleDto('spryker/store-gui', '4.2.1', 'path'),
+                                    new ModuleDto('cart-gui', '1.2.1', 'path'),
+                                ]),
+                                false,
+                                'RG1 link',
+                                false,
+                                true,
+                            ),
+                        ],
+                    ),
+                ),
+            );
         $checker = new SprykerSecurityChecker(
             new ComposerReader($this->createPathResolverMock(static::INVALID_PROJECT_PATH)),
-            $this->createReleaseAppServiceMock(),
+            $releaseAppServiceMock,
             'doc url',
         );
 
@@ -81,9 +138,37 @@ class SprykerSecurityCheckerTest extends TestCase
     public function testCheckNoViolation(): void
     {
         //Arrange
+        /** @var \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppServiceInterface&\PHPUnit\Framework\MockObject\MockObject $releaseAppServiceMock */
+        $releaseAppServiceMock = $this->createReleaseAppServiceMock();
+        $releaseAppServiceMock->method('getNewReleaseGroups')
+            ->willReturn(
+                new ReleaseAppResponse(
+                    new ReleaseGroupDtoCollection(
+                        [
+                            new ReleaseGroupDto(
+                                'RG1',
+                                new ModuleDtoCollection([
+                                    new ModuleDto('spryker/availability-gui', '6.6.0', 'minor'),
+                                    new ModuleDto('spryker/store-gui', '4.2.1', 'path'),
+                                    new ModuleDto('cart-gui', '1.2.1', 'path'),
+                                ]),
+                                false,
+                                'RG1 link',
+                                false,
+                                true,
+                            ),
+                        ],
+                    ),
+                ),
+            )
+            ->with(new UpgradeInstructionsRequest([
+                'spryker/availability-gui' => '6.6.0',
+                'spryker/store-gui' => '3.2.0',
+                'spryker/cart-gui' => '2.2.0',
+            ]));
         $checker = new SprykerSecurityChecker(
             new ComposerReader($this->createPathResolverMock(static::VALID_PROJECT_PATH)),
-            $this->createReleaseAppServiceMock(),
+            $releaseAppServiceMock,
             'doc url',
         );
 
@@ -129,31 +214,7 @@ class SprykerSecurityCheckerTest extends TestCase
      */
     protected function createReleaseAppServiceMock(): ReleaseAppServiceInterface
     {
-        $executorMock = $this->createMock(ReleaseAppService::class);
-        $executorMock->expects($this->any())
-            ->method('getNewReleaseGroups')
-            ->willReturn(
-                new ReleaseAppResponse(
-                    new ReleaseGroupDtoCollection(
-                        [
-                            new ReleaseGroupDto(
-                                'RG1',
-                                new ModuleDtoCollection([
-                                    new ModuleDto('spryker/availability-gui', '6.6.0', 'minor'),
-                                    new ModuleDto('spryker/store-gui', '4.2.1', 'path'),
-                                    new ModuleDto('cart-gui', '1.2.1', 'path'),
-                                ]),
-                                false,
-                                'RG1 link',
-                                false,
-                                true,
-                            ),
-                        ],
-                    ),
-                ),
-            );
-
-        return $executorMock;
+        return $this->createMock(ReleaseAppServiceInterface::class);
     }
 
     /**
