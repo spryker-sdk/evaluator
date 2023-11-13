@@ -22,7 +22,7 @@ class ToolingSettingsFileReaderTest extends TestCase
     public function testReadFromFileShouldReturnEmptyArrayWhenFileDoesNotExists(): void
     {
         // Arrange
-        /** @varFilesystem&\PHPUnit\Framework\MockObject\MockObject $fileSystemMock */
+        /** @var \SprykerSdk\Utils\Infrastructure\Service\Filesystem&\PHPUnit\Framework\MockObject\MockObject $fileSystemMock */
         $fileSystemMock = $this->createMock(Filesystem::class);
         $fileSystemMock
             ->expects($this->once())
