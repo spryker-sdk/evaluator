@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace SprykerSdkTest\Evaluator\Unit\Reader;
 
 use PHPUnit\Framework\TestCase;
-use SprykerSdk\Evaluator\Filesystem\Filesystem;
 use SprykerSdk\Evaluator\Reader\ComposerReader;
 use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
+use SprykerSdk\Utils\Infrastructure\Service\Filesystem;
 
 class ComposerReaderTest extends TestCase
 {
@@ -72,7 +72,7 @@ class ComposerReaderTest extends TestCase
     /**
      * @param string $returnData
      *
-     * @return \SprykerSdk\Evaluator\Filesystem\Filesystem
+     * @return \SprykerSdk\Utils\Infrastructure\Service\Filesystem
      */
     protected function createFilesystemMock(string $returnData): Filesystem
     {

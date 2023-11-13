@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Reader;
 
-use SprykerSdk\Evaluator\Filesystem\Filesystem;
 use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
+use SprykerSdk\Utils\Infrastructure\Service\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 class ToolingSettingsFileReader implements ToolingSettingsReaderInterface
@@ -26,14 +26,14 @@ class ToolingSettingsFileReader implements ToolingSettingsReaderInterface
     protected string $toolingFile;
 
     /**
-     * @var \SprykerSdk\Evaluator\Filesystem\Filesystem
+     * @var \SprykerSdk\Utils\Infrastructure\Service\Filesystem
      */
     protected Filesystem $filesystem;
 
     /**
      * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
      * @param string $toolingFile
-     * @param \SprykerSdk\Evaluator\Filesystem\Filesystem $filesystem
+     * @param \SprykerSdk\Utils\Infrastructure\Service\Filesystem $filesystem
      */
     public function __construct(PathResolverInterface $pathResolver, string $toolingFile, Filesystem $filesystem)
     {

@@ -11,7 +11,7 @@ namespace SprykerSdk\Evaluator\Checker\NpmChecker;
 
 use JsonException;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
-use SprykerSdk\Evaluator\Process\ProcessRunnerInterface;
+use SprykerSdk\Utils\Infrastructure\Service\ProcessRunnerServiceInterface;
 
 class NpmAuditExecutor
 {
@@ -56,14 +56,14 @@ class NpmAuditExecutor
     protected const URL_KEY = 'url';
 
     /**
-     * @var \SprykerSdk\Evaluator\Process\ProcessRunnerInterface
+     * @var \SprykerSdk\Utils\Infrastructure\Service\ProcessRunnerServiceInterface
      */
-    private ProcessRunnerInterface $processRunner;
+    private ProcessRunnerServiceInterface $processRunner;
 
     /**
-     * @param \SprykerSdk\Evaluator\Process\ProcessRunnerInterface $processRunner
+     * @param \SprykerSdk\Utils\Infrastructure\Service\ProcessRunnerServiceInterface $processRunner
      */
-    public function __construct(ProcessRunnerInterface $processRunner)
+    public function __construct(ProcessRunnerServiceInterface $processRunner)
     {
         $this->processRunner = $processRunner;
     }

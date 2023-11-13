@@ -15,12 +15,12 @@ use SprykerSdk\Evaluator\Checker\AbstractChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
-use SprykerSdk\Evaluator\Helper\SemanticVersionHelper;
 use SprykerSdk\Evaluator\Reader\ComposerReaderInterface;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppServiceInterface;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseAppResponse;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseGroupDto;
+use SprykerSdk\Utils\Infrastructure\Helper\SemanticVersionHelper;
 
 class SprykerSecurityChecker extends AbstractChecker
 {
