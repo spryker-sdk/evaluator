@@ -12,7 +12,7 @@ namespace SprykerSdkTest\Evaluator\Unit\ReleaseApp\Infrastructure\Service;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeAnalysisRequest;
+use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\HttpRequestExecutor;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppService;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\Collection\ModuleDtoCollection;
@@ -37,10 +37,10 @@ class ReleaseAppServiceTest extends KernelTestCase
         // Arrange
         $container = static::bootKernel()->getContainer();
         $container->set(HttpRequestExecutor::class, $this->createRequestExecutorMock());
-        $request = new UpgradeAnalysisRequest('project-name', [], []);
+        $request = new UpgradeInstructionsRequest([]);
 
         // Act
-        $releaseGroups = $container->get(ReleaseAppService::class)->getNewSecurityReleaseGroups($request);
+        $releaseGroups = $container->get(ReleaseAppService::class)->getNewReleaseGroups($request);
 
         // Assert
         $this->assertEquals(
@@ -74,10 +74,10 @@ class ReleaseAppServiceTest extends KernelTestCase
         // Arrange
         $container = static::bootKernel()->getContainer();
         $container->set(HttpRequestExecutor::class, $this->createRequestExecutorMockWithError());
-        $request = new UpgradeAnalysisRequest('project-name', [], []);
+        $request = new UpgradeInstructionsRequest([]);
 
         // Act
-        $container->get(ReleaseAppService::class)->getNewSecurityReleaseGroups($request);
+        $container->get(ReleaseAppService::class)->getNewReleaseGroups($request);
     }
 
     /**

@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service;
 
 use SprykerSdk\Evaluator\ReleaseApp\Application\Service\ReleaseAppService as ApplicationReleaseAppService;
-use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeAnalysisRequest;
+use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseAppResponse;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Mapper\ReleaseGroupDtoCollectionMapper;
 
@@ -39,14 +39,14 @@ class ReleaseAppService implements ReleaseAppServiceInterface
     }
 
     /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeAnalysisRequest $upgradeAnalysisRequest
+     * @param \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest $upgradeInstructionsRequest
      *
      * @return \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseAppResponse
      */
-    public function getNewSecurityReleaseGroups(UpgradeAnalysisRequest $upgradeAnalysisRequest): ReleaseAppResponse
+    public function getNewReleaseGroups(UpgradeInstructionsRequest $upgradeInstructionsRequest): ReleaseAppResponse
     {
         $releaseGroupCollection = $this->releaseGroupDtoCollectionMapper->mapReleaseGroupTransferCollection(
-            $this->releaseApp->getNewReleaseGroupsSortedByReleaseDate($upgradeAnalysisRequest),
+            $this->releaseApp->getNewReleaseGroupsSortedByReleaseDate($upgradeInstructionsRequest),
         );
 
         return new ReleaseAppResponse($releaseGroupCollection);

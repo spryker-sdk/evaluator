@@ -52,19 +52,6 @@ class ReleaseGroupDtoCollectionMapper
     /**
      * @param \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeInstructionsReleaseGroup $releaseGroup
      *
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\Collection\ReleaseGroupDtoCollection
-     */
-    public function mapReleaseGroupDtoIntoCollection(UpgradeInstructionsReleaseGroup $releaseGroup): ReleaseGroupDtoCollection
-    {
-        $dataProviderReleaseGroupCollection = new ReleaseGroupDtoCollection();
-        $dataProviderReleaseGroupCollection->add($this->mapReleaseGroupDto($releaseGroup));
-
-        return $dataProviderReleaseGroupCollection;
-    }
-
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeInstructionsReleaseGroup $releaseGroup
-     *
      * @return \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseGroupDto
      */
     protected function mapReleaseGroupDto(UpgradeInstructionsReleaseGroup $releaseGroup): ReleaseGroupDto
