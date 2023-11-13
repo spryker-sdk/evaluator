@@ -37,4 +37,9 @@ interface ComposerReaderInterface
      * @return string
      */
     public function getProjectName(): string;
+
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function getInstalledPackages(): array;
 }

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Reader;
 
-use InvalidArgumentException;
+use SprykerSdk\Evaluator\Filesystem\Filesystem;
 use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 
 class ComposerReader implements ComposerReaderInterface
@@ -57,11 +57,18 @@ class ComposerReader implements ComposerReaderInterface
     protected PathResolverInterface $pathResolver;
 
     /**
-     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
+     * @var \SprykerSdk\Evaluator\Filesystem\Filesystem
      */
-    public function __construct(PathResolverInterface $pathResolver)
+    protected Filesystem $filesystem;
+
+    /**
+     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
+     * @param \SprykerSdk\Evaluator\Filesystem\Filesystem $filesystem
+     */
+    public function __construct(PathResolverInterface $pathResolver, Filesystem $filesystem)
     {
         $this->pathResolver = $pathResolver;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -91,17 +98,11 @@ class ComposerReader implements ComposerReaderInterface
     /**
      * @param string $filePath
      *
-     * @throws \InvalidArgumentException
-     *
      * @return array<mixed>
      */
     protected function readFile(string $filePath): array
     {
-        $content = file_get_contents($filePath);
-
-        if ($content === false) {
-            throw new InvalidArgumentException(sprintf('Unable to read file %s. Error: %s', $filePath, error_get_last()['message'] ?? '-'));
-        }
+        $content = $this->filesystem->readFile($filePath);
 
         return json_decode($content, true, 512, \JSON_THROW_ON_ERROR);
     }
@@ -138,5 +139,25 @@ class ComposerReader implements ComposerReaderInterface
         $composerJsonContent = $this->getComposerData();
 
         return $composerJsonContent[static::NAME_KEY];
+    }
+
+    /**
+     * @return array<mixed, array<string, mixed>>
+     */
+    public function getInstalledPackages(): array
+    {
+        $installedPackages = [];
+
+        $composerLock = $this->getComposerLockData();
+
+        foreach ($composerLock[static::PACKAGES_KEY] as $package) {
+            $installedPackages[$package[static::NAME_KEY]] = $package;
+        }
+
+        foreach ($composerLock[static::PACKAGES_DEV_KEY] as $package) {
+            $installedPackages[$package[static::NAME_KEY]] = $package;
+        }
+
+        return $installedPackages;
     }
 }

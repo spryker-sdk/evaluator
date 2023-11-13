@@ -14,6 +14,7 @@ use SprykerSdk\Evaluator\Checker\SecurityChecker\SprykerSecurityChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
+use SprykerSdk\Evaluator\Filesystem\Filesystem;
 use SprykerSdk\Evaluator\Reader\ComposerReader;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppService;
@@ -52,7 +53,7 @@ class SprykerSecurityCheckerTest extends TestCase
     {
         //Arrange
         $checker = new SprykerSecurityChecker(
-            new ComposerReader($this->createPathResolverMock(static::INVALID_PROJECT_PATH)),
+            new ComposerReader($this->createPathResolverMock(static::INVALID_PROJECT_PATH), new Filesystem()),
             $this->createReleaseAppServiceMock(),
             'doc url',
         );
@@ -82,7 +83,7 @@ class SprykerSecurityCheckerTest extends TestCase
     {
         //Arrange
         $checker = new SprykerSecurityChecker(
-            new ComposerReader($this->createPathResolverMock(static::VALID_PROJECT_PATH)),
+            new ComposerReader($this->createPathResolverMock(static::VALID_PROJECT_PATH), new Filesystem()),
             $this->createReleaseAppServiceMock(),
             'doc url',
         );
@@ -101,7 +102,7 @@ class SprykerSecurityCheckerTest extends TestCase
     {
         //Arrange
         $checker = new SprykerSecurityChecker(
-            new ComposerReader($this->createPathResolverMock(static::INVALID_PROJECT_PATH)),
+            new ComposerReader($this->createPathResolverMock(static::INVALID_PROJECT_PATH), new Filesystem()),
             $this->createReleaseAppServiceMockThrowException(),
             'doc url',
         );
