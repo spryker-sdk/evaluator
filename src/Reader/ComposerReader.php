@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace SprykerSdk\Evaluator\Reader;
 
-use SprykerSdk\Evaluator\Filesystem\Filesystem;
 use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
+use SprykerSdk\Utils\Infrastructure\Service\Filesystem;
 
 class ComposerReader implements ComposerReaderInterface
 {
@@ -57,13 +57,13 @@ class ComposerReader implements ComposerReaderInterface
     protected PathResolverInterface $pathResolver;
 
     /**
-     * @var \SprykerSdk\Evaluator\Filesystem\Filesystem
+     * @var \SprykerSdk\Utils\Infrastructure\Service\Filesystem
      */
     protected Filesystem $filesystem;
 
     /**
      * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
-     * @param \SprykerSdk\Evaluator\Filesystem\Filesystem $filesystem
+     * @param \SprykerSdk\Utils\Infrastructure\Service\Filesystem $filesystem
      */
     public function __construct(PathResolverInterface $pathResolver, Filesystem $filesystem)
     {

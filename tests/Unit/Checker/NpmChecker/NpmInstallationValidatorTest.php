@@ -11,7 +11,7 @@ namespace SprykerSdkTest\Evaluator\Unit\Checker\NpmChecker;
 
 use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Checker\NpmChecker\NpmInstallationValidator;
-use SprykerSdk\Evaluator\Process\ProcessRunnerInterface;
+use SprykerSdk\Utils\Infrastructure\Service\ProcessRunnerServiceInterface;
 use Symfony\Component\Process\Process;
 
 class NpmInstallationValidatorTest extends TestCase
@@ -34,11 +34,11 @@ class NpmInstallationValidatorTest extends TestCase
     /**
      * @param bool $isCommandSuccessful
      *
-     * @return \SprykerSdk\Evaluator\Process\ProcessRunnerInterface
+     * @return \SprykerSdk\Utils\Infrastructure\Service\ProcessRunnerServiceInterface
      */
-    public function createProcessRunnerMock(bool $isCommandSuccessful = true): ProcessRunnerInterface
+    public function createProcessRunnerMock(bool $isCommandSuccessful = true): ProcessRunnerServiceInterface
     {
-        $processRunner = $this->createMock(ProcessRunnerInterface::class);
+        $processRunner = $this->createMock(ProcessRunnerServiceInterface::class);
         $process = $this->createMock(Process::class);
 
         $process->method('isSuccessful')->willReturn($isCommandSuccessful);

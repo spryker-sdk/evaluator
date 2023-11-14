@@ -189,3 +189,9 @@ services:
 
     SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppService:
         public: true
+
+
+    SprykerSdk\Utils\Infrastructure\Service\ProcessRunnerService: ~
+    SprykerSdk\Utils\Infrastructure\Service\ProcessRunnerServiceInterface: '@SprykerSdk\Utils\Infrastructure\Service\ProcessRunnerService'
+
+    SprykerSdk\Utils\Infrastructure\Service\Filesystem: ~

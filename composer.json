@@ -25,7 +25,7 @@
         "symfony/serializer": "^5.4|^6.0",
         "symfony/stopwatch": "^5.4|^6.0",
         "symfony/yaml": "^5.4|^6.0",
-        "laminas/laminas-filter": "^2.11.0"
+        "spryker-sdk/utils": "dev-master"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",

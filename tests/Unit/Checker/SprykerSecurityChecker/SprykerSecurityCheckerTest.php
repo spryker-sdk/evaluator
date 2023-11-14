@@ -14,7 +14,6 @@ use SprykerSdk\Evaluator\Checker\SecurityChecker\SprykerSecurityChecker;
 use SprykerSdk\Evaluator\Dto\CheckerInputDataDto;
 use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
-use SprykerSdk\Evaluator\Filesystem\Filesystem;
 use SprykerSdk\Evaluator\Reader\ComposerReader;
 use SprykerSdk\Evaluator\Reader\ComposerReaderInterface;
 use SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest;
@@ -27,6 +26,7 @@ use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ModuleDto;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseAppResponse;
 use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseGroupDto;
 use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
+use SprykerSdk\Utils\Infrastructure\Service\Filesystem;
 
 /**
  * @group SprykerSdkTest

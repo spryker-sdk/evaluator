@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace SprykerSdkTest\Evaluator\Unit\Reader;
 
 use PHPUnit\Framework\TestCase;
-use SprykerSdk\Evaluator\Filesystem\Filesystem;
 use SprykerSdk\Evaluator\Reader\ToolingSettingsFileReader;
 use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
+use SprykerSdk\Utils\Infrastructure\Service\Filesystem;
 
 class ToolingSettingsFileReaderTest extends TestCase
 {
@@ -22,7 +22,7 @@ class ToolingSettingsFileReaderTest extends TestCase
     public function testReadFromFileShouldReturnEmptyArrayWhenFileDoesNotExists(): void
     {
         // Arrange
-        /** @var \SprykerSdk\Evaluator\Filesystem\Filesystem&\PHPUnit\Framework\MockObject\MockObject $fileSystemMock */
+        /** @var \SprykerSdk\Utils\Infrastructure\Service\Filesystem&\PHPUnit\Framework\MockObject\MockObject $fileSystemMock */
         $fileSystemMock = $this->createMock(Filesystem::class);
         $fileSystemMock
             ->expects($this->once())
@@ -76,7 +76,7 @@ class ToolingSettingsFileReaderTest extends TestCase
     /**
      * @param string $fileContent
      *
-     * @return \SprykerSdk\Evaluator\Filesystem\Filesystem
+     * @return \SprykerSdk\Utils\Infrastructure\Service\Filesystem
      */
     protected function createFilesystemMock(string $fileContent): Filesystem
     {

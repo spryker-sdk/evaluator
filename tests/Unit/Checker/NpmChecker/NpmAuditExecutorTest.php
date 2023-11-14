@@ -12,7 +12,7 @@ namespace SprykerSdkTest\Evaluator\Unit\Checker\NpmChecker;
 use PHPUnit\Framework\TestCase;
 use SprykerSdk\Evaluator\Checker\NpmChecker\NpmAuditExecutor;
 use SprykerSdk\Evaluator\Checker\NpmChecker\NpmExecutorException;
-use SprykerSdk\Evaluator\Process\ProcessRunnerInterface;
+use SprykerSdk\Utils\Infrastructure\Service\ProcessRunnerServiceInterface;
 use Symfony\Component\Process\Process;
 
 class NpmAuditExecutorTest extends TestCase
@@ -181,11 +181,11 @@ class NpmAuditExecutorTest extends TestCase
     /**
      * @param \Symfony\Component\Process\Process $process
      *
-     * @return \SprykerSdk\Evaluator\Process\ProcessRunnerInterface
+     * @return \SprykerSdk\Utils\Infrastructure\Service\ProcessRunnerServiceInterface
      */
-    public function createProcessRunnerMock(Process $process): ProcessRunnerInterface
+    public function createProcessRunnerMock(Process $process): ProcessRunnerServiceInterface
     {
-        $processRunner = $this->createMock(ProcessRunnerInterface::class);
+        $processRunner = $this->createMock(ProcessRunnerServiceInterface::class);
         $processRunner->method('run')->willReturn($process);
 
         return $processRunner;
