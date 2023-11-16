@@ -93,7 +93,7 @@ class DeployYamlFilesPhpVersionStrategy implements PhpVersionCheckerStrategyInte
         );
 
         if (count($validVersions) === 0) {
-            return new CheckerStrategyResponse([], [new ViolationDto(sprintf(static::MESSAGE_USED_NOT_ALLOWED_PHP_VERSION, $deployStructure['image']['tag']), $fileName)]);
+            return new CheckerStrategyResponse([], [new ViolationDto(sprintf(static::MESSAGE_USED_NOT_ALLOWED_PHP_VERSION, $imageTag), $fileName)]);
         }
 
         return new CheckerStrategyResponse($validVersions, []);
