@@ -74,6 +74,24 @@ class DeployYamlFilesPhpVersionStrategyTest extends TestCase
     /**
      * @return void
      */
+    public function testCheckShouldReturnSuccessWhenImageHasNoTag(): void
+    {
+        //Arrange
+        $deploymentFileReaderMock = $this->createDeploymentYamlFileReaderMock(['deploy.yml' => ['image' => 'spryker/php:7.4-DRAFT-any-image']]);
+
+        $checkerStrategy = new DeployYamlFilesPhpVersionStrategy($deploymentFileReaderMock);
+
+        //Act
+        $response = $checkerStrategy->check(['7.4', '8.0'], '');
+
+        //Assert
+        $this->assertSame(['7.4'], array_values($response->getUsedVersions()));
+        $this->assertCount(0, $response->getViolations());
+    }
+
+    /**
+     * @return void
+     */
     public function testCheckShouldReturnSuccessWhenDeployFilesUseAllowedPhpVersion(): void
     {
         //Arrange
