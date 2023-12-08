@@ -71,10 +71,9 @@ class ComposerPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
             return new CheckerStrategyResponse([], [new ViolationDto(static::MESSAGE_NO_PHP_DEPENDENCY, $composerFile)]);
         }
 
-        $validVersions = array_filter(
-            $allowedPhpVersions,
-            static fn (string $allowedVersion): bool => Semver::satisfies($allowedVersion . static::MAX_MINOR_VERSION_SUFFIX, $composerData['require']['php'])
-        );
+        $validVersions = $this->isExactPhpVersion($composerData)
+            ? $this->compareByExactPhpVersion($allowedPhpVersions, $composerData)
+            : $this->compareByMask($allowedPhpVersions, $composerData);
 
         if (count($validVersions) === 0) {
             return new CheckerStrategyResponse(
@@ -84,6 +83,44 @@ class ComposerPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
         }
 
         return new CheckerStrategyResponse($validVersions, []);
+    }
+
+    /**
+     * @param array<string> $allowedPhpVersions
+     * @param array<mixed> $composerData
+     *
+     * @return array<string>
+     */
+    protected function compareByMask(array $allowedPhpVersions, array $composerData): array
+    {
+        return array_filter(
+            $allowedPhpVersions,
+            static fn (string $allowedVersion): bool => Semver::satisfies($allowedVersion . static::MAX_MINOR_VERSION_SUFFIX, $composerData['require']['php'])
+        );
+    }
+
+    /**
+     * @param array<string> $allowedPhpVersions
+     * @param array<mixed> $composerData
+     *
+     * @return array<string>
+     */
+    protected function compareByExactPhpVersion(array $allowedPhpVersions, array $composerData): array
+    {
+        return array_filter(
+            $allowedPhpVersions,
+            static fn (string $allowedVersion): bool => strpos($composerData['require']['php'], $allowedVersion) === 0
+        );
+    }
+
+    /**
+     * @param array<mixed> $composerData
+     *
+     * @return bool
+     */
+    protected function isExactPhpVersion(array $composerData): bool
+    {
+        return (bool) preg_match('/^\d(\.\d+)*$/', $composerData['require']['php']);
     }
 
     /**

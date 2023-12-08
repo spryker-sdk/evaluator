@@ -77,6 +77,25 @@ class ComposerPhpVersionStrategyTest extends TestCase
     /**
      * @return void
      */
+    public function testCheckShouldReturnNotAllowedPhpVersionViolationWhenInvalidExactPhpVersionSet(): void
+    {
+        //Arrange
+        $composerFileReaderMock = $this->createComposerFileReaderMock(['require' => ['php' => '>=8.1', 'spryker-eco/loggly' => '^0.1.1']]);
+
+        $checkerStrategy = new ComposerPhpVersionStrategy($composerFileReaderMock);
+
+        //Act
+        $response = $checkerStrategy->check(['7.4', '8.0'], '');
+
+        //Assert
+        $this->assertEmpty($response->getUsedVersions());
+        $this->assertCount(1, $response->getViolations());
+        $this->assertStringMatchesFormat(ComposerPhpVersionStrategy::MESSAGE_USED_NOT_ALLOWED_PHP_VERSION, $response->getViolations()[0]->getMessage());
+    }
+
+    /**
+     * @return void
+     */
     public function testCheckShouldReturnSuccessResponseWhenValidPhpVersionUsed(): void
     {
         //Arrange
@@ -89,6 +108,24 @@ class ComposerPhpVersionStrategyTest extends TestCase
 
         //Assert
         $this->assertSame(['7.4', '8.0'], $response->getUsedVersions());
+        $this->assertCount(0, $response->getViolations());
+    }
+
+    /**
+     * @return void
+     */
+    public function testCheckShouldReturnSuccessResponseWhenSetExactVersion(): void
+    {
+        //Arrange
+        $composerFileReaderMock = $this->createComposerFileReaderMock(['require' => ['php' => '7.4', 'spryker-eco/loggly' => '^0.1.1']]);
+
+        $checkerStrategy = new ComposerPhpVersionStrategy($composerFileReaderMock);
+
+        //Act
+        $response = $checkerStrategy->check(['7.4', '8.0'], '');
+
+        //Assert
+        $this->assertSame(['7.4'], $response->getUsedVersions());
         $this->assertCount(0, $response->getViolations());
     }
 
