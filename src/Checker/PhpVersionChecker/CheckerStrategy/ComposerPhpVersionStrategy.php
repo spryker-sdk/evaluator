@@ -120,7 +120,7 @@ class ComposerPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
      */
     protected function isExactPhpVersion(array $composerData): bool
     {
-        return (bool) preg_match('/^\d(\.\d+)*$/', $composerData['require']['php']);
+        return (bool)preg_match('/^\d(\.\d+)*$/', $composerData['require']['php']);
     }
 
     /**
