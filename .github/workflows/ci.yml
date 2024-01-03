@@ -19,8 +19,9 @@ jobs:
       fail-fast: false
       matrix:
         php-version: [
-            '7.4',
-            '8.2'
+            '8.0',
+            '8.2',
+            '8.3'
         ]
 
     steps:
@@ -54,7 +55,7 @@ jobs:
 
       - name: Composer install
         run: |
-          if [[ ${{ matrix.php-version }} == '8.2' ]]; then
+            if [[ ${{ matrix.php-version }} == '8.2' || ${{ matrix.php-version }} == '8.3' ]]; then
             composer update laminas/laminas-servicemanager laminas/laminas-stdlib laminas/laminas-filter --prefer-stable --optimize-autoloader
           else
             composer install --prefer-dist --no-interaction --optimize-autoloader
