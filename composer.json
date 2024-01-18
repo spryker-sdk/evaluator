@@ -12,6 +12,7 @@
         "ext-json": "*",
         "composer/semver": "^3.3",
         "guzzlehttp/guzzle": "^7.5",
+        "nikic/php-parser": "^4.0.0",
         "spryker-sdk/security-checker": "^0.2.0",
         "spryker-sdk/utils": "^0.2.1",
         "symfony/console": "^6.0",
