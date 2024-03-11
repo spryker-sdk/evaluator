@@ -26,7 +26,7 @@ class PhpParser implements PhpParserInterface
      */
     public function __construct(ParserFactory $parserFactory)
     {
-        $this->parser = $parserFactory->create(ParserFactory::PREFER_PHP7);
+        $this->parser = $parserFactory->createForNewestSupportedVersion();
     }
 
     /**
