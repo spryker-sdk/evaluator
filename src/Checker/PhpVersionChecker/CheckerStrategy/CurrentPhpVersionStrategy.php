@@ -43,7 +43,7 @@ class CurrentPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
         $phpVersion = $this->currentPhpVersion;
         $validVersions = array_filter(
             $allowedPhpVersions,
-            static fn (string $allowedVersion): bool => strpos($phpVersion, $allowedVersion) === 0 && version_compare($phpVersion, $allowedVersion, '>=')
+            static fn (string $allowedVersion): bool => strpos($phpVersion, $allowedVersion) === 0 && version_compare($phpVersion, $allowedVersion, '>='),
         );
 
         $violations = count($validVersions) === 0

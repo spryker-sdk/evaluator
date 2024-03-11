@@ -91,7 +91,7 @@ class ReleaseGroupDtoCollection
         return new self(
             array_filter(
                 $this->elements,
-                fn (ReleaseGroupDto $releaseGroup): bool => $releaseGroup->isSecurity()
+                fn (ReleaseGroupDto $releaseGroup): bool => $releaseGroup->isSecurity(),
             ),
         );
     }

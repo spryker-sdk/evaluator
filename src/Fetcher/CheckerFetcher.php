@@ -54,7 +54,7 @@ class CheckerFetcher implements CheckerFetcherInterface
 
         return array_filter(
             $checkers,
-            static fn (CheckerInterface $checker): bool => in_array($checker->getName(), $inputData->getCheckerNames(), true)
+            static fn (CheckerInterface $checker): bool => in_array($checker->getName(), $inputData->getCheckerNames(), true),
         );
     }
 
@@ -68,7 +68,7 @@ class CheckerFetcher implements CheckerFetcherInterface
     {
         return array_filter(
             $checkers,
-            static fn (CheckerInterface $checker): bool => !in_array($checker->getName(), $inputData->getExcludedCheckerNames(), true)
+            static fn (CheckerInterface $checker): bool => !in_array($checker->getName(), $inputData->getExcludedCheckerNames(), true),
         );
     }
 }
