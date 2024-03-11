@@ -74,7 +74,7 @@ class SprykerDevPackagesChecker extends AbstractChecker
 
         $devSprykerPackages = array_filter(
             $sprykerPackages,
-            static fn (string $constraint): bool => strpos($constraint, static::DEV_PACKAGE_PREFIX) === 0
+            static fn (string $constraint): bool => strpos($constraint, static::DEV_PACKAGE_PREFIX) === 0,
         );
 
         return new CheckerResponseDto($this->createViolations($devSprykerPackages), $this->checkerDocUrl);

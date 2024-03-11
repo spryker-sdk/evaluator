@@ -11,6 +11,7 @@ namespace SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\FileRea
 
 use FilesystemIterator;
 use GlobIterator;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 class DeploymentYamlFileReader
@@ -26,7 +27,13 @@ class DeploymentYamlFileReader
 
         /** @var string $filePath */
         foreach ($fileIterator as $filePath) {
-            yield $filePath => Yaml::parseFile($filePath);
+            try {
+                $content = Yaml::parseFile($filePath);
+            } catch (ParseException $e) {
+                continue;
+            }
+
+            yield $filePath => $content;
         }
     }
 }

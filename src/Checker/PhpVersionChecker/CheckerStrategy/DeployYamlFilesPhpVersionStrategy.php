@@ -89,7 +89,7 @@ class DeployYamlFilesPhpVersionStrategy implements PhpVersionCheckerStrategyInte
             static fn (string $version): bool => (bool)preg_match(
                 sprintf('/[^\d.]%s/', str_replace('.', '\.', $version)),
                 $imageTag,
-            )
+            ),
         );
 
         if (count($validVersions) === 0) {

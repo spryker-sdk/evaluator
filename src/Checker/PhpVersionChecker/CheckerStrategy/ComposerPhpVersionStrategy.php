@@ -95,7 +95,7 @@ class ComposerPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
     {
         return array_filter(
             $allowedPhpVersions,
-            static fn (string $allowedVersion): bool => Semver::satisfies($allowedVersion . static::MAX_MINOR_VERSION_SUFFIX, $composerData['require']['php'])
+            static fn (string $allowedVersion): bool => Semver::satisfies($allowedVersion . static::MAX_MINOR_VERSION_SUFFIX, $composerData['require']['php']),
         );
     }
 
@@ -109,7 +109,7 @@ class ComposerPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
     {
         return array_filter(
             $allowedPhpVersions,
-            static fn (string $allowedVersion): bool => strpos($composerData['require']['php'], $allowedVersion) === 0
+            static fn (string $allowedVersion): bool => strpos($composerData['require']['php'], $allowedVersion) === 0,
         );
     }
 
