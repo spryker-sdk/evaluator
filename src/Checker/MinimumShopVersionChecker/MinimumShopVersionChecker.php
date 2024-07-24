@@ -30,6 +30,11 @@ class MinimumShopVersionChecker extends AbstractChecker
     /**
      * @var string
      */
+    protected const MESSAGE_DEPRECATED_PACKAGE = 'The package "%s" is deprecated and not supported.';
+
+    /**
+     * @var string
+     */
     protected const COMPOSER_REQUIRE = 'require';
 
     /**
@@ -58,6 +63,11 @@ class MinimumShopVersionChecker extends AbstractChecker
     protected MinimumAllowedPackageVersionsReader $minimumAllowedPackageVersionsReader;
 
     /**
+     * @var \SprykerSdk\Evaluator\Checker\MinimumShopVersionChecker\DeprecatedFeaturesReader
+     */
+    protected DeprecatedFeaturesReader $deprecatedFeaturesReader;
+
+    /**
      * @var string
      */
     protected string $minimumFeatureVersion;
@@ -70,17 +80,20 @@ class MinimumShopVersionChecker extends AbstractChecker
     /**
      * @param \SprykerSdk\Evaluator\Reader\ComposerReaderInterface $composerReader
      * @param \SprykerSdk\Evaluator\Checker\MinimumShopVersionChecker\MinimumAllowedPackageVersionsReader $minimumAllowedPackageVersionsReader
+     * @param \SprykerSdk\Evaluator\Checker\MinimumShopVersionChecker\DeprecatedFeaturesReader $deprecatedFeaturesReader
      * @param string $minimumFeatureVersion
      * @param string $checkerDocUrl
      */
     public function __construct(
         ComposerReaderInterface $composerReader,
         MinimumAllowedPackageVersionsReader $minimumAllowedPackageVersionsReader,
+        DeprecatedFeaturesReader $deprecatedFeaturesReader,
         string $minimumFeatureVersion,
         string $checkerDocUrl = ''
     ) {
         $this->composerReader = $composerReader;
         $this->minimumAllowedPackageVersionsReader = $minimumAllowedPackageVersionsReader;
+        $this->deprecatedFeaturesReader = $deprecatedFeaturesReader;
         $this->minimumFeatureVersion = $minimumFeatureVersion;
         $this->checkerDocUrl = $checkerDocUrl;
     }
@@ -163,6 +176,12 @@ class MinimumShopVersionChecker extends AbstractChecker
             return null;
         }
 
+        $deprecatedFeatures = $this->deprecatedFeaturesReader->getDeprecatedFeatures();
+
+        if (in_array($packageName, $deprecatedFeatures)) {
+            return $this->createDeprecatedViolation($packageName);
+        }
+
         return $this->createViolation($packageName, $packageVersion, $this->minimumFeatureVersion);
     }
 
@@ -198,6 +217,19 @@ class MinimumShopVersionChecker extends AbstractChecker
         return new ViolationDto(
             sprintf(static::MESSAGE_INVALID_PACKAGE, $packageName, $packageVersion, $minimumAllowedVersion),
             sprintf('%s:%s', $packageName, $packageVersion),
+        );
+    }
+
+    /**
+     * @param string $packageName
+     *
+     * @return \SprykerSdk\Evaluator\Dto\ViolationDto
+     */
+    protected function createDeprecatedViolation(string $packageName): ViolationDto
+    {
+        return new ViolationDto(
+            sprintf(static::MESSAGE_DEPRECATED_PACKAGE, $packageName),
+            sprintf('%s', $packageName),
         );
     }
 
