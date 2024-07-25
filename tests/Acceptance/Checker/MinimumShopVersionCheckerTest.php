@@ -26,13 +26,13 @@ class MinimumShopVersionCheckerTest extends ApplicationTestCase
     /**
      * @return void
      */
-//    public function testReturnSuccessOnValidProject(): void
-//    {
-//        $commandTester = $this->createCommandTester(TestHelper::VALID_PROJECT_PATH);
-//        $commandTester->execute(['--checkers' => MinimumShopVersionChecker::NAME]);
-//
-//        $commandTester->assertCommandIsSuccessful();
-//    }
+    public function testReturnSuccessOnValidProject(): void
+    {
+        $commandTester = $this->createCommandTester(TestHelper::VALID_PROJECT_PATH);
+        $commandTester->execute(['--checkers' => MinimumShopVersionChecker::NAME]);
+
+        $commandTester->assertCommandIsSuccessful();
+    }
 
     /**
      * @return void
