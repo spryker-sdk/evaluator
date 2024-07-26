@@ -110,6 +110,44 @@
                 "source": "https://github.com/spryker/availability-gui/tree/6.7.0"
             },
             "time": "2022-09-19T06:48:51+00:00"
+        },
+        {
+            "name": "spryker-feature/customer-notes",
+            "version": "202009.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spryker-feature/customer-notes.git",
+                "reference": "4f19518400bc9af42b5b440419142207e4132e92"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spryker-feature/customer-notes/zipball/4f19518400bc9af42b5b440419142207e4132e92",
+                "reference": "4f19518400bc9af42b5b440419142207e4132e92",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "spryker/customer-note": "^1.1.0",
+                "spryker/customer-note-gui": "^1.1.0"
+            },
+            "suggest": {
+                "spryker-feature/customer-account-management": "Recommended feature dependency."
+            },
+            "type": "metapackage",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "202009.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "Customer Notes [feature]",
+            "support": {
+                "source": "https://github.com/spryker-feature/customer-notes/tree/master"
+            },
+            "time": "2020-09-02T09:34:06+00:00"
         }
     ],
     "aliases": [],
