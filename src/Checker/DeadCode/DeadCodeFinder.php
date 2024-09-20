@@ -101,10 +101,8 @@ class DeadCodeFinder
             $fileContent = $file->getContents();
 
             preg_match_all('/use (?<useClasses>\S*)(;| )/m', $fileContent, $matches);
-            if (isset($matches['useClasses'])) {
-                foreach ($matches['useClasses'] as $useClass) {
-                    $allClassesInUse[$useClass] = true;
-                }
+            foreach ($matches['useClasses'] as $useClass) {
+                $allClassesInUse[$useClass] = true;
             }
         }
 
