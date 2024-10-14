@@ -168,7 +168,7 @@ class DependencyProviderAdditionalLogicChecker extends AbstractChecker
      */
     protected function isClassExistsFuncCall(FuncCall $funcCall): bool
     {
-        return $funcCall->name instanceof Name && $funcCall->name->parts[0] == 'class_exists';
+        return $funcCall->name instanceof Name && $funcCall->name->name[0] == 'class_exists';
     }
 
     /**
