@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace SprykerSdk\Evaluator\Checker\PluginsRegistrationWithRestrictionsChecker;
 
 use PhpParser\Comment\Doc;
+use PhpParser\Node\ArrayItem;
 use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Use_;
 use SprykerSdk\Evaluator\Checker\AbstractChecker;
@@ -131,7 +131,7 @@ class PluginsRegistrationWithRestrictionsChecker extends AbstractChecker
     }
 
     /**
-     * @param \PhpParser\Node\Expr\ArrayItem $arrayItem
+     * @param \PhpParser\Node\ArrayItem $arrayItem
      * @param string $fileName
      * @param array<string> $filesClassUses
      *

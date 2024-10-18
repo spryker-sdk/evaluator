@@ -30,7 +30,7 @@ class NodeFinder extends PhpParserNodeFinder implements NodeFinderInterface
 
     /**
      * @param \PhpParser\Node|array<\PhpParser\Node> $nodes
-     * @param string $class
+     * @param class-string<\PhpParser\Node> $class
      *
      * @return array<\PhpParser\Node>
      */
@@ -52,7 +52,7 @@ class NodeFinder extends PhpParserNodeFinder implements NodeFinderInterface
 
     /**
      * @param \PhpParser\Node|array<\PhpParser\Node> $nodes
-     * @param string $class
+     * @param class-string<\PhpParser\Node> $class
      *
      * @return \PhpParser\Node|null
      */
