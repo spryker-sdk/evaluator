@@ -13,6 +13,7 @@ use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
+use PhpParser\PhpVersion;
 
 class PhpParser implements PhpParserInterface
 {
@@ -26,7 +27,7 @@ class PhpParser implements PhpParserInterface
      */
     public function __construct(ParserFactory $parserFactory)
     {
-        $this->parser = method_exists($parserFactory, 'createForNewestSupportedVersion') ? $parserFactory->createForNewestSupportedVersion() : $parserFactory->create(ParserFactory::PREFER_PHP7);
+        $this->parser = method_exists($parserFactory, 'createForNewestSupportedVersion') ? $parserFactory->createForNewestSupportedVersion() : $parserFactory->createForVersion(PhpVersion::getHostVersion());
     }
 
     /**
