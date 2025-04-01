@@ -50,6 +50,11 @@ class MinimumShopVersionChecker extends AbstractChecker
     /**
      * @var string
      */
+    protected const SSP_FEATURE_PACKAGE_NAME_PREFIX = 'spryker-feature/ssp-';
+
+    /**
+     * @var string
+     */
     protected const DEV_MASTER = 'dev-master';
 
     /**
@@ -173,6 +178,12 @@ class MinimumShopVersionChecker extends AbstractChecker
     protected function checkFeaturePackage(string $packageName, string $packageVersion): ?ViolationDto
     {
         if ($packageVersion === static::DEV_MASTER || version_compare($packageVersion, $this->minimumFeatureVersion, '>=')) {
+            return null;
+        }
+
+        // The following check can be removed when the Upgrader is capable of upgrading SSP packages.
+        // All packages starting with "spryker-feature/ssp-" are ignored for now.
+        if (str_starts_with($packageName, static::SSP_FEATURE_PACKAGE_NAME_PREFIX)) {
             return null;
         }
 
