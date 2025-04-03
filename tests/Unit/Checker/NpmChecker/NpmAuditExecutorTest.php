@@ -136,7 +136,7 @@ class NpmAuditExecutorTest extends TestCase
     /**
      * @return array<string, array<string>>
      */
-    public function invalidJsonFormatReceivedDataProvider(): array
+    public static function invalidJsonFormatReceivedDataProvider(): array
     {
         return [
             'missedVulnerabilitiesKey' => ['{}'],
@@ -151,7 +151,7 @@ class NpmAuditExecutorTest extends TestCase
     /**
      * @return array<string, array<string>>
      */
-    public function vulnerabilitiesThatShouldBeSkippedDataProvider(): array
+    public static function vulnerabilitiesThatShouldBeSkippedDataProvider(): array
     {
         return [
             'skipInfoVulnerability' => ['{"vulnerabilities": {"datatables.net": {"name": "datatables.net", "severity": "info", "via": [{"title": "Cross site scripting"}]}}}'],

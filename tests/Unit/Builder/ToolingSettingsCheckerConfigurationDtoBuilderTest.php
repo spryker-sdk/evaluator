@@ -77,7 +77,7 @@ class ToolingSettingsCheckerConfigurationDtoBuilderTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function invalidToolingSettingsDataDataProvider(): array
+    public static function invalidToolingSettingsDataDataProvider(): array
     {
         return [
             [[ToolingSettingsCheckerConfigurationDtoBuilder::CONFIGURATION_KEY => 111]],

@@ -67,7 +67,7 @@ class DiscouragedPackagesFetcherTest extends TestCase
     /**
      * @return array<array<mixed>>
      */
-    public function apiInvalidResponseDataProvider(): array
+    public static function apiInvalidResponseDataProvider(): array
     {
         return [
             ['{"one":"two"}'],
