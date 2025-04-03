@@ -10,7 +10,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
-        "ext-xdebug": "*",
         "composer/semver": "^3.3",
         "guzzlehttp/guzzle": "^7.5",
         "nikic/php-parser": "^5.1.0",
