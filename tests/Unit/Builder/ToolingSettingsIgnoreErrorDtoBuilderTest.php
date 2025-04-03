@@ -85,7 +85,7 @@ class ToolingSettingsIgnoreErrorDtoBuilderTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function invalidToolingSettingsDataDataProvider(): array
+    public static function invalidToolingSettingsDataDataProvider(): array
     {
         return [
             [[ToolingSettingsIgnoreErrorDtoBuilder::IGNORE_ERRORS_KEY => 111]],

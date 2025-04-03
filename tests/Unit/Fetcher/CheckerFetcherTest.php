@@ -54,7 +54,7 @@ class CheckerFetcherTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function checkersDataProvider(): array
+    public static function checkersDataProvider(): array
     {
         return [
             [['one', 'two'], [], ['one', 'two']],

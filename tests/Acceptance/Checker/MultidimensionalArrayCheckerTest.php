@@ -59,7 +59,7 @@ class MultidimensionalArrayCheckerTest extends ApplicationTestCase
     /**
      * @return array<string, array<string>>
      */
-    public function differentIssueCases(): array
+    public static function differentIssueCases(): array
     {
         return [
             'return multidimensional array' => ['src/Pyz/Zed/MultidimensionalArray/ReturnArray'],
