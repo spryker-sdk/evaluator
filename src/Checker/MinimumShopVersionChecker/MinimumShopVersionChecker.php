@@ -55,6 +55,11 @@ class MinimumShopVersionChecker extends AbstractChecker
     /**
      * @var string
      */
+    protected const SPRYKER_FEATURE_FEATURE_UI = 'spryker-feature/feature-ui';
+
+    /**
+     * @var string
+     */
     protected const DEV_MASTER = 'dev-master';
 
     /**
@@ -183,7 +188,8 @@ class MinimumShopVersionChecker extends AbstractChecker
 
         // The following check can be removed when the Upgrader is capable of upgrading SSP packages.
         // All packages starting with "spryker-feature/ssp-" are ignored for now.
-        if (str_starts_with($packageName, static::SSP_FEATURE_PACKAGE_NAME_PREFIX)) {
+        // The "spryker-feature/feature-ui" will be also ignored.
+        if (str_starts_with($packageName, static::SSP_FEATURE_PACKAGE_NAME_PREFIX) || $packageName === static::SPRYKER_FEATURE_FEATURE_UI) {
             return null;
         }
 

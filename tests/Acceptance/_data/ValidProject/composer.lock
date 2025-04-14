@@ -110,6 +110,14 @@
                 "source": "https://github.com/spryker/availability-gui/tree/6.7.0"
             },
             "time": "2022-09-19T06:48:51+00:00"
+        },
+        {
+            "name": "spryker-feature/ssp-random",
+            "version": "0.0.1"
+        },
+        {
+            "name": "spryker-feature/feature-ui",
+            "version": "0.0.1"
         }
     ],
     "aliases": [],

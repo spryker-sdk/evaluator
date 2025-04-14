@@ -14,7 +14,9 @@
         "spryker-feature/catalog": "^202204.0",
         "spryker-feature/category-management": "2.0.1",
         "spryker/availability-gui": "^6.6.2",
-        "spryker/availability": "1.0.1"
+        "spryker/availability": "1.0.1",
+        "spryker-feature/ssp-random": "0.0.1",
+        "spryker-feature/feature-ui": "0.0.1"
     },
     "autoload": {
         "psr-4": {
