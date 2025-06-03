@@ -68,7 +68,8 @@ jobs:
                   Original PR Body:
                   ${{ steps.PR.outputs.pr_body }}"
 
-                  target_pr_body="${target_pr_body//\`/\\\`}"
+                  target_pr_body=$(echo "$target_pr_body" | sed 's/`/\\`/g')
+
                   echo "target_pr_body<<EOF" >> $GITHUB_OUTPUT
                   printf '%s\n' "$target_pr_body" >> $GITHUB_OUTPUT
                   echo "EOF" >> $GITHUB_OUTPUT
