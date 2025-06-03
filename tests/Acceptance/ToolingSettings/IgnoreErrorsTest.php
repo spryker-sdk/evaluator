@@ -61,7 +61,7 @@ class IgnoreErrorsTest extends ApplicationTestCase
         | 1 | Current PHP version "$phpVersion" is not allowed.                                 | Current php version $phpVersion                                  |
         +---+-----------------------------------------------------------------------------+------------------------------------------------------------+
         | 2 | Deploy file uses not allowed PHP image version "spryker/php:6.2-alpine3.12" | tests/Acceptance/_data/IgnoreErrorsCheckProject/deploy.yml |
-        |   | Image tag must contain allowed PHP version (image:abc-8.1)                  |                                                            |
+        |   | Image tag must contain allowed PHP version (image:abc-8.2)                  |                                                            |
         +---+-----------------------------------------------------------------------------+------------------------------------------------------------+
 
         Read more: https://docs.spryker.com/docs/scos/dev/guidelines/keeping-a-project-upgradable/upgradability-guidelines/php-version.html
