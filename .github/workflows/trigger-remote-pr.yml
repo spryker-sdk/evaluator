@@ -62,9 +62,9 @@ jobs:
                   Original PR Body:
                   ${{ steps.PR.outputs.pr_body }}"
 
-                  echo 'target_pr_body<<EOF' >> $GITHUB_OUTPUT
-                  echo "$target_pr_body" >> $GITHUB_OUTPUT
-                  echo 'EOF' >> $GITHUB_OUTPUT
+                  echo "target_pr_body<<EOF" >> $GITHUB_OUTPUT
+                  printf '%s\n' "$target_pr_body" >> $GITHUB_OUTPUT
+                  echo "EOF" >> $GITHUB_OUTPUT
 
             # https://github.com/marketplace/actions/create-pull-request
             - name: "Commit, push and create pull request."
