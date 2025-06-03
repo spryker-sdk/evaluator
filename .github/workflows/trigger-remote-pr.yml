@@ -8,16 +8,10 @@ env:
     PR_LABELS: 'composer dependencies'
     PR_ASSIGNEES: vol4onok,asmarovydlo
 
-#on:
-#    release:
-#        types: [published]
-#    workflow_dispatch:
 on:
-    pull_request:
-        types:
-            - opened
-            - reopened
-            - synchronize
+    release:
+        types: [published]
+    workflow_dispatch:
 
 jobs:
     trigger-external-pr:
