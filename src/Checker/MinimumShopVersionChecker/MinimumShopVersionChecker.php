@@ -50,6 +50,16 @@ class MinimumShopVersionChecker extends AbstractChecker
     /**
      * @var string
      */
+    protected const SSP_FEATURE_PACKAGE_NAME_PREFIX = 'spryker-feature/ssp-';
+
+    /**
+     * @var string
+     */
+    protected const SPRYKER_FEATURE_FEATURE_UI = 'spryker-feature/feature-ui';
+
+    /**
+     * @var string
+     */
     protected const SPRYKER_FEATURE_SELF_SERVICE_PORTAL = 'spryker-feature/self-service-portal';
 
     /**
@@ -181,9 +191,7 @@ class MinimumShopVersionChecker extends AbstractChecker
             return null;
         }
 
-        // The following check can be removed when the Upgrader is capable of upgrading SSP package.
-        // The "spryker-feature/self-service-portal" will be ignored.
-        if ($packageName === static::SPRYKER_FEATURE_SELF_SERVICE_PORTAL) {
+        if ($this->isIgnoredFeature($packageName)) {
             return null;
         }
 
@@ -250,5 +258,19 @@ class MinimumShopVersionChecker extends AbstractChecker
     public function getName(): string
     {
         return static::NAME;
+    }
+
+    /**
+     * @param string $packageName
+     *
+     * @return bool
+     */
+    protected function isIgnoredFeature(string $packageName): bool
+    {
+        // The following check can be removed when the Upgrader is capable of upgrading SSP packages.
+        // All packages starting with "spryker-feature/ssp-" are ignored for now.
+        // The "spryker-feature/self-service-portal" will be ignored.
+        // The "spryker-feature/feature-ui" will be also ignored.
+        return str_starts_with($packageName, static::SSP_FEATURE_PACKAGE_NAME_PREFIX) || $packageName === static::SPRYKER_FEATURE_FEATURE_UI || $packageName === static::SPRYKER_FEATURE_SELF_SERVICE_PORTAL;
     }
 }
