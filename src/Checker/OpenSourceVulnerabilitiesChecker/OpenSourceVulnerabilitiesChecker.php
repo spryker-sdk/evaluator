@@ -15,8 +15,7 @@ use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
 use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Process\Process;
 
 class OpenSourceVulnerabilitiesChecker extends AbstractChecker
 {
@@ -77,22 +76,25 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
      */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
-        $securityOutput = new BufferedOutput();
-        $this->application->setAutoExit(false);
-        $this->application->run(
-            new ArrayInput([
-                'command' => static::COMMAND_NAME,
-                '--path' => $this->pathResolver->getProjectDir(),
-                '--format' => 'json',
-            ]),
-            $securityOutput,
-        );
+        $process = new Process([
+            'composer',
+            'audit',
+            '--format=json',
+            '--abandoned=ignore',
+            '--no-interaction',
+            '--no-ansi',
+        ]);
+        $process->setWorkingDirectory($this->pathResolver->getProjectDir());
+        $process->run();
 
-        $rawViolations = $securityOutput->fetch();
+        $rawViolations = $process->getOutput();
+        if ($rawViolations === '' && !$process->isSuccessful()) {
+            $rawViolations = $process->getErrorOutput();
+        }
 
-        $violations = json_decode($rawViolations, true);
+        $decoded = json_decode($rawViolations, true);
 
-        if (!is_array($violations)) {
+        if (!is_array($decoded)) {
             $violationDto = new ViolationDto(
                 "Internal error. Original error: $rawViolations",
                 static::NAME,
@@ -101,12 +103,16 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
             return new CheckerResponseDto([$violationDto], $this->checkerDocUrl);
         }
 
-        $violationMessages = [];
+        $advisories = $decoded['advisories'] ?? [];
+        if (!is_array($advisories) || $advisories === []) {
+            return new CheckerResponseDto([], $this->checkerDocUrl);
+        }
 
-        foreach ($violations as $package => $violation) {
+        $violationMessages = [];
+        foreach ($advisories as $package => $packageAdvisories) {
             $violationMessages[] = new ViolationDto(
-                $this->createSecurityAdvisoryMessage($violation['advisories']),
-                sprintf('%s: %s', $package, $violation['version'] ?? static::NOT_AVAILABLE),
+                $this->createSecurityAdvisoryMessage($packageAdvisories ?? []),
+                sprintf('%s: %s', $package, $decoded['packages'][$package]['version'] ?? static::NOT_AVAILABLE),
             );
         }
 
