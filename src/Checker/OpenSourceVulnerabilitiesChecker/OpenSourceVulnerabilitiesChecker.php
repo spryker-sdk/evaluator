@@ -27,11 +27,6 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
     /**
      * @var string
      */
-    protected const COMMAND_NAME = 'security:check';
-
-    /**
-     * @var string
-     */
     protected const NOT_AVAILABLE = 'n/a';
 
     /**
@@ -92,6 +87,55 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
             $rawViolations = $process->getErrorOutput();
         }
 
+        // TEMP: override with test JSON to validate output formatting
+        $rawViolations = <<<'JSON'
+{
+  "advisories": {
+    "guzzlehttp/guzzle": [
+      {
+        "advisoryId": "PKSA-yfw5-9gnj-n2c7",
+        "packageName": "guzzlehttp/guzzle",
+        "affectedVersions": {},
+        "title": "Change in port should be considered a change in origin",
+        "cve": "CVE-2022-31091",
+        "link": "https://github.com/guzzle/guzzle/security/advisories/GHSA-q559-8m2m-g699",
+        "reportedAt": {
+          "date": "2022-06-20 22:24:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "sources": [
+          {
+            "name": "GitHub",
+            "remoteId": "GHSA-q559-8m2m-g699"
+          }
+        ]
+      }
+    ],
+    "guzzlehttp/guzzlee": [
+      {
+        "advisoryId": "PKSA-yfw5-9gnj-n2c7",
+        "packageName": "guzzlehttp/guzzle",
+        "affectedVersions": {},
+        "title": "Change in port should be considered a change in origin",
+        "cve": "CVE-2022-31091",
+        "link": "https://github.com/guzzle/guzzle/security/advisories/GHSA-q559-8m2m-g699",
+        "reportedAt": {
+          "date": "2022-06-20 22:24:00.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "sources": [
+          {
+            "name": "GitHub",
+            "remoteId": "GHSA-q559-8m2m-g699"
+          }
+        ]
+      }
+    ]
+  }
+}
+JSON;
         $decoded = json_decode($rawViolations, true);
 
         if (!is_array($decoded)) {
@@ -110,9 +154,12 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
 
         $violationMessages = [];
         foreach ($advisories as $package => $packageAdvisories) {
+            $advisoryList = is_array($packageAdvisories) ? $packageAdvisories : [];
+            $subject = sprintf('%s (%d advisories)', $package, count($advisoryList));
+
             $violationMessages[] = new ViolationDto(
-                $this->createSecurityAdvisoryMessage($packageAdvisories ?? []),
-                sprintf('%s: %s', $package, $decoded['packages'][$package]['version'] ?? static::NOT_AVAILABLE),
+                $this->createSecurityAdvisoryMessage($advisoryList),
+                $subject,
             );
         }
 
