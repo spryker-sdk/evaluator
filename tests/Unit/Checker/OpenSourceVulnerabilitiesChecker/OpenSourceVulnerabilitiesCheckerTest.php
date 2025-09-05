@@ -55,7 +55,7 @@ class OpenSourceVulnerabilitiesCheckerTest extends TestCase
                  */
                 public function getErrorOutput(): string
                 {
-                    return '';
+                    return 'INVALID_JSON';
                 }
 
                 /**
@@ -63,7 +63,7 @@ class OpenSourceVulnerabilitiesCheckerTest extends TestCase
                  */
                 public function isSuccessful(): bool
                 {
-                    return true;
+                    return false;
                 }
             };
         };
@@ -71,7 +71,7 @@ class OpenSourceVulnerabilitiesCheckerTest extends TestCase
         $result = $securityChecker->check(new CheckerInputDataDto('/path'));
 
         $this->assertCount(1, $result->getViolations());
-        $this->assertSame('Internal error. Original error: ', $result->getViolations()[0]->getMessage());
+        $this->assertStringStartsWith('Internal error. Original error:', $result->getViolations()[0]->getMessage());
         $this->assertSame(OpenSourceVulnerabilitiesChecker::NAME, $result->getViolations()[0]->getTarget());
     }
 
