@@ -161,7 +161,7 @@ JSON;
     protected function createPathResolverMock(): PathResolverInterface
     {
         $pathResolver = $this->createMock(PathResolverInterface::class);
-        $pathResolver->method('getProjectDir')->willReturn('/path');
+        $pathResolver->method('getProjectDir')->willReturn(getcwd());
 
         return $pathResolver;
     }
