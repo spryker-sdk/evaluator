@@ -32,23 +32,35 @@ class OpenSourceVulnerabilitiesCheckerTest extends TestCase
     {
         $applicationMock = $this->createMock(Application::class);
         // Inject fake process that returns empty output so decoded JSON is invalid
-        $fakeProcessFactory = function () {
+        $fakeProcessFactory = function (string $cwd) {
             return new class
             {
+                /**
+                 * @return void
+                 */
                 public function run(): void
                 {
                 }
 
+                /**
+                 * @return string
+                 */
                 public function getOutput(): string
                 {
                     return '';
                 }
 
+                /**
+                 * @return string
+                 */
                 public function getErrorOutput(): string
                 {
                     return '';
                 }
 
+                /**
+                 * @return bool
+                 */
                 public function isSuccessful(): bool
                 {
                     return true;
@@ -87,30 +99,45 @@ class OpenSourceVulnerabilitiesCheckerTest extends TestCase
 JSON;
 
         // Inject fake process that returns the sample JSON on stdout
-        $fakeProcessFactory = function () use ($json) {
+        $fakeProcessFactory = function (string $cwd) use ($json) {
             return new class ($json)
             {
                 private string $out;
 
+                /**
+                 * @param string $out
+                 */
                 public function __construct(string $out)
                 {
                     $this->out = $out;
                 }
 
+                /**
+                 * @return void
+                 */
                 public function run(): void
                 {
                 }
 
+                /**
+                 * @return string
+                 */
                 public function getOutput(): string
                 {
                     return $this->out;
                 }
 
+                /**
+                 * @return string
+                 */
                 public function getErrorOutput(): string
                 {
                     return '';
                 }
 
+                /**
+                 * @return bool
+                 */
                 public function isSuccessful(): bool
                 {
                     return true;
