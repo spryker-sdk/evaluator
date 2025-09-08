@@ -75,6 +75,16 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
     protected const ARG_ABANDONED_IGNORE = '--abandoned=ignore';
 
     /**
+     * @var int
+     */
+    protected const RETRY_ATTEMPTS = 7;
+
+    /**
+     * @var int
+     */
+    protected const RETRY_SLEEP_SECONDS = 3;
+
+    /**
      * @var \Symfony\Component\Console\Application
      */
     protected Application $application;
@@ -123,7 +133,7 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
             return $versionViolation;
         }
 
-        $rawViolations = $this->runAudit($projectDir);
+        $rawViolations = $this->runAuditWithRetries($projectDir);
 
         return $this->buildResponseFromRaw($rawViolations);
     }
@@ -182,7 +192,7 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
      *
      * @return string
      */
-    protected function runAudit(string $projectDir): string
+    protected function runAuditWithRetries(string $projectDir): string
     {
         $args = [
             static::SUBCMD_AUDIT,
@@ -191,9 +201,23 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
             static::ARG_NO_INTERACTION,
             static::ARG_NO_ANSI,
         ];
-        [$stdout, $stderr] = $this->runComposerCommand($args, $projectDir);
+        for ($i = 1; $i <= static::RETRY_ATTEMPTS; $i++) {
+            [$stdout, $stderr] = $this->runComposerCommand($args, $projectDir);
 
-        return $stdout !== '' ? $stdout : $stderr;
+            if ($stdout !== '') {
+                return $stdout;
+            }
+
+            if ($i < static::RETRY_ATTEMPTS) {
+                sleep(static::RETRY_SLEEP_SECONDS);
+
+                continue;
+            }
+
+            return $stderr;
+        }
+
+        return '';
     }
 
     /**
