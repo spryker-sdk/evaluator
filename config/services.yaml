@@ -62,9 +62,7 @@ services:
     SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\SdkPhpVersionStrategy:
         arguments: [ '%php_version_checker_sdk_php_major_versions%' ]
 
-    SecurityChecker\Command\SecurityCheckerCommand:
-        arguments:
-            -
+    
     # Strategies
     SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\CurrentPhpVersionStrategy:
         arguments:

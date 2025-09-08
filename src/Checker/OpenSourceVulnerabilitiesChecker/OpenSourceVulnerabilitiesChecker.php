@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace SprykerSdk\Evaluator\Checker\OpenSourceVulnerabilitiesChecker;
 
@@ -15,8 +15,7 @@ use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 use SprykerSdk\Evaluator\Dto\ViolationDto;
 use SprykerSdk\Evaluator\Resolver\PathResolverInterface;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Process\Process;
 
 class OpenSourceVulnerabilitiesChecker extends AbstractChecker
 {
@@ -28,12 +27,52 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
     /**
      * @var string
      */
-    protected const COMMAND_NAME = 'security:check';
+    protected const NOT_AVAILABLE = 'n/a';
 
     /**
      * @var string
      */
-    protected const NOT_AVAILABLE = 'n/a';
+    protected const MIN_REQUIRED_COMPOSER = '2.7.0';
+
+    /**
+     * @var string
+     */
+    protected const REGEX_SEMVER = '/\b(\d+)\.(\d+)\.(\d+)\b/';
+
+    /**
+     * @var string
+     */
+    protected const COMPOSER_BIN = 'composer';
+
+    /**
+     * @var string
+     */
+    protected const ARG_VERSION = '--version';
+
+    /**
+     * @var string
+     */
+    protected const ARG_NO_ANSI = '--no-ansi';
+
+    /**
+     * @var string
+     */
+    protected const ARG_NO_INTERACTION = '--no-interaction';
+
+    /**
+     * @var string
+     */
+    protected const SUBCMD_AUDIT = 'audit';
+
+    /**
+     * @var string
+     */
+    protected const ARG_FORMAT_JSON = '--format=json';
+
+    /**
+     * @var string
+     */
+    protected const ARG_ABANDONED_IGNORE = '--abandoned=ignore';
 
     /**
      * @var \Symfony\Component\Console\Application
@@ -77,22 +116,96 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
      */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
-        $securityOutput = new BufferedOutput();
-        $this->application->setAutoExit(false);
-        $this->application->run(
-            new ArrayInput([
-                'command' => static::COMMAND_NAME,
-                '--path' => $this->pathResolver->getProjectDir(),
-                '--format' => 'json',
-            ]),
-            $securityOutput,
-        );
+        $projectDir = $this->pathResolver->getProjectDir();
 
-        $rawViolations = $securityOutput->fetch();
+        $versionViolation = $this->ensureMinimumComposer($projectDir);
+        if ($versionViolation instanceof CheckerResponseDto) {
+            return $versionViolation;
+        }
 
-        $violations = json_decode($rawViolations, true);
+        $rawViolations = $this->runAudit($projectDir);
 
-        if (!is_array($violations)) {
+        return $this->buildResponseFromRaw($rawViolations);
+    }
+
+    /**
+     * @param array<int, string> $args
+     * @param string $cwd
+     *
+     * @return array{0: string, 1: string, 2?: bool}
+     */
+    protected function runComposerCommand(array $args, string $cwd): array
+    {
+        $process = new Process(array_merge([static::COMPOSER_BIN], $args));
+        $process->setWorkingDirectory($cwd);
+        $process->run();
+
+        return [$process->getOutput(), $process->getErrorOutput(), $process->isSuccessful()];
+    }
+
+    /**
+     * @param string $projectDir
+     *
+     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto|null
+     */
+    protected function ensureMinimumComposer(string $projectDir): ?CheckerResponseDto
+    {
+        [$versionStdout, $versionStderr] = $this->runComposerCommand([
+            static::ARG_VERSION,
+            static::ARG_NO_ANSI,
+            static::ARG_NO_INTERACTION,
+        ], $projectDir);
+
+        $versionOutput = trim($versionStdout !== '' ? $versionStdout : $versionStderr);
+        $detectedVersion = $this->parseComposerVersion($versionOutput);
+
+        $minRequired = static::MIN_REQUIRED_COMPOSER;
+        if ($detectedVersion === null || version_compare($detectedVersion, $minRequired, '<')) {
+            $msg = sprintf(
+                'Composer %s or higher is required for `composer audit --abandoned=ignore`. Detected: %s. Please upgrade Composer (e.g. `composer self-update --%s`). Raw output: %s',
+                $minRequired,
+                $detectedVersion ?? 'unknown',
+                $minRequired,
+                $versionOutput,
+            );
+
+            return new CheckerResponseDto([
+                new ViolationDto($msg, static::NAME),
+            ], $this->checkerDocUrl);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $projectDir
+     *
+     * @return string
+     */
+    protected function runAudit(string $projectDir): string
+    {
+        $args = [
+            static::SUBCMD_AUDIT,
+            static::ARG_FORMAT_JSON,
+            static::ARG_ABANDONED_IGNORE,
+            static::ARG_NO_INTERACTION,
+            static::ARG_NO_ANSI,
+        ];
+        [$stdout, $stderr] = $this->runComposerCommand($args, $projectDir);
+
+        return $stdout !== '' ? $stdout : $stderr;
+    }
+
+    /**
+     * @param string $rawViolations
+     *
+     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
+     */
+    protected function buildResponseFromRaw(string $rawViolations): CheckerResponseDto
+    {
+        $decoded = json_decode($rawViolations, true);
+
+        if (!is_array($decoded)) {
             $violationDto = new ViolationDto(
                 "Internal error. Original error: $rawViolations",
                 static::NAME,
@@ -101,12 +214,19 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
             return new CheckerResponseDto([$violationDto], $this->checkerDocUrl);
         }
 
-        $violationMessages = [];
+        $advisories = $decoded['advisories'] ?? [];
+        if (!is_array($advisories) || $advisories === []) {
+            return new CheckerResponseDto([], $this->checkerDocUrl);
+        }
 
-        foreach ($violations as $package => $violation) {
+        $violationMessages = [];
+        foreach ($advisories as $package => $packageAdvisories) {
+            $advisoryList = is_array($packageAdvisories) ? $packageAdvisories : [];
+            $subject = sprintf('%s (%d advisories)', $package, count($advisoryList));
+
             $violationMessages[] = new ViolationDto(
-                $this->createSecurityAdvisoryMessage($violation['advisories']),
-                sprintf('%s: %s', $package, $violation['version'] ?? static::NOT_AVAILABLE),
+                $this->createSecurityAdvisoryMessage($advisoryList),
+                $subject,
             );
         }
 
@@ -114,7 +234,21 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
     }
 
     /**
-     * @param array<int, array<string, string>> $advisories
+     * @param string $versionOutput
+     *
+     * @return string|null
+     */
+    protected function parseComposerVersion(string $versionOutput): ?string
+    {
+        if (preg_match(static::REGEX_SEMVER, $versionOutput, $m) !== 1) {
+            return null;
+        }
+
+        return sprintf('%s.%s.%s', $m[1], $m[2], $m[3]);
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $advisories
      *
      * @return string
      */
