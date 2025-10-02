@@ -28,7 +28,7 @@ class PhpVersionCheckerTest extends ApplicationTestCase
      */
     public function testReturnSuccessOnValidProject(): void
     {
-        $commandTester = $this->createCommandTester(TestHelper::VALID_PROJECT_PATH, ['PROJECT_PHP_VERSION' => '8.1']);
+        $commandTester = $this->createCommandTester(TestHelper::VALID_PROJECT_PATH, ['PROJECT_PHP_VERSION' => '8.2']);
         $commandTester->execute(['--checkers' => PhpVersionChecker::NAME]);
 
         $commandTester->assertCommandIsSuccessful();
@@ -58,10 +58,10 @@ class PhpVersionCheckerTest extends ApplicationTestCase
         | 2 | Composer json PHP constraint ">=9.2" does not match allowed php versions    | tests/Acceptance/_data/InvalidProject/composer.json    |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
         | 3 | Deploy file uses not allowed PHP image version "spryker/php:6.4-alpine3.12" | tests/Acceptance/_data/InvalidProject/deploy.dev.yml   |
-        |   | Image tag must contain allowed PHP version (image:abc-8.2)                  |                                                        |
+        |   | Image tag must contain allowed PHP version (image:abc-8.3)                  |                                                        |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
         | 4 | Deploy file uses not allowed PHP image version "spryker/php:6.2-alpine3.12" | tests/Acceptance/_data/InvalidProject/deploy.yml       |
-        |   | Image tag must contain allowed PHP version (image:abc-8.2)                  |                                                        |
+        |   | Image tag must contain allowed PHP version (image:abc-8.3)                  |                                                        |
         +---+-----------------------------------------------------------------------------+--------------------------------------------------------+
         | 5 | Not all the targets have same PHP versions                                  | Current php version $phpVersion: -                           |
         |   |                                                                             | tests/Acceptance/_data/InvalidProject/composer.json: - |
