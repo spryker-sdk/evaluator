@@ -26,6 +26,7 @@ class DiscouragedPackagesFetcherTest extends TestCase
      *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('apiInvalidResponseDataProvider')]
     public function testFetchDiscouragedPackagesByPackageNamesShouldThrowExceptionWithInvalidResponse(string $invalidResponse): void
     {
         // Arrange & Assert
