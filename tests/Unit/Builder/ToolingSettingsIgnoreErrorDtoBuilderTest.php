@@ -39,6 +39,7 @@ class ToolingSettingsIgnoreErrorDtoBuilderTest extends TestCase
      *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalidToolingSettingsDataDataProvider')]
     public function testBuildFromToolingSettingsArrayShouldThrowExceptionsOnInvalidFormat(array $yamlData): void
     {
         // Arrange

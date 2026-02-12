@@ -74,6 +74,7 @@ class NpmAuditExecutorTest extends TestCase
      *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalidJsonFormatReceivedDataProvider')]
     public function testExecuteNpmAuditShouldThrowExceptionWhenUnexpectedJsonReturned(string $toolOutput): void
     {
         //Arrange
@@ -94,6 +95,7 @@ class NpmAuditExecutorTest extends TestCase
      *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('vulnerabilitiesThatShouldBeSkippedDataProvider')]
     public function testExecuteNpmAuditShouldSkipVulnerabilities(string $toolOutput): void
     {
         //Arrange
