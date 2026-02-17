@@ -42,6 +42,7 @@ class MultidimensionalArrayCheckerTest extends ApplicationTestCase
      *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('differentIssueCases')]
     public function testReturnViolationWhenProjectHasIssues(string $path): void
     {
         $commandTester = $this->createCommandTester(TestHelper::INVALID_PROJECT_PATH);

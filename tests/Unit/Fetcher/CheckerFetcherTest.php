@@ -26,6 +26,7 @@ class CheckerFetcherTest extends TestCase
      *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('checkersDataProvider')]
     public function testGetCheckersFilteredByInputDataShouldFetchProperCheckers(array $allowedCheckers, array $excludedCheckers, array $expectedResult): void
     {
         //Arrange
