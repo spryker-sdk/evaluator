@@ -118,7 +118,7 @@ class PluginsRegistrationWithRestrictionsChecker extends AbstractChecker
             $arrays = $this->getArrays([$classMethod]);
             foreach ($arrays as $array) {
                 foreach ($array->items as $item) {
-                    if ($item === null) {
+                    if ($item === null) { // @phpstan-ignore identical.alwaysFalse
                         continue;
                     }
 

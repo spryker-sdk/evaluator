@@ -23,7 +23,7 @@ abstract class AbstractNestingStructure implements NestingStructureInterface
         $maxDepth = 1;
 
         foreach ($array->items as $arrayItem) {
-            if ($arrayItem && $arrayItem->value instanceof Array_) {
+            if ($arrayItem && $arrayItem->value instanceof Array_) { // @phpstan-ignore booleanAnd.leftAlwaysTrue
                 $depth = $this->arrayDepth($arrayItem->value);
                 $depth++;
 
