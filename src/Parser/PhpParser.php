@@ -27,7 +27,7 @@ class PhpParser implements PhpParserInterface
      */
     public function __construct(ParserFactory $parserFactory)
     {
-        $this->parser = method_exists($parserFactory, 'createForNewestSupportedVersion') ? $parserFactory->createForNewestSupportedVersion() : $parserFactory->createForVersion(PhpVersion::getHostVersion());
+        $this->parser = method_exists($parserFactory, 'createForNewestSupportedVersion') ? $parserFactory->createForNewestSupportedVersion() : $parserFactory->createForVersion(PhpVersion::getHostVersion()); // @phpstan-ignore function.alreadyNarrowedType
     }
 
     /**

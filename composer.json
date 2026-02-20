@@ -28,7 +28,7 @@
         "symfony/yaml": "^6.0"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan": "^2.1.0",
         "phpunit/phpunit": "^12.1.0",
         "spryker/code-sniffer": "^0.17.18"
     },
