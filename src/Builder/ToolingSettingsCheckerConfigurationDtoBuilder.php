@@ -43,7 +43,7 @@ class ToolingSettingsCheckerConfigurationDtoBuilder
     }
 
     /**
-     * @param array<mixed>$toolingSettingsArray
+     * @param array<mixed> $toolingSettingsArray
      *
      * @throws \InvalidArgumentException
      *
