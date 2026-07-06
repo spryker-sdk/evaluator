@@ -50,22 +50,12 @@ class MinimumShopVersionChecker extends AbstractChecker
     /**
      * @var string
      */
-    protected const SSP_FEATURE_PACKAGE_NAME_PREFIX = 'spryker-feature/ssp-';
-
-    /**
-     * @var string
-     */
-    protected const SPRYKER_FEATURE_FEATURE_UI = 'spryker-feature/feature-ui';
-
-    /**
-     * @var string
-     */
-    protected const SPRYKER_FEATURE_SELF_SERVICE_PORTAL = 'spryker-feature/self-service-portal';
-
-    /**
-     * @var string
-     */
     protected const DEV_MASTER = 'dev-master';
+
+    /**
+     * @var string
+     */
+    protected const DATE_BASED_VERSION_PATTERN = '/^v?\d{6}(\.|$)/';
 
     /**
      * @var \SprykerSdk\Evaluator\Reader\ComposerReaderInterface
@@ -191,17 +181,31 @@ class MinimumShopVersionChecker extends AbstractChecker
             return null;
         }
 
-        if ($this->isIgnoredFeature($packageName)) {
-            return null;
-        }
-
         $deprecatedFeatures = $this->deprecatedFeaturesReader->getDeprecatedFeatures();
 
         if (in_array($packageName, $deprecatedFeatures)) {
             return $this->createDeprecatedViolation($packageName);
         }
 
+        if (!$this->isDateBasedVersion($packageVersion)) {
+            return null;
+        }
+
         return $this->createViolation($packageName, $packageVersion, $this->minimumFeatureVersion);
+    }
+
+    /**
+     * Feature packages historically use date-based release versions (e.g. `202204.0`),
+     * while newer feature packages are released with semantic versions that cannot be
+     * compared against the date-based minimum.
+     *
+     * @param string $packageVersion
+     *
+     * @return bool
+     */
+    protected function isDateBasedVersion(string $packageVersion): bool
+    {
+        return preg_match(static::DATE_BASED_VERSION_PATTERN, $packageVersion) === 1;
     }
 
     /**
@@ -258,19 +262,5 @@ class MinimumShopVersionChecker extends AbstractChecker
     public function getName(): string
     {
         return static::NAME;
-    }
-
-    /**
-     * @param string $packageName
-     *
-     * @return bool
-     */
-    protected function isIgnoredFeature(string $packageName): bool
-    {
-        // The following check can be removed when the Upgrader is capable of upgrading SSP packages.
-        // All packages starting with "spryker-feature/ssp-" are ignored for now.
-        // The "spryker-feature/self-service-portal" will be ignored.
-        // The "spryker-feature/feature-ui" will be also ignored.
-        return str_starts_with($packageName, static::SSP_FEATURE_PACKAGE_NAME_PREFIX) || $packageName === static::SPRYKER_FEATURE_FEATURE_UI || $packageName === static::SPRYKER_FEATURE_SELF_SERVICE_PORTAL;
     }
 }

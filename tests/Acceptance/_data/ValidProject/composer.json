@@ -16,7 +16,8 @@
         "spryker/availability-gui": "^6.6.2",
         "spryker/availability": "1.0.1",
         "spryker-feature/ssp-random": "0.0.1",
-        "spryker-feature/feature-ui": "0.0.1"
+        "spryker-feature/feature-ui": "0.0.1",
+        "spryker-feature/ai-commerce": "0.7.4"
     },
     "autoload": {
         "psr-4": {
