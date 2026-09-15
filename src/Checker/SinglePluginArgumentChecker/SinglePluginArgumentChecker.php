@@ -55,32 +55,14 @@ class SinglePluginArgumentChecker extends AbstractChecker
      */
     protected const DEPENDENCY_PROVIDER_PATTERN = '*DependencyProvider.php';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Finder\SourceFinderInterface
-     */
     protected SourceFinderInterface $sourceFinder;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Finder\StatementFinderInterface
-     */
     protected StatementFinderInterface $statementFinder;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Parser\PhpParserInterface
-     */
     protected PhpParserInterface $phpParser;
 
-    /**
-     * @var string
-     */
     protected string $checkerDocUrl;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
-     * @param \SprykerSdk\Evaluator\Finder\StatementFinderInterface $statementFinder
-     * @param \SprykerSdk\Evaluator\Parser\PhpParserInterface $phpParser
-     * @param string $checkerDocUrl
-     */
     public function __construct(
         SourceFinderInterface $sourceFinder,
         StatementFinderInterface $statementFinder,
@@ -93,19 +75,11 @@ class SinglePluginArgumentChecker extends AbstractChecker
         $this->checkerDocUrl = $checkerDocUrl;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return static::NAME;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
-     */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $violations = [];
@@ -128,11 +102,6 @@ class SinglePluginArgumentChecker extends AbstractChecker
         return new CheckerResponseDto($violations, $this->checkerDocUrl);
     }
 
-    /**
-     * @param \PhpParser\Node\Stmt\ClassMethod $method
-     *
-     * @return string|null
-     */
     protected function getSinglePluginWithArgument(ClassMethod $method): ?string
     {
         if (!is_iterable($method->getStmts()) || $this->skipCheck($method)) {
@@ -161,8 +130,6 @@ class SinglePluginArgumentChecker extends AbstractChecker
 
     /**
      * @param array<\PhpParser\Node\Arg> $args
-     *
-     * @return bool
      */
     protected function isAvailableArguments(array $args): bool
     {
@@ -188,11 +155,6 @@ class SinglePluginArgumentChecker extends AbstractChecker
         return true;
     }
 
-    /**
-     * @param \PhpParser\Node\Expr\BinaryOp\Concat $concat
-     *
-     * @return bool
-     */
     protected function isAvailableConcatParts(Concat $concat): bool
     {
         foreach ([$concat->left, $concat->right] as $part) {
@@ -212,22 +174,12 @@ class SinglePluginArgumentChecker extends AbstractChecker
         return true;
     }
 
-    /**
-     * @param \PhpParser\Node\Stmt\ClassMethod $method
-     *
-     * @return bool
-     */
     protected function skipCheck(ClassMethod $method): bool
     {
         return $method->getDocComment() &&
             strpos($method->getDocComment()->getText(), static::ANNOTATION_SKIP) !== false;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return \Symfony\Component\Finder\Finder
-     */
     protected function findDependencyProviders(string $path): Finder
     {
         return $this->sourceFinder->find([static::DEPENDENCY_PROVIDER_PATTERN], [$path]);

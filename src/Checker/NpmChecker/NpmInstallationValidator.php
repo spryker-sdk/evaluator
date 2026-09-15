@@ -13,22 +13,13 @@ use SprykerSdk\Utils\Infrastructure\Service\ProcessRunnerServiceInterface;
 
 class NpmInstallationValidator
 {
-    /**
-     * @var \SprykerSdk\Utils\Infrastructure\Service\ProcessRunnerServiceInterface
-     */
     private ProcessRunnerServiceInterface $processRunner;
 
-    /**
-     * @param \SprykerSdk\Utils\Infrastructure\Service\ProcessRunnerServiceInterface $processRunner
-     */
     public function __construct(ProcessRunnerServiceInterface $processRunner)
     {
         $this->processRunner = $processRunner;
     }
 
-    /**
-     * @return bool
-     */
     public function isNpmInstalled(): bool
     {
         return $this->processRunner->run(['npm', '-v'])->isSuccessful();

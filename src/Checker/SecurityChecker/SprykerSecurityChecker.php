@@ -29,26 +29,12 @@ class SprykerSecurityChecker extends AbstractChecker
      */
     public const NAME = 'SPRYKER_SECURITY_CHECKER';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Reader\ComposerReaderInterface
-     */
     protected ComposerReaderInterface $composerReader;
 
-    /**
-     * @var \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppServiceInterface
-     */
     protected ReleaseAppServiceInterface $releaseAppService;
 
-    /**
-     * @var string
-     */
     protected string $checkerDocUrl;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Reader\ComposerReaderInterface $composerReader
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Service\ReleaseAppServiceInterface $releaseAppService
-     * @param string $checkerDocUrl
-     */
     public function __construct(
         ComposerReaderInterface $composerReader,
         ReleaseAppServiceInterface $releaseAppService,
@@ -59,19 +45,11 @@ class SprykerSecurityChecker extends AbstractChecker
         $this->checkerDocUrl = $checkerDocUrl;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return static::NAME;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
-     */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         try {
@@ -93,8 +71,6 @@ class SprykerSecurityChecker extends AbstractChecker
     }
 
     /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseAppResponse $releaseAppResponse
-     *
      * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
      */
     protected function buildViolations(ReleaseAppResponse $releaseAppResponse): array
@@ -109,8 +85,6 @@ class SprykerSecurityChecker extends AbstractChecker
     }
 
     /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseGroupDto $releaseGroupDto
-     *
      * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
      */
     protected function buildViolationsByReleaseGroup(ReleaseGroupDto $releaseGroupDto): array
@@ -145,9 +119,6 @@ class SprykerSecurityChecker extends AbstractChecker
         return $violations;
     }
 
-    /**
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest
-     */
     protected function createDataProviderRequest(): UpgradeInstructionsRequest
     {
         $packages = $this->extractLockedPackages($this->composerReader->getComposerLockData());

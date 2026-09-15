@@ -14,10 +14,5 @@ use SprykerSdk\Evaluator\Dto\ReportDto;
 
 interface EvaluatorExecutorInterface
 {
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\ReportDto
-     */
     public function execute(EvaluatorInputDataDto $inputData): ReportDto;
 }

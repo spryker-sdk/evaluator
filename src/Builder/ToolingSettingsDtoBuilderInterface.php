@@ -15,8 +15,6 @@ interface ToolingSettingsDtoBuilderInterface
 {
     /**
      * @param array<mixed> $toolingSettings
-     *
-     * @return \SprykerSdk\Evaluator\Dto\ToolingSettingsDto
      */
     public function buildFromArray(array $toolingSettings): ToolingSettingsDto;
 }

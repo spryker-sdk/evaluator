@@ -14,10 +14,5 @@ use SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeInstructions;
 
 interface ReleaseAppClientInterface
 {
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest $instructionsRequest
-     *
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeInstructions
-     */
     public function getUpgradeInstructions(UpgradeInstructionsRequest $instructionsRequest): UpgradeInstructions;
 }

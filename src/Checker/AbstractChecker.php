@@ -11,9 +11,6 @@ namespace SprykerSdk\Evaluator\Checker;
 
 abstract class AbstractChecker implements CheckerInterface
 {
-    /**
-     * @return bool
-     */
     public function isApplicable(): bool
     {
         return true;

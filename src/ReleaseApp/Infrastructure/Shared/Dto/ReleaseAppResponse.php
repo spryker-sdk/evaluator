@@ -13,22 +13,13 @@ use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\Collection\Release
 
 class ReleaseAppResponse
 {
-    /**
-     * @var \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\Collection\ReleaseGroupDtoCollection
-     */
     protected ReleaseGroupDtoCollection $releaseGroupCollection;
 
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\Collection\ReleaseGroupDtoCollection $releaseGroupCollection
-     */
     public function __construct(ReleaseGroupDtoCollection $releaseGroupCollection)
     {
         $this->releaseGroupCollection = $releaseGroupCollection;
     }
 
-    /**
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\Collection\ReleaseGroupDtoCollection
-     */
     public function getReleaseGroupCollection(): ReleaseGroupDtoCollection
     {
         return $this->releaseGroupCollection;

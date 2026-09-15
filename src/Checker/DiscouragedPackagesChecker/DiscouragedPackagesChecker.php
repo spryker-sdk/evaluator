@@ -23,26 +23,12 @@ class DiscouragedPackagesChecker extends AbstractChecker
      */
     public const NAME = 'DISCOURAGED_PACKAGES_CHECKER';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Checker\DiscouragedPackagesChecker\DiscouragedPackagesFetcherInterface
-     */
     protected DiscouragedPackagesFetcherInterface $discouragedPackagesFetcher;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Reader\ComposerReaderInterface
-     */
     protected ComposerReaderInterface $composerReader;
 
-    /**
-     * @var string
-     */
     protected string $checkerDocUrl;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Checker\DiscouragedPackagesChecker\DiscouragedPackagesFetcherInterface $discouragedPackagesFetcher
-     * @param \SprykerSdk\Evaluator\Reader\ComposerReaderInterface $composerReader
-     * @param string $checkerDocUrl
-     */
     public function __construct(
         DiscouragedPackagesFetcherInterface $discouragedPackagesFetcher,
         ComposerReaderInterface $composerReader,
@@ -53,11 +39,6 @@ class DiscouragedPackagesChecker extends AbstractChecker
         $this->checkerDocUrl = $checkerDocUrl;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
-     */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $projectInstalledPackages = array_keys($this->composerReader->getInstalledPackages());
@@ -82,9 +63,6 @@ class DiscouragedPackagesChecker extends AbstractChecker
         return new CheckerResponseDto($violations, $this->checkerDocUrl);
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return static::NAME;

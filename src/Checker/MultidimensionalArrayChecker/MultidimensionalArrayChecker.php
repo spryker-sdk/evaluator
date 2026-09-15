@@ -46,19 +46,10 @@ class MultidimensionalArrayChecker extends AbstractChecker
      */
     protected const DEPENDENCY_PROVIDER_PATTERN = '*DependencyProvider.php';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Finder\SourceFinderInterface
-     */
     protected SourceFinderInterface $sourceFinder;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Finder\StatementFinderInterface
-     */
     protected StatementFinderInterface $statementFinder;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Parser\PhpParserInterface
-     */
     protected PhpParserInterface $phpParser;
 
     /**
@@ -66,17 +57,10 @@ class MultidimensionalArrayChecker extends AbstractChecker
      */
     protected array $nestingStructures;
 
-    /**
-     * @var string
-     */
     protected string $checkerDocUrl;
 
     /**
-     * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
-     * @param \SprykerSdk\Evaluator\Finder\StatementFinderInterface $statementFinder
-     * @param \SprykerSdk\Evaluator\Parser\PhpParserInterface $phpParser
      * @param array<\SprykerSdk\Evaluator\Checker\MultidimensionalArrayChecker\NestingStructure\NestingStructureInterface> $nestingStructures
-     * @param string $checkerDocUrl
      */
     public function __construct(
         SourceFinderInterface $sourceFinder,
@@ -92,19 +76,11 @@ class MultidimensionalArrayChecker extends AbstractChecker
         $this->checkerDocUrl = $checkerDocUrl;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return static::NAME;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
-     */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $violations = [];
@@ -127,22 +103,12 @@ class MultidimensionalArrayChecker extends AbstractChecker
         return new CheckerResponseDto($violations, $this->checkerDocUrl);
     }
 
-    /**
-     * @param \PhpParser\Node\Stmt\ClassMethod $method
-     *
-     * @return bool
-     */
     protected function skipCheck(ClassMethod $method): bool
     {
         return $method->getDocComment() &&
             strpos($method->getDocComment()->getText(), static::ANNOTATION_SKIP) !== false;
     }
 
-    /**
-     * @param \PhpParser\Node\Stmt\ClassMethod $method
-     *
-     * @return int
-     */
     protected function countLevelArrayMultidimensional(ClassMethod $method): int
     {
         $maxLevel = 0;
@@ -168,11 +134,6 @@ class MultidimensionalArrayChecker extends AbstractChecker
         return $maxLevel;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return \Symfony\Component\Finder\Finder
-     */
     protected function findDependencyProviders(string $path): Finder
     {
         return $this->sourceFinder->find([static::DEPENDENCY_PROVIDER_PATTERN], [$path]);

@@ -11,8 +11,5 @@ namespace SprykerSdk\Evaluator\Extractor\FeaturePackagesExtractor;
 
 interface FeaturePackagesExtractorInterface
 {
-    /**
-     * @return void
-     */
     public function extract(): void;
 }

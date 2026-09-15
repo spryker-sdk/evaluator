@@ -27,7 +27,6 @@ class RestrictionDocBlockValidator
     protected const RULE_PATTERN = '/^\* - (before|after) \{@link (?<class>.+)\}( .*\.|)$/';
 
     /**
-     * @param string $docBlock
      * @param array<string> $usedClasses
      *
      * @return array<string>
@@ -80,10 +79,7 @@ class RestrictionDocBlockValidator
     }
 
     /**
-     * @param string $line
      * @param array<string> $usedClasses
-     *
-     * @return string|null
      */
     protected function validateLine(string $line, array $usedClasses): ?string
     {
@@ -98,31 +94,16 @@ class RestrictionDocBlockValidator
         return null;
     }
 
-    /**
-     * @param string $line
-     *
-     * @return bool
-     */
     protected function isListLine(string $line): bool
     {
         return (bool)preg_match('/^\* +-/', $line);
     }
 
-    /**
-     * @param string $line
-     *
-     * @return bool
-     */
     protected function isRestrictionsStartLine(string $line): bool
     {
         return (bool)preg_match('/^\* +Restrictions:/', $line);
     }
 
-    /**
-     * @param string $line
-     *
-     * @return bool
-     */
     protected function isEmptyLine(string $line): bool
     {
         return $line === '*';

@@ -26,16 +26,8 @@ interface ComposerReaderInterface
      */
     public function getComposerRequirePackages(): array;
 
-    /**
-     * @param string $packageName
-     *
-     * @return string|null
-     */
     public function getPackageVersion(string $packageName): ?string;
 
-    /**
-     * @return string
-     */
     public function getProjectName(): string;
 
     /**

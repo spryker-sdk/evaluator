@@ -16,20 +16,10 @@ use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Mapper\ReleaseGroupDto
 
 class ReleaseAppService implements ReleaseAppServiceInterface
 {
-    /**
-     * @var \SprykerSdk\Evaluator\ReleaseApp\Application\Service\ReleaseAppService
-     */
     protected ApplicationReleaseAppService $releaseApp;
 
-    /**
-     * @var \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Mapper\ReleaseGroupDtoCollectionMapper
-     */
     protected ReleaseGroupDtoCollectionMapper $releaseGroupDtoCollectionMapper;
 
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Application\Service\ReleaseAppService $releaseApp
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Mapper\ReleaseGroupDtoCollectionMapper $releaseGroupDtoCollectionMapper
-     */
     public function __construct(
         ApplicationReleaseAppService $releaseApp,
         ReleaseGroupDtoCollectionMapper $releaseGroupDtoCollectionMapper
@@ -38,11 +28,6 @@ class ReleaseAppService implements ReleaseAppServiceInterface
         $this->releaseGroupDtoCollectionMapper = $releaseGroupDtoCollectionMapper;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest $upgradeInstructionsRequest
-     *
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Shared\Dto\ReleaseAppResponse
-     */
     public function getNewReleaseGroups(UpgradeInstructionsRequest $upgradeInstructionsRequest): ReleaseAppResponse
     {
         $releaseGroupCollection = $this->releaseGroupDtoCollectionMapper->mapReleaseGroupTransferCollection(

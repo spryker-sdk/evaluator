@@ -16,14 +16,10 @@ class CheckerResponseDto
      */
     protected array $violations;
 
-    /**
-     * @var string
-     */
     protected string $docUrl;
 
     /**
      * @param array<\SprykerSdk\Evaluator\Dto\ViolationDto> $violations
-     * @param string $docUrl
      */
     public function __construct(array $violations, string $docUrl = '')
     {
@@ -39,9 +35,6 @@ class CheckerResponseDto
         return $this->violations;
     }
 
-    /**
-     * @return string
-     */
     public function getDocUrl(): string
     {
         return $this->docUrl;

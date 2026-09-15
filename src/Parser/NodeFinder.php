@@ -19,7 +19,6 @@ class NodeFinder extends PhpParserNodeFinder implements NodeFinderInterface
 {
     /**
      * @param \PhpParser\Node|array<\PhpParser\Node> $nodes
-     * @param callable $filter
      *
      * @return array<\PhpParser\Node>
      */
@@ -29,10 +28,12 @@ class NodeFinder extends PhpParserNodeFinder implements NodeFinderInterface
     }
 
     /**
-     * @param \PhpParser\Node|array<\PhpParser\Node> $nodes
-     * @param class-string<\PhpParser\Node> $class
+     * @template TNode of \PhpParser\Node
      *
-     * @return array<\PhpParser\Node>
+     * @param \PhpParser\Node|array<\PhpParser\Node> $nodes
+     * @param class-string<TNode> $class
+     *
+     * @return array<TNode>
      */
     public function findInstanceOf($nodes, string $class): array
     {
@@ -41,9 +42,6 @@ class NodeFinder extends PhpParserNodeFinder implements NodeFinderInterface
 
     /**
      * @param \PhpParser\Node|array<\PhpParser\Node> $nodes
-     * @param callable $filter
-     *
-     * @return \PhpParser\Node|null
      */
     public function findFirst($nodes, callable $filter): ?Node
     {
@@ -51,10 +49,12 @@ class NodeFinder extends PhpParserNodeFinder implements NodeFinderInterface
     }
 
     /**
-     * @param \PhpParser\Node|array<\PhpParser\Node> $nodes
-     * @param class-string<\PhpParser\Node> $class
+     * @template TNode of \PhpParser\Node
      *
-     * @return \PhpParser\Node|null
+     * @param \PhpParser\Node|array<\PhpParser\Node> $nodes
+     * @param class-string<TNode> $class
+     *
+     * @return TNode|null
      */
     public function findFirstInstanceOf($nodes, string $class): ?Node
     {

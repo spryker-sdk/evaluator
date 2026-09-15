@@ -37,31 +37,16 @@ class SprykerDevPackagesChecker extends AbstractChecker
      */
     protected const VIOLATION_MESSAGE = 'Spryker package "%s:%s" has forbidden "dev-*" version constraint';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Reader\ComposerReaderInterface
-     */
     protected ComposerReaderInterface $composerReader;
 
-    /**
-     * @var string
-     */
     protected string $checkerDocUrl;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Reader\ComposerReaderInterface $composerReader
-     * @param string $checkerDocUrl
-     */
     public function __construct(ComposerReaderInterface $composerReader, string $checkerDocUrl = '')
     {
         $this->composerReader = $composerReader;
         $this->checkerDocUrl = $checkerDocUrl;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
-     */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $packages = $this->composerReader->getComposerRequirePackages();
@@ -96,9 +81,6 @@ class SprykerDevPackagesChecker extends AbstractChecker
         return $violations;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return static::NAME;

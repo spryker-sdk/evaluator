@@ -26,39 +26,21 @@ class DeadCodeChecker extends AbstractChecker
      */
     protected const SOURCE_DIR = 'src';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Checker\DeadCode\DeadCodeFinder
-     */
     protected DeadCodeFinder $deadCodeFinder;
 
-    /**
-     * @var string
-     */
     protected string $checkerDocUrl;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Checker\DeadCode\DeadCodeFinder $deadCodeFinder
-     * @param string $checkerDocUrl
-     */
     public function __construct(DeadCodeFinder $deadCodeFinder, string $checkerDocUrl = '')
     {
         $this->deadCodeFinder = $deadCodeFinder;
         $this->checkerDocUrl = $checkerDocUrl;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return static::NAME;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
-     */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $violations = [];

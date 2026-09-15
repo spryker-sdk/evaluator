@@ -14,11 +14,5 @@ use SprykerSdk\Evaluator\Dto\ToolingSettingsDto;
 
 interface ReportFilterInterface
 {
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\ReportDto $reportDto
-     * @param \SprykerSdk\Evaluator\Dto\ToolingSettingsDto $toolingSettingsDto
-     *
-     * @return \SprykerSdk\Evaluator\Dto\ReportDto
-     */
     public function filterReport(ReportDto $reportDto, ToolingSettingsDto $toolingSettingsDto): ReportDto;
 }

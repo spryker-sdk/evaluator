@@ -12,8 +12,6 @@ namespace SprykerSdk\Evaluator\Parser;
 interface PhpParserInterface
 {
     /**
-     * @param string $path
-     *
      * @return array<\PhpParser\Node>
      */
     public function parse(string $path): array;

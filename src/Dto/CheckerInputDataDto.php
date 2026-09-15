@@ -11,9 +11,6 @@ namespace SprykerSdk\Evaluator\Dto;
 
 class CheckerInputDataDto
 {
-    /**
-     * @var string
-     */
     protected string $path;
 
     /**
@@ -22,7 +19,6 @@ class CheckerInputDataDto
     protected array $configuration = [];
 
     /**
-     * @param string $path
      * @param array<mixed> $configuration
      */
     public function __construct(string $path, array $configuration = [])
@@ -31,9 +27,6 @@ class CheckerInputDataDto
         $this->configuration = $configuration;
     }
 
-    /**
-     * @return string
-     */
     public function getPath(): string
     {
         return $this->path;

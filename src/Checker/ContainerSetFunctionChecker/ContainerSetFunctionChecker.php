@@ -46,32 +46,14 @@ class ContainerSetFunctionChecker extends AbstractChecker
      */
     protected const VIOLATION_MESSAGE = 'The callback function inside `container->set()` should not return an array directly but instead call another method. Please review your code and make the necessary changes.';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Finder\SourceFinderInterface
-     */
     protected SourceFinderInterface $sourceFinder;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Parser\PhpParserInterface
-     */
     protected PhpParserInterface $phpParser;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Parser\NodeFinderInterface
-     */
     protected NodeFinderInterface $nodeFinder;
 
-    /**
-     * @var string
-     */
     protected string $checkerDocUrl;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
-     * @param \SprykerSdk\Evaluator\Parser\PhpParserInterface $phpParser
-     * @param \SprykerSdk\Evaluator\Parser\NodeFinderInterface $nodeFinder
-     * @param string $checkerDocUrl
-     */
     public function __construct(
         SourceFinderInterface $sourceFinder,
         PhpParserInterface $phpParser,
@@ -84,11 +66,6 @@ class ContainerSetFunctionChecker extends AbstractChecker
         $this->checkerDocUrl = $checkerDocUrl;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
-     */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $violations = [];
@@ -100,17 +77,12 @@ class ContainerSetFunctionChecker extends AbstractChecker
         return new CheckerResponseDto($violations, $this->checkerDocUrl);
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return static::NAME;
     }
 
     /**
-     * @param \Symfony\Component\Finder\SplFileInfo $fileInfo
-     *
      * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
      */
     protected function getViolationFromFile(SplFileInfo $fileInfo): array
@@ -163,21 +135,11 @@ class ContainerSetFunctionChecker extends AbstractChecker
         return $nodes;
     }
 
-    /**
-     * @param \PhpParser\Node\Stmt\Return_ $returnStmt
-     *
-     * @return bool
-     */
     protected function isContainArray(Return_ $returnStmt): bool
     {
         return $returnStmt->expr instanceof Array_;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return \Symfony\Component\Finder\Finder
-     */
     protected function findDependencyProviders(string $path): Finder
     {
         return $this->sourceFinder->find([static::DEPENDENCY_PROVIDER_PATTERN], [$path], static::EXCLUDE_PATH_LIST);

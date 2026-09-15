@@ -14,20 +14,9 @@ use SprykerSdk\Evaluator\Dto\CheckerResponseDto;
 
 interface CheckerInterface
 {
-    /**
-     * @return bool
-     */
     public function isApplicable(): bool;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
-     */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto;
 
-    /**
-     * @return string
-     */
     public function getName(): string;
 }

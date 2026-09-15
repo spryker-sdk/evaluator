@@ -28,20 +28,10 @@ class GitHubPublicRepositoryApi implements PublicRepositoryApiInterface
      */
     protected const RAW_ACCEPT_HEADER = ['Accept' => 'application/vnd.github.raw'];
 
-    /**
-     * @var \SprykerSdk\Evaluator\External\Http\HttpClientFactoryInterface
-     */
     protected HttpClientFactoryInterface $httpClientFactory;
 
-    /**
-     * @var string|null
-     */
     protected ?string $githubAuth;
 
-    /**
-     * @param \SprykerSdk\Evaluator\External\Http\HttpClientFactoryInterface $httpClientFactory
-     * @param string|null $githubAuth
-     */
     public function __construct(HttpClientFactoryInterface $httpClientFactory, ?string $githubAuth = null)
     {
         $this->httpClientFactory = $httpClientFactory;
@@ -49,8 +39,6 @@ class GitHubPublicRepositoryApi implements PublicRepositoryApiInterface
     }
 
     /**
-     * @param string $organization
-     *
      * @return array<mixed>
      */
     public function getOrganizationRepositories(string $organization): array
@@ -76,14 +64,6 @@ class GitHubPublicRepositoryApi implements PublicRepositoryApiInterface
         return array_merge(...$repositories);
     }
 
-    /**
-     * @param string $organization
-     * @param string $repository
-     * @param string $filePath
-     * @param string|null $ref
-     *
-     * @return string
-     */
     public function getRepositoryFileContent(
         string $organization,
         string $repository,

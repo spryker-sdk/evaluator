@@ -29,19 +29,10 @@ class UpgradeInstructionMeta
      */
     protected const CONFLICT_KEY = 'conflict';
 
-    /**
-     * @var \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructionModuleCollection
-     */
     protected UpgradeInstructionModuleCollection $includeModuleCollection;
 
-    /**
-     * @var \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructionModuleCollection
-     */
     protected UpgradeInstructionModuleCollection $excludeModuleCollection;
 
-    /**
-     * @var \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructionModuleCollection
-     */
     protected UpgradeInstructionModuleCollection $conflictModuleCollection;
 
     /**
@@ -66,33 +57,22 @@ class UpgradeInstructionMeta
         );
     }
 
-    /**
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructionModuleCollection
-     */
     public function getInclude(): UpgradeInstructionModuleCollection
     {
         return $this->includeModuleCollection;
     }
 
-    /**
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructionModuleCollection
-     */
     public function getExclude(): UpgradeInstructionModuleCollection
     {
         return $this->excludeModuleCollection;
     }
 
-    /**
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructionModuleCollection
-     */
     public function getConflict(): UpgradeInstructionModuleCollection
     {
         return $this->conflictModuleCollection;
     }
 
     /**
-     * @param string $key
-     *
      * @return array<\SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeInstructionModule>
      */
     protected function getModuleListByKey(string $key): array

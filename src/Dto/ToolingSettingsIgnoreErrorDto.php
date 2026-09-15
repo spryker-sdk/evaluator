@@ -16,14 +16,10 @@ class ToolingSettingsIgnoreErrorDto
      */
     protected array $messageRegexps;
 
-    /**
-     * @var string|null
-     */
     protected ?string $checkerName;
 
     /**
      * @param array<string> $messageRegexps
-     * @param string|null $checkerName
      */
     public function __construct(array $messageRegexps, ?string $checkerName = null)
     {
@@ -39,9 +35,6 @@ class ToolingSettingsIgnoreErrorDto
         return $this->messageRegexps;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCheckerName(): ?string
     {
         return $this->checkerName;

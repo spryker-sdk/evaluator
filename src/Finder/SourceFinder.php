@@ -30,8 +30,6 @@ class SourceFinder implements SourceFinderInterface
      * @param array<string> $pattern
      * @param array<string> $paths
      * @param array<string> $exclude
-     *
-     * @return \Symfony\Component\Finder\Finder
      */
     public function find(array $pattern, array $paths, array $exclude = self::DEFAULT_EXCLUDE_DIRS): Finder
     {

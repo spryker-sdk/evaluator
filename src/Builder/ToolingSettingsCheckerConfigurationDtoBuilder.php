@@ -29,14 +29,8 @@ class ToolingSettingsCheckerConfigurationDtoBuilder
      */
     public const VAR_KEY = 'var';
 
-    /**
-     * @var string
-     */
     protected string $toolingFile;
 
-    /**
-     * @param string $toolingFile
-     */
     public function __construct(string $toolingFile)
     {
         $this->toolingFile = $toolingFile;
@@ -76,8 +70,6 @@ class ToolingSettingsCheckerConfigurationDtoBuilder
      * @param array<mixed> $checkerConfiguration
      *
      * @throws \InvalidArgumentException
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerConfigDto
      */
     protected function buildConfigurationDto(array $checkerConfiguration): CheckerConfigDto
     {

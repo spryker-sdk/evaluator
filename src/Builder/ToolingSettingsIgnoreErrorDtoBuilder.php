@@ -29,14 +29,8 @@ class ToolingSettingsIgnoreErrorDtoBuilder
      */
     public const CHECKER_KEY = 'checker';
 
-    /**
-     * @var string
-     */
     protected string $toolingFile;
 
-    /**
-     * @param string $toolingFile
-     */
     public function __construct(string $toolingFile)
     {
         $this->toolingFile = $toolingFile;
@@ -72,8 +66,6 @@ class ToolingSettingsIgnoreErrorDtoBuilder
      * @param mixed $regexpValue
      *
      * @throws \InvalidArgumentException
-     *
-     * @return \SprykerSdk\Evaluator\Dto\ToolingSettingsIgnoreErrorDto
      */
     protected function buildRegexpValue($regexpValue): ToolingSettingsIgnoreErrorDto
     {
@@ -92,8 +84,6 @@ class ToolingSettingsIgnoreErrorDtoBuilder
      * @param array<mixed> $regexpValue
      *
      * @throws \InvalidArgumentException
-     *
-     * @return \SprykerSdk\Evaluator\Dto\ToolingSettingsIgnoreErrorDto
      */
     protected function buildCheckerIgnoreErrors(array $regexpValue): ToolingSettingsIgnoreErrorDto
     {

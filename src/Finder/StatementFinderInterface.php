@@ -17,8 +17,6 @@ interface StatementFinderInterface
      * @param array<\PhpParser\Node> $syntaxTree
      *
      * @throws \RuntimeException
-     *
-     * @return \PhpParser\Node\Stmt\Class_
      */
     public function findClassStatement(array $syntaxTree): Class_;
 }

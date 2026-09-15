@@ -14,10 +14,5 @@ use SprykerSdk\Evaluator\Report\Dto\ReportDto;
 
 interface ReportDtoBuilderInterface
 {
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\ReportDto $evaluatorReportDto
-     *
-     * @return \SprykerSdk\Evaluator\Report\Dto\ReportDto
-     */
     public function buildReportDto(EvaluatorReportDto $evaluatorReportDto): ReportDto;
 }

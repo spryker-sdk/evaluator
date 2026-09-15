@@ -13,9 +13,6 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 class StopwatchFactory
 {
-    /**
-     * @return \Symfony\Component\Stopwatch\Stopwatch
-     */
     public function getStopWatch(): Stopwatch
     {
         return new Stopwatch();

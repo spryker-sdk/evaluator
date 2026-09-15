@@ -42,20 +42,10 @@ class DiscouragedPackagesFetcher implements DiscouragedPackagesFetcherInterface
      */
     protected const API_METHOD = 'POST';
 
-    /**
-     * @var \SprykerSdk\Evaluator\External\Http\HttpClientFactoryInterface
-     */
     protected HttpClientFactoryInterface $httpClientFactory;
 
-    /**
-     * @var string
-     */
     protected string $releaseAppUrl;
 
-    /**
-     * @param \SprykerSdk\Evaluator\External\Http\HttpClientFactoryInterface $httpClientFactory
-     * @param string $releaseAppUrl
-     */
     public function __construct(HttpClientFactoryInterface $httpClientFactory, string $releaseAppUrl)
     {
         $this->httpClientFactory = $httpClientFactory;
@@ -113,9 +103,6 @@ class DiscouragedPackagesFetcher implements DiscouragedPackagesFetcherInterface
         return $result;
     }
 
-    /**
-     * @return string
-     */
     protected function getReleaseAppUrl(): string
     {
         return rtrim($this->releaseAppUrl);

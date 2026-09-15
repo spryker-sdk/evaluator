@@ -11,9 +11,6 @@ namespace SprykerSdk\Evaluator\Dto;
 
 class CheckerConfigDto
 {
-    /**
-     * @var string
-     */
     protected string $checkerName;
 
     /**
@@ -22,7 +19,6 @@ class CheckerConfigDto
     protected array $config = [];
 
     /**
-     * @param string $checkerName
      * @param array<mixed> $config
      */
     public function __construct(string $checkerName, array $config)
@@ -31,9 +27,6 @@ class CheckerConfigDto
         $this->config = $config;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCheckerName(): ?string
     {
         return $this->checkerName;

@@ -27,9 +27,6 @@ class PhpVersionChecker extends AbstractChecker
      */
     public const MESSAGE_INCONSISTENT_PHP_VERSIONS = 'Not all the targets have same PHP versions';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
-     */
     protected PathResolverInterface $pathResolver;
 
     /**
@@ -42,16 +39,11 @@ class PhpVersionChecker extends AbstractChecker
      */
     protected array $checkerStrategies;
 
-    /**
-     * @var string
-     */
     protected string $checkerDocUrl;
 
     /**
-     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
      * @param array<string> $allowedPhpVersions
      * @param array<\SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\PhpVersionCheckerStrategyInterface> $checkerStrategies
-     * @param string $checkerDocUrl
      */
     public function __construct(
         PathResolverInterface $pathResolver,
@@ -65,11 +57,6 @@ class PhpVersionChecker extends AbstractChecker
         $this->checkerDocUrl = $checkerDocUrl;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
-     */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $violations = [];
@@ -112,8 +99,6 @@ class PhpVersionChecker extends AbstractChecker
 
     /**
      * @param array<string, array<string>> $usedVersions
-     *
-     * @return string
      */
     protected function createConsistencyViolationTarget(array $usedVersions): string
     {
@@ -132,9 +117,6 @@ class PhpVersionChecker extends AbstractChecker
         return implode(PHP_EOL, $messages);
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return static::NAME;
