@@ -28,7 +28,7 @@ class NodeFinder extends PhpParserNodeFinder implements NodeFinderInterface
     }
 
     /**
-     * @template TNode of Node
+     * @template TNode of \PhpParser\Node
      *
      * @param \PhpParser\Node|array<\PhpParser\Node> $nodes
      * @param class-string<TNode> $class
@@ -49,7 +49,7 @@ class NodeFinder extends PhpParserNodeFinder implements NodeFinderInterface
     }
 
     /**
-     * @template TNode of Node
+     * @template TNode of \PhpParser\Node
      *
      * @param \PhpParser\Node|array<\PhpParser\Node> $nodes
      * @param class-string<TNode> $class
