@@ -15,26 +15,12 @@ use Symfony\Component\Yaml\Yaml;
 
 class ToolingSettingsFileReader implements ToolingSettingsReaderInterface
 {
-    /**
-     * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
-     */
     protected PathResolverInterface $pathResolver;
 
-    /**
-     * @var string
-     */
     protected string $toolingFile;
 
-    /**
-     * @var \SprykerSdk\Utils\Infrastructure\Service\Filesystem
-     */
     protected Filesystem $filesystem;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
-     * @param string $toolingFile
-     * @param \SprykerSdk\Utils\Infrastructure\Service\Filesystem $filesystem
-     */
     public function __construct(PathResolverInterface $pathResolver, string $toolingFile, Filesystem $filesystem)
     {
         $this->pathResolver = $pathResolver;
@@ -62,9 +48,6 @@ class ToolingSettingsFileReader implements ToolingSettingsReaderInterface
         return Yaml::parse($toolingSettingsString);
     }
 
-    /**
-     * @return string
-     */
     protected function getToolingFilePath(): string
     {
         return rtrim($this->pathResolver->getProjectDir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $this->toolingFile;

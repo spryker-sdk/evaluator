@@ -33,38 +33,16 @@ class ReportDtoBuilder implements ReportDtoBuilderInterface
      */
     public const REPORT_VERSION = 1;
 
-    /**
-     * @var string
-     */
     protected string $sourceCodeProvider;
 
-    /**
-     * @var string
-     */
     protected string $appEnv;
 
-    /**
-     * @var string
-     */
     protected string $projectId;
 
-    /**
-     * @var string
-     */
     protected string $repositoryName;
 
-    /**
-     * @var string
-     */
     protected string $organizationName;
 
-    /**
-     * @param string $sourceCodeProvider
-     * @param string $appEnv
-     * @param string $projectId
-     * @param string $repositoryName
-     * @param string $organizationName
-     */
     public function __construct(
         string $sourceCodeProvider,
         string $appEnv,
@@ -79,11 +57,6 @@ class ReportDtoBuilder implements ReportDtoBuilderInterface
         $this->organizationName = $organizationName;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\ReportDto $evaluatorReportDto
-     *
-     * @return \SprykerSdk\Evaluator\Report\Dto\ReportDto
-     */
     public function buildReportDto(EvaluatorReportDto $evaluatorReportDto): ReportDto
     {
         return new ReportDto(
@@ -96,9 +69,6 @@ class ReportDtoBuilder implements ReportDtoBuilderInterface
         );
     }
 
-    /**
-     * @return \SprykerSdk\Evaluator\Report\Dto\ReportMetadataDto
-     */
     protected function createReportMetadata(): ReportMetadataDto
     {
         return new ReportMetadataDto(
@@ -111,11 +81,6 @@ class ReportDtoBuilder implements ReportDtoBuilderInterface
         );
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\ReportDto $evaluatorReportDto
-     *
-     * @return \SprykerSdk\Evaluator\Report\Dto\ReportPayloadDto
-     */
     protected function createReportPayload(EvaluatorReportDto $evaluatorReportDto): ReportPayloadDto
     {
         return new ReportPayloadDto($evaluatorReportDto);

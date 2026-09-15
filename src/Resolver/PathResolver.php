@@ -14,20 +14,10 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class PathResolver implements PathResolverInterface
 {
-    /**
-     * @var string
-     */
     protected string $projectDirEnv;
 
-    /**
-     * @var \Symfony\Component\Filesystem\Filesystem
-     */
     protected Filesystem $filesystem;
 
-    /**
-     * @param string $projectDirEnv
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
-     */
     public function __construct(string $projectDirEnv, Filesystem $filesystem)
     {
         $this->projectDirEnv = $projectDirEnv;
@@ -35,11 +25,7 @@ class PathResolver implements PathResolverInterface
     }
 
     /**
-     * @param string $relativePath
-     *
      * @throws \InvalidArgumentException
-     *
-     * @return string
      */
     public function resolvePath(string $relativePath = ''): string
     {
@@ -52,11 +38,6 @@ class PathResolver implements PathResolverInterface
         return $fullPath;
     }
 
-    /**
-     * @param string $relativePath
-     *
-     * @return string
-     */
     public function createPath(string $relativePath = ''): string
     {
         if ($this->filesystem->isAbsolutePath($relativePath)) {
@@ -72,9 +53,6 @@ class PathResolver implements PathResolverInterface
             : $projectDir;
     }
 
-    /**
-     * @return string
-     */
     public function getProjectDir(): string
     {
         return $this->projectDirEnv ?: (string)getcwd();

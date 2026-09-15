@@ -14,8 +14,6 @@ use InvalidArgumentException;
 class ComposerFileReader
 {
     /**
-     * @param string $composerFile
-     *
      * @throws \InvalidArgumentException
      *
      * @return array<mixed>

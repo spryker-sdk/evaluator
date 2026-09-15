@@ -13,24 +13,16 @@ use SprykerSdk\Evaluator\Dto\ReportDto as EvaluatorReportDto;
 
 class ReportPayloadDto
 {
-    /**
-     * @var \SprykerSdk\Evaluator\Dto\ReportDto
-     */
     protected EvaluatorReportDto $evaluatorReport;
 
     /**
      * ]
-     *
-     * @param \SprykerSdk\Evaluator\Dto\ReportDto $evaluatorReport
      */
     public function __construct(EvaluatorReportDto $evaluatorReport)
     {
         $this->evaluatorReport = $evaluatorReport;
     }
 
-    /**
-     * @return \SprykerSdk\Evaluator\Dto\ReportDto
-     */
     public function getReport(): EvaluatorReportDto
     {
         return $this->evaluatorReport;

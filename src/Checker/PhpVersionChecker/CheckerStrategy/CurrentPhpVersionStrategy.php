@@ -19,14 +19,8 @@ class CurrentPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
      */
     public const MESSAGE_INVALID_LOCAL_PHO_VERSION = 'Current PHP version "%s" is not allowed.';
 
-    /**
-     * @var string
-     */
     protected string $currentPhpVersion;
 
-    /**
-     * @param string $currentPhpVersion
-     */
     public function __construct(string $currentPhpVersion)
     {
         $this->currentPhpVersion = $currentPhpVersion;
@@ -34,9 +28,6 @@ class CurrentPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
 
     /**
      * @param array<string> $allowedPhpVersions
-     * @param string $path
-     *
-     * @return \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategyResponse
      */
     public function check(array $allowedPhpVersions, string $path): CheckerStrategyResponse
     {
@@ -53,11 +44,6 @@ class CurrentPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
         return new CheckerStrategyResponse($validVersions, $violations);
     }
 
-    /**
-     * @param string $path
-     *
-     * @return string
-     */
     public function getTarget(string $path): string
     {
         return sprintf('Current php version %s', $this->currentPhpVersion);

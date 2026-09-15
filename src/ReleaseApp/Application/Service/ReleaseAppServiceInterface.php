@@ -14,10 +14,5 @@ use SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructio
 
 interface ReleaseAppServiceInterface
 {
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest $upgradeInstructionsRequest
-     *
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructionsReleaseGroupCollection
-     */
     public function getNewReleaseGroupsSortedByReleaseDate(UpgradeInstructionsRequest $upgradeInstructionsRequest): UpgradeInstructionsReleaseGroupCollection;
 }

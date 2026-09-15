@@ -33,19 +33,10 @@ class ComposerPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
      */
     protected const MAX_MINOR_VERSION_SUFFIX = '.9999';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
-     */
     protected PathResolverInterface $pathResolver;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\FileReader\ComposerFileReader
-     */
     protected ComposerFileReader $composerFileReader;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\FileReader\ComposerFileReader $composerFileReader
-     */
     public function __construct(ComposerFileReader $composerFileReader)
     {
         $this->composerFileReader = $composerFileReader;
@@ -53,9 +44,6 @@ class ComposerPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
 
     /**
      * @param array<string> $allowedPhpVersions
-     * @param string $path
-     *
-     * @return \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategyResponse
      */
     public function check(array $allowedPhpVersions, string $path): CheckerStrategyResponse
     {
@@ -115,19 +103,12 @@ class ComposerPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
 
     /**
      * @param array<mixed> $composerData
-     *
-     * @return bool
      */
     protected function isExactPhpVersion(array $composerData): bool
     {
         return (bool)preg_match('/^\d(\.\d+)*$/', $composerData['require']['php']);
     }
 
-    /**
-     * @param string $path
-     *
-     * @return string
-     */
     public function getTarget(string $path): string
     {
         return rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'composer.json';

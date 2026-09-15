@@ -22,8 +22,6 @@ class UpgradeInstructions extends Response
 
     /**
      * @throws \SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException
-     *
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructionsReleaseGroupCollection
      */
     public function getReleaseGroups(): UpgradeInstructionsReleaseGroupCollection
     {

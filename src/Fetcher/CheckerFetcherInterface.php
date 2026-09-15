@@ -14,8 +14,6 @@ use SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto;
 interface CheckerFetcherInterface
 {
     /**
-     * @param \SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto $inputData
-     *
      * @return array<\SprykerSdk\Evaluator\Checker\CheckerInterface>
      */
     public function getCheckersFilteredByInputData(EvaluatorInputDataDto $inputData): array;

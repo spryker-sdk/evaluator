@@ -84,26 +84,12 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
      */
     protected const RETRY_SLEEP_SECONDS = 3;
 
-    /**
-     * @var \Symfony\Component\Console\Application
-     */
     protected Application $application;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
-     */
     protected PathResolverInterface $pathResolver;
 
-    /**
-     * @var string
-     */
     protected string $checkerDocUrl;
 
-    /**
-     * @param \Symfony\Component\Console\Application $application
-     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
-     * @param string $checkerDocUrl
-     */
     public function __construct(Application $application, PathResolverInterface $pathResolver, string $checkerDocUrl = '')
     {
         $this->application = $application;
@@ -111,19 +97,11 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
         $this->checkerDocUrl = $checkerDocUrl;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return static::NAME;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
-     */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $projectDir = $this->pathResolver->getProjectDir();
@@ -140,7 +118,6 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
 
     /**
      * @param array<int, string> $args
-     * @param string $cwd
      *
      * @return array{0: string, 1: string, 2?: bool}
      */
@@ -153,11 +130,6 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
         return [$process->getOutput(), $process->getErrorOutput(), $process->isSuccessful()];
     }
 
-    /**
-     * @param string $projectDir
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto|null
-     */
     protected function ensureMinimumComposer(string $projectDir): ?CheckerResponseDto
     {
         [$versionStdout, $versionStderr] = $this->runComposerCommand([
@@ -187,11 +159,6 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
         return null;
     }
 
-    /**
-     * @param string $projectDir
-     *
-     * @return string
-     */
     protected function runAuditWithRetries(string $projectDir): string
     {
         $args = [
@@ -220,11 +187,6 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
         return '';
     }
 
-    /**
-     * @param string $rawViolations
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
-     */
     protected function buildResponseFromRaw(string $rawViolations): CheckerResponseDto
     {
         $decoded = json_decode($rawViolations, true);
@@ -257,11 +219,6 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
         return new CheckerResponseDto($violationMessages, $this->checkerDocUrl);
     }
 
-    /**
-     * @param string $versionOutput
-     *
-     * @return string|null
-     */
     protected function parseComposerVersion(string $versionOutput): ?string
     {
         if (preg_match(static::REGEX_SEMVER, $versionOutput, $m) !== 1) {
@@ -273,8 +230,6 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
 
     /**
      * @param array<int, array<string, mixed>> $advisories
-     *
-     * @return string
      */
     protected function createSecurityAdvisoryMessage(array $advisories): string
     {

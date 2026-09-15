@@ -13,14 +13,8 @@ use InvalidArgumentException;
 
 class DeprecatedFeaturesReader
 {
-    /**
-     * @var string
-     */
     protected string $deprecatedFeaturesFile;
 
-    /**
-     * @param string $deprecatedFeaturesFile
-     */
     public function __construct(string $deprecatedFeaturesFile)
     {
         $this->deprecatedFeaturesFile = $deprecatedFeaturesFile;

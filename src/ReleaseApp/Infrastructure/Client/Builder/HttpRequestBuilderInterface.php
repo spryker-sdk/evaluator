@@ -14,10 +14,5 @@ use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Request\HttpRequestInt
 
 interface HttpRequestBuilderInterface
 {
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Request\HttpRequestInterface $request
-     *
-     * @return \GuzzleHttp\Psr7\Request
-     */
     public function createRequest(HttpRequestInterface $request): Request;
 }

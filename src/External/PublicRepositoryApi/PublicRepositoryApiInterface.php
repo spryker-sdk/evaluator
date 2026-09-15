@@ -12,20 +12,10 @@ namespace SprykerSdk\Evaluator\External\PublicRepositoryApi;
 interface PublicRepositoryApiInterface
 {
     /**
-     * @param string $organization
-     *
      * @return array<mixed>
      */
     public function getOrganizationRepositories(string $organization): array;
 
-    /**
-     * @param string $organization
-     * @param string $repository
-     * @param string $filePath
-     * @param string|null $ref
-     *
-     * @return string
-     */
     public function getRepositoryFileContent(
         string $organization,
         string $repository,

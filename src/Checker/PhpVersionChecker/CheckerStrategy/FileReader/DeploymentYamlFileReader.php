@@ -17,8 +17,6 @@ use Symfony\Component\Yaml\Yaml;
 class DeploymentYamlFileReader
 {
     /**
-     * @param string $globPattern
-     *
      * @return iterable<string, array<mixed>>
      */
     public function read(string $globPattern): iterable

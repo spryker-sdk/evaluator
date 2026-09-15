@@ -27,11 +27,7 @@ class ReportRenderResolver
     }
 
     /**
-     * @param string $name
-     *
      * @throws \InvalidArgumentException
-     *
-     * @return \SprykerSdk\Evaluator\Console\ReportRenderer\ReportRendererInterface
      */
     public function resolve(string $name): ReportRendererInterface
     {

@@ -18,17 +18,10 @@ class ToolingSettingsDtoBuilder implements ToolingSettingsDtoBuilderInterface
      */
     protected const EVALUATOR_KEY = 'evaluator';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Builder\ToolingSettingsIgnoreErrorDtoBuilder
-     */
     protected ToolingSettingsIgnoreErrorDtoBuilder $toolingSettingsIgnoreErrorDtoBuilder;
 
     protected ToolingSettingsCheckerConfigurationDtoBuilder $toolingSettingsCheckerConfigurationDtoBuilder;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Builder\ToolingSettingsIgnoreErrorDtoBuilder $toolingSettingsIgnoreErrorDtoBuilder
-     * @param \SprykerSdk\Evaluator\Builder\ToolingSettingsCheckerConfigurationDtoBuilder $toolingSettingsCheckerConfigurationDtoBuilder
-     */
     public function __construct(
         ToolingSettingsIgnoreErrorDtoBuilder $toolingSettingsIgnoreErrorDtoBuilder,
         ToolingSettingsCheckerConfigurationDtoBuilder $toolingSettingsCheckerConfigurationDtoBuilder
@@ -39,8 +32,6 @@ class ToolingSettingsDtoBuilder implements ToolingSettingsDtoBuilderInterface
 
     /**
      * @param array<mixed> $toolingSettings
-     *
-     * @return \SprykerSdk\Evaluator\Dto\ToolingSettingsDto
      */
     public function buildFromArray(array $toolingSettings): ToolingSettingsDto
     {

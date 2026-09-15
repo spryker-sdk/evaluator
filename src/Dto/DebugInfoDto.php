@@ -11,37 +11,21 @@ namespace SprykerSdk\Evaluator\Dto;
 
 class DebugInfoDto
 {
-    /**
-     * @var int
-     */
     private int $durationInMs;
 
-    /**
-     * @var int
-     */
     private int $memoryInBytes;
 
-    /**
-     * @param int $durationInMs
-     * @param int $memoryInBytes
-     */
     public function __construct(int $durationInMs, int $memoryInBytes)
     {
         $this->durationInMs = $durationInMs;
         $this->memoryInBytes = $memoryInBytes;
     }
 
-    /**
-     * @return int
-     */
     public function getDurationInMs(): int
     {
         return $this->durationInMs;
     }
 
-    /**
-     * @return int
-     */
     public function getMemoryInBytes(): int
     {
         return $this->memoryInBytes;

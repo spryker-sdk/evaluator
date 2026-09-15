@@ -51,20 +51,10 @@ class ComposerReader implements ComposerReaderInterface
      */
     protected const VERSION_KEY = 'version';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
-     */
     protected PathResolverInterface $pathResolver;
 
-    /**
-     * @var \SprykerSdk\Utils\Infrastructure\Service\Filesystem
-     */
     protected Filesystem $filesystem;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
-     * @param \SprykerSdk\Utils\Infrastructure\Service\Filesystem $filesystem
-     */
     public function __construct(PathResolverInterface $pathResolver, Filesystem $filesystem)
     {
         $this->pathResolver = $pathResolver;
@@ -96,8 +86,6 @@ class ComposerReader implements ComposerReaderInterface
     }
 
     /**
-     * @param string $filePath
-     *
      * @return array<mixed>
      */
     protected function readFile(string $filePath): array
@@ -107,11 +95,6 @@ class ComposerReader implements ComposerReaderInterface
         return json_decode($content, true, 512, \JSON_THROW_ON_ERROR);
     }
 
-    /**
-     * @param string $packageName
-     *
-     * @return string|null
-     */
     public function getPackageVersion(string $packageName): ?string
     {
         $composerLock = $this->getComposerLockData();
@@ -131,9 +114,6 @@ class ComposerReader implements ComposerReaderInterface
         return null;
     }
 
-    /**
-     * @return string
-     */
     public function getProjectName(): string
     {
         $composerJsonContent = $this->getComposerData();

@@ -22,32 +22,14 @@ use SprykerSdk\Evaluator\Stopwatch\StopwatchFactory;
 
 class EvaluatorExecutor implements EvaluatorExecutorInterface
 {
-    /**
-     * @var \SprykerSdk\Evaluator\Checker\CheckerRegistryInterface
-     */
     protected CheckerRegistryInterface $checkerRegistry;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Stopwatch\StopwatchFactory
-     */
     protected StopwatchFactory $stopwatchFactory;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Report\ReportSendProcessorInterface
-     */
     protected ReportSendProcessorInterface $reportSendProcessor;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Fetcher\CheckerFetcherInterface
-     */
     private CheckerFetcherInterface $checkerFetcher;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Checker\CheckerRegistryInterface $checkerRegistry
-     * @param \SprykerSdk\Evaluator\Stopwatch\StopwatchFactory $stopwatchFactory
-     * @param \SprykerSdk\Evaluator\Report\ReportSendProcessorInterface $reportSendProcessor
-     * @param \SprykerSdk\Evaluator\Fetcher\CheckerFetcherInterface $checkerFetcher
-     */
     public function __construct(
         CheckerRegistryInterface $checkerRegistry,
         StopwatchFactory $stopwatchFactory,
@@ -60,11 +42,6 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
         $this->checkerFetcher = $checkerFetcher;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\ReportDto
-     */
     public function execute(EvaluatorInputDataDto $inputData): ReportDto
     {
         $report = new ReportDto();
@@ -101,9 +78,6 @@ class EvaluatorExecutor implements EvaluatorExecutorInterface
 
     /**
      * @param array<mixed> $checkerConfigs
-     * @param string $checkerName
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerConfigDto|null
      */
     protected function getCheckerConfig(array $checkerConfigs, string $checkerName): ?CheckerConfigDto
     {

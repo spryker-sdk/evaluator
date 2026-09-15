@@ -17,22 +17,14 @@ use PhpParser\PhpVersion;
 
 class PhpParser implements PhpParserInterface
 {
-    /**
-     * @var \PhpParser\Parser
-     */
     protected Parser $parser;
 
-    /**
-     * @param \PhpParser\ParserFactory $parserFactory
-     */
     public function __construct(ParserFactory $parserFactory)
     {
         $this->parser = method_exists($parserFactory, 'createForNewestSupportedVersion') ? $parserFactory->createForNewestSupportedVersion() : $parserFactory->createForVersion(PhpVersion::getHostVersion()); // @phpstan-ignore function.alreadyNarrowedType
     }
 
     /**
-     * @param string $path
-     *
      * @return array<\PhpParser\Node>
      */
     public function parse(string $path): array

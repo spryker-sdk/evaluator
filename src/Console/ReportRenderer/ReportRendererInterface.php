@@ -14,17 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 interface ReportRendererInterface
 {
-    /**
-     * @return string
-     */
     public function getName(): string;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\ReportDto $report
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param string|null $filePath
-     *
-     * @return void
-     */
     public function render(ReportDto $report, OutputInterface $output, ?string $filePath = null): void;
 }

@@ -31,26 +31,12 @@ class NpmChecker extends AbstractChecker
      */
     public const ALLOWED_SEVERITY_LEVELS_KEY = 'ALLOWED_SEVERITY_LEVELS';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Checker\NpmChecker\NpmInstallationValidator
-     */
     private NpmInstallationValidator $npmInstallationValidator;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Checker\NpmChecker\NpmAuditExecutor
-     */
     private NpmAuditExecutor $npmAuditExecutor;
 
-    /**
-     * @var string
-     */
     private string $checkerDocUrl;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Checker\NpmChecker\NpmInstallationValidator $npmInstallationValidator
-     * @param \SprykerSdk\Evaluator\Checker\NpmChecker\NpmAuditExecutor $npmAuditExecutor
-     * @param string $checkerDocUrl
-     */
     public function __construct(NpmInstallationValidator $npmInstallationValidator, NpmAuditExecutor $npmAuditExecutor, string $checkerDocUrl = '')
     {
         $this->npmInstallationValidator = $npmInstallationValidator;
@@ -58,19 +44,11 @@ class NpmChecker extends AbstractChecker
         $this->checkerDocUrl = $checkerDocUrl;
     }
 
-    /**
-     * @return bool
-     */
     public function isApplicable(): bool
     {
         return $this->npmInstallationValidator->isNpmInstalled();
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
-     */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         try {
@@ -84,9 +62,6 @@ class NpmChecker extends AbstractChecker
         return new CheckerResponseDto($violations, $this->checkerDocUrl);
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return static::NAME;

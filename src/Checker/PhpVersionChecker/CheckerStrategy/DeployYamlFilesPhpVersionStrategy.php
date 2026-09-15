@@ -25,14 +25,8 @@ class DeployYamlFilesPhpVersionStrategy implements PhpVersionCheckerStrategyInte
      */
     public const MESSAGE_USED_NOT_ALLOWED_PHP_VERSION = "Deploy file uses not allowed PHP image version \"%s\"\nImage tag must contain allowed PHP version (image:abc-8.3)";
 
-    /**
-     * @var \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\FileReader\DeploymentYamlFileReader
-     */
     protected DeploymentYamlFileReader $deploymentYamlFileReader;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategy\FileReader\DeploymentYamlFileReader $deploymentYamlFileReader
-     */
     public function __construct(DeploymentYamlFileReader $deploymentYamlFileReader)
     {
         $this->deploymentYamlFileReader = $deploymentYamlFileReader;
@@ -40,9 +34,6 @@ class DeployYamlFilesPhpVersionStrategy implements PhpVersionCheckerStrategyInte
 
     /**
      * @param array<string> $allowedPhpVersions
-     * @param string $path
-     *
-     * @return \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategyResponse
      */
     public function check(array $allowedPhpVersions, string $path): CheckerStrategyResponse
     {
@@ -70,11 +61,8 @@ class DeployYamlFilesPhpVersionStrategy implements PhpVersionCheckerStrategyInte
     }
 
     /**
-     * @param string $fileName
      * @param array<mixed> $deployStructure
      * @param array<string> $allowedPhpVersions
-     *
-     * @return \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategyResponse
      */
     protected function checkDeployFile(string $fileName, array $deployStructure, array $allowedPhpVersions): CheckerStrategyResponse
     {
@@ -99,11 +87,6 @@ class DeployYamlFilesPhpVersionStrategy implements PhpVersionCheckerStrategyInte
         return new CheckerStrategyResponse($validVersions, []);
     }
 
-    /**
-     * @param string $path
-     *
-     * @return string
-     */
     public function getTarget(string $path): string
     {
         return rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'deploy**.yml';

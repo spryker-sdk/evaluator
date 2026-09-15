@@ -20,26 +20,12 @@ use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Request\HttpUpgradeIns
 
 class HttpReleaseAppClient implements ReleaseAppClientInterface
 {
-    /**
-     * @var \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Builder\HttpRequestBuilderInterface
-     */
     protected HttpRequestBuilderInterface $requestBuilder;
 
-    /**
-     * @var \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Builder\HttpResponseBuilderInterface
-     */
     protected HttpResponseBuilderInterface $responseBuilder;
 
-    /**
-     * @var \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\HttpRequestExecutorInterface
-     */
     protected HttpRequestExecutorInterface $requestExecutor;
 
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Builder\HttpRequestBuilderInterface $requestBuilder
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Builder\HttpResponseBuilderInterface $responseBuilder
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\HttpRequestExecutorInterface $requestExecutor
-     */
     public function __construct(
         HttpRequestBuilderInterface $requestBuilder,
         HttpResponseBuilderInterface $responseBuilder,
@@ -50,11 +36,6 @@ class HttpReleaseAppClient implements ReleaseAppClientInterface
         $this->requestExecutor = $requestExecutor;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest $instructionsRequest
-     *
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeInstructions
-     */
     public function getUpgradeInstructions(UpgradeInstructionsRequest $instructionsRequest): UpgradeInstructions
     {
         /** @var \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeInstructions $response */
@@ -63,11 +44,6 @@ class HttpReleaseAppClient implements ReleaseAppClientInterface
         return $response;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Request\HttpRequestInterface $request
-     *
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Response\ResponseInterface
-     */
     protected function getResponse(HttpRequestInterface $request): ResponseInterface
     {
         $guzzleRequest = $this->requestBuilder->createRequest($request);

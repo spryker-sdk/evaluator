@@ -13,14 +13,8 @@ use InvalidArgumentException;
 
 class MinimumAllowedPackageVersionsReader
 {
-    /**
-     * @var string
-     */
     protected string $minimumAllowedPackagesFile;
 
-    /**
-     * @param string $minimumAllowedPackagesFile
-     */
     public function __construct(string $minimumAllowedPackagesFile)
     {
         $this->minimumAllowedPackagesFile = $minimumAllowedPackagesFile;

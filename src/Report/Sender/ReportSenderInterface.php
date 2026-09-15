@@ -13,10 +13,5 @@ use SprykerSdk\Evaluator\Report\Dto\ReportDto;
 
 interface ReportSenderInterface
 {
-    /**
-     * @param \SprykerSdk\Evaluator\Report\Dto\ReportDto $reportDto
-     *
-     * @return void
-     */
     public function send(ReportDto $reportDto): void;
 }

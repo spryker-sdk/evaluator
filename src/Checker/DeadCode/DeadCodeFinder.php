@@ -25,20 +25,10 @@ class DeadCodeFinder
      */
     protected const ANNOTATION_SKIP = '@evaluator-skip-dead-code';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Finder\SourceFinderInterface
-     */
     protected SourceFinderInterface $sourceFinder;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Resolver\PathResolverInterface
-     */
     protected PathResolverInterface $pathResolver;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
-     * @param \SprykerSdk\Evaluator\Resolver\PathResolverInterface $pathResolver
-     */
     public function __construct(SourceFinderInterface $sourceFinder, PathResolverInterface $pathResolver)
     {
         $this->sourceFinder = $sourceFinder;
@@ -46,8 +36,6 @@ class DeadCodeFinder
     }
 
     /**
-     * @param string $path
-     *
      * @return array<string, string>
      */
     public function find(string $path): array
@@ -65,12 +53,6 @@ class DeadCodeFinder
         return $deadClasses;
     }
 
-    /**
-     * @param string $className
-     * @param string $classPath
-     *
-     * @return bool
-     */
     protected function isInCurrentNamespace(string $className, string $classPath): bool
     {
         foreach ($this->getFinderIterator(dirname($classPath)) as $file) {
@@ -90,8 +72,6 @@ class DeadCodeFinder
     }
 
     /**
-     * @param string $path
-     *
      * @return array<string|int, true>
      */
     protected function getAllClassesInUse(string $path): array
@@ -110,8 +90,6 @@ class DeadCodeFinder
     }
 
     /**
-     * @param string $path
-     *
      * @return array<string, string>
      */
     protected function getAllExtendedCoreClasses(string $path): array
@@ -160,12 +138,6 @@ class DeadCodeFinder
         return $extendedCoreClassesInUse;
     }
 
-    /**
-     * @param string $fileContent
-     * @param string $extendedClass
-     *
-     * @return bool
-     */
     protected function isSprykerNamespace(string $fileContent, string $extendedClass): bool
     {
         if (strpos($extendedClass, '\\') !== false) {
@@ -178,10 +150,7 @@ class DeadCodeFinder
     }
 
     /**
-     * @param string $path
      * @param array<string> $patterns
-     *
-     * @return \Symfony\Component\Finder\Finder
      */
     protected function getFinderIterator(string $path, array $patterns = []): Finder
     {

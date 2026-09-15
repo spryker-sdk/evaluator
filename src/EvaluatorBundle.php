@@ -15,9 +15,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class EvaluatorBundle extends Bundle
 {
-    /**
-     * @return \Symfony\Component\DependencyInjection\Extension\Extension
-     */
     public function createContainerExtension(): Extension
     {
         return new EvaluatorExtension();

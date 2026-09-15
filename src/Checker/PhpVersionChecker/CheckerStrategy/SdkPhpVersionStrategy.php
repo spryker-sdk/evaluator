@@ -34,9 +34,6 @@ class SdkPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
 
     /**
      * @param array<string> $allowedPhpVersions
-     * @param string $path
-     *
-     * @return \SprykerSdk\Evaluator\Checker\PhpVersionChecker\CheckerStrategyResponse
      */
     public function check(array $allowedPhpVersions, string $path): CheckerStrategyResponse
     {
@@ -49,11 +46,6 @@ class SdkPhpVersionStrategy implements PhpVersionCheckerStrategyInterface
         return new CheckerStrategyResponse($this->sdkPhpVersions, []);
     }
 
-    /**
-     * @param string $path
-     *
-     * @return string
-     */
     public function getTarget(string $path): string
     {
         return 'SDK php versions';

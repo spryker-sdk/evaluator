@@ -16,8 +16,6 @@ class HttpClientFactory implements HttpClientFactoryInterface
 {
     /**
      * @param array<string, mixed> $config
-     *
-     * @return \GuzzleHttp\ClientInterface
      */
     public function createClient(array $config = []): ClientInterface
     {

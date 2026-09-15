@@ -13,6 +13,21 @@
     <file>tests/</file>
     <exclude-pattern>/tests/Acceptance/_data/*</exclude-pattern>
 
+    <rule ref="vendor/spryker/code-sniffer/SprykerStrict/ruleset.xml">
+        <!-- excluded on purpose: SprykerStrict pulls in the full Spryker/ruleset.xml,
+             which requires docblocks (DocBlock/DocBlockConst/InlineDocBlock/DocBlockReturnVoid/DocBlockParam),
+             directly contradicting SprykerStrict.TypeHints.*.UselessAnnotation, which forbids
+             them. Without this exclude, phpcbf oscillates forever on typed methods/properties.
+             TODO: revisit and clean up doc types properly instead of excluding. -->
+        <exclude name="Spryker.Commenting.DocBlock"/>
+        <exclude name="Spryker.Commenting.InlineDocBlock"/>
+        <exclude name="Spryker.Commenting.DocBlockReturnVoid"/>
+        <exclude name="Spryker.Commenting.DocBlockParam"/>
+        <exclude name="SprykerStrict.TypeHints.ParameterTypeHint.UselessAnnotation"/>
+        <exclude name="SprykerStrict.TypeHints.PropertyTypeHint.UselessAnnotation"/>
+        <exclude name="SprykerStrict.TypeHints.ReturnTypeHint.UselessAnnotation"/>
+    </rule>
+    
     <arg name="extensions" value="php" />
     <arg name="colors"/>
     <arg value="sp"/>

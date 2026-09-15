@@ -45,26 +45,12 @@ class DependencyProviderAdditionalLogicChecker extends AbstractChecker
      */
     protected const CONDITION_SUFFIX = '}';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Finder\SourceFinderInterface
-     */
     protected SourceFinderInterface $sourceFinder;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Parser\PhpParserInterface
-     */
     protected PhpParserInterface $phpParser;
 
-    /**
-     * @var string
-     */
     protected string $checkerDocUrl;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
-     * @param \SprykerSdk\Evaluator\Parser\PhpParserInterface $phpParser
-     * @param string $checkerDocUrl
-     */
     public function __construct(
         SourceFinderInterface $sourceFinder,
         PhpParserInterface $phpParser,
@@ -75,11 +61,6 @@ class DependencyProviderAdditionalLogicChecker extends AbstractChecker
         $this->checkerDocUrl = $checkerDocUrl;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
-     */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $violations = [];
@@ -105,19 +86,11 @@ class DependencyProviderAdditionalLogicChecker extends AbstractChecker
         return new CheckerResponseDto($violations, $this->checkerDocUrl);
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return static::NAME;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return \Symfony\Component\Finder\Finder
-     */
     protected function findDependencyProviders(string $path): Finder
     {
         return $this->sourceFinder->find([static::DEPENDENCY_PROVIDER_PATTERN], [$path], static::EXCLUDE_PATH_LIST);
@@ -133,11 +106,6 @@ class DependencyProviderAdditionalLogicChecker extends AbstractChecker
         return (new NodeFinder())->findInstanceOf($syntaxTree, If_::class);
     }
 
-    /**
-     * @param \PhpParser\Node\Stmt\If_ $conditionStm
-     *
-     * @return bool
-     */
     protected function isAcceptedCondition(If_ $conditionStm): bool
     {
         if ($conditionStm->cond instanceof MethodCall && $this->isDevelopmentMethodCall($conditionStm->cond)) {
@@ -151,32 +119,16 @@ class DependencyProviderAdditionalLogicChecker extends AbstractChecker
         return false;
     }
 
-    /**
-     * @param \PhpParser\Node\Expr\MethodCall $methodCall
-     *
-     * @return bool
-     */
     protected function isDevelopmentMethodCall(MethodCall $methodCall): bool
     {
         return $methodCall->name instanceof Identifier && preg_match('/^is.*Development.*/', $methodCall->name->name);
     }
 
-    /**
-     * @param \PhpParser\Node\Expr\FuncCall $funcCall
-     *
-     * @return bool
-     */
     protected function isClassExistsFuncCall(FuncCall $funcCall): bool
     {
         return $funcCall->name instanceof Name && $funcCall->name->name == 'class_exists';
     }
 
-    /**
-     * @param \PhpParser\Node\Stmt\If_ $conditionStm
-     * @param string $fileBody
-     *
-     * @return string|null
-     */
     protected function getConditionString(If_ $conditionStm, string $fileBody): ?string
     {
         $lineList = array_filter(

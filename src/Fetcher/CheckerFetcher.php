@@ -15,22 +15,14 @@ use SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto;
 
 class CheckerFetcher implements CheckerFetcherInterface
 {
-    /**
-     * @var \SprykerSdk\Evaluator\Checker\CheckerRegistryInterface
-     */
     private CheckerRegistryInterface $checkerRegistry;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Checker\CheckerRegistryInterface $checkerRegistry
-     */
     public function __construct(CheckerRegistryInterface $checkerRegistry)
     {
         $this->checkerRegistry = $checkerRegistry;
     }
 
     /**
-     * @param \SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto $inputData
-     *
      * @return array<\SprykerSdk\Evaluator\Checker\CheckerInterface>
      */
     public function getCheckersFilteredByInputData(EvaluatorInputDataDto $inputData): array
@@ -41,7 +33,6 @@ class CheckerFetcher implements CheckerFetcherInterface
     }
 
     /**
-     * @param \SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto $inputData
      * @param array<\SprykerSdk\Evaluator\Checker\CheckerInterface> $checkers
      *
      * @return array<\SprykerSdk\Evaluator\Checker\CheckerInterface>
@@ -59,7 +50,6 @@ class CheckerFetcher implements CheckerFetcherInterface
     }
 
     /**
-     * @param \SprykerSdk\Evaluator\Dto\EvaluatorInputDataDto $inputData
      * @param array<\SprykerSdk\Evaluator\Checker\CheckerInterface> $checkers
      *
      * @return array<\SprykerSdk\Evaluator\Checker\CheckerInterface>

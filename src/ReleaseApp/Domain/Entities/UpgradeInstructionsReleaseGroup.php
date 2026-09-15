@@ -72,14 +72,8 @@ class UpgradeInstructionsReleaseGroup
      */
     protected array $body;
 
-    /**
-     * @var \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructionModuleCollection|null
-     */
     protected ?UpgradeInstructionModuleCollection $moduleCollection = null;
 
-    /**
-     * @var \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeInstructionMeta|null
-     */
     protected ?UpgradeInstructionMeta $meta = null;
 
     /**
@@ -93,25 +87,16 @@ class UpgradeInstructionsReleaseGroup
         }
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->body[static::NAME_KEY];
     }
 
-    /**
-     * @return bool
-     */
     public function hasProjectChanges(): bool
     {
         return $this->body[static::PROJECT_CHANGES_KEY];
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return (int)$this->body[static::ID_KEY];
@@ -119,8 +104,6 @@ class UpgradeInstructionsReleaseGroup
 
     /**
      * @throws \SprykerSdk\Evaluator\ReleaseApp\Domain\Exception\ReleaseAppException
-     *
-     * @return \DateTimeInterface
      */
     public function getReleased(): DateTimeInterface
     {
@@ -144,9 +127,6 @@ class UpgradeInstructionsReleaseGroup
         return $dataTime;
     }
 
-    /**
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructionModuleCollection
-     */
     public function getModuleCollection(): UpgradeInstructionModuleCollection
     {
         if ($this->moduleCollection) {
@@ -162,33 +142,21 @@ class UpgradeInstructionsReleaseGroup
         return $this->moduleCollection;
     }
 
-    /**
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\UpgradeInstructionMeta|null
-     */
     public function getMeta(): ?UpgradeInstructionMeta
     {
         return $this->meta;
     }
 
-    /**
-     * @return string|null
-     */
     public function getJiraIssue(): ?string
     {
         return isset($this->body[static::JIRA_KEY]) ? $this->body[static::JIRA_KEY][static::ISSUE_KEY] : null;
     }
 
-    /**
-     * @return string|null
-     */
     public function getJiraIssueLink(): ?string
     {
         return isset($this->body[static::JIRA_KEY]) ? $this->body[static::JIRA_KEY][static::ISSUE_LINK_KEY] : null;
     }
 
-    /**
-     * @return bool
-     */
     public function isSecurity(): bool
     {
         return (bool)($this->body[static::SECURITY_KEY] ?? false);

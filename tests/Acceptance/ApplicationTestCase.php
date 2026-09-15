@@ -17,10 +17,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 class ApplicationTestCase extends KernelTestCase
 {
     /**
-     * @param string $projectPath
      * @param array<string> $envs
-     *
-     * @return \Symfony\Component\Console\Tester\CommandTester
      */
     protected function createCommandTester(string $projectPath, array $envs = []): CommandTester
     {

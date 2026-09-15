@@ -13,17 +13,7 @@ use PhpParser\Node\Stmt;
 
 interface NestingStructureInterface
 {
-    /**
-     * @param \PhpParser\Node\Stmt $stmt
-     *
-     * @return bool
-     */
     public function isApplicable(Stmt $stmt): bool;
 
-    /**
-     * @param \PhpParser\Node\Stmt $stmt
-     *
-     * @return int
-     */
     public function getDepth(Stmt $stmt): int;
 }

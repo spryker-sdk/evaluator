@@ -15,11 +15,5 @@ use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Request\HttpRequestInt
 
 interface HttpResponseBuilderInterface
 {
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Request\HttpRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $guzzleResponse
-     *
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Response\ResponseInterface
-     */
     public function createHttpResponse(HttpRequestInterface $request, ResponseInterface $guzzleResponse): DomainResponse;
 }

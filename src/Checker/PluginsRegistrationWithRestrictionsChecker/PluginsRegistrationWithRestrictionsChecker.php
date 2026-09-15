@@ -36,38 +36,16 @@ class PluginsRegistrationWithRestrictionsChecker extends AbstractChecker
      */
     protected const DEPENDENCY_PROVIDER_PATTERN = '*DependencyProvider.php';
 
-    /**
-     * @var \SprykerSdk\Evaluator\Finder\SourceFinderInterface
-     */
     protected SourceFinderInterface $sourceFinder;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Parser\PhpParserInterface
-     */
     protected PhpParserInterface $phpParser;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Parser\NodeFinderInterface
-     */
     protected NodeFinderInterface $nodeFinder;
 
-    /**
-     * @var \SprykerSdk\Evaluator\Checker\PluginsRegistrationWithRestrictionsChecker\RestrictionDocBlockValidator
-     */
     protected RestrictionDocBlockValidator $restrictionDocBlockValidator;
 
-    /**
-     * @var string
-     */
     protected string $checkerDocUrl;
 
-    /**
-     * @param \SprykerSdk\Evaluator\Finder\SourceFinderInterface $sourceFinder
-     * @param \SprykerSdk\Evaluator\Parser\PhpParserInterface $phpParser
-     * @param \SprykerSdk\Evaluator\Parser\NodeFinderInterface $nodeFinder
-     * @param \SprykerSdk\Evaluator\Checker\PluginsRegistrationWithRestrictionsChecker\RestrictionDocBlockValidator $restrictionDocBlockValidator
-     * @param string $checkerDocUrl
-     */
     public function __construct(
         SourceFinderInterface $sourceFinder,
         PhpParserInterface $phpParser,
@@ -82,11 +60,6 @@ class PluginsRegistrationWithRestrictionsChecker extends AbstractChecker
         $this->checkerDocUrl = $checkerDocUrl;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\Dto\CheckerInputDataDto $inputData
-     *
-     * @return \SprykerSdk\Evaluator\Dto\CheckerResponseDto
-     */
     public function check(CheckerInputDataDto $inputData): CheckerResponseDto
     {
         $dependencyProvidersFiles = $this->findDependencyProviders($inputData->getPath());
@@ -101,9 +74,6 @@ class PluginsRegistrationWithRestrictionsChecker extends AbstractChecker
     }
 
     /**
-     * @param \Symfony\Component\Finder\SplFileInfo $dependencyProviderFile
-     * @param string $path
-     *
      * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
      */
     protected function checkDependencyProviderFile(SplFileInfo $dependencyProviderFile, string $path): array
@@ -131,8 +101,6 @@ class PluginsRegistrationWithRestrictionsChecker extends AbstractChecker
     }
 
     /**
-     * @param \PhpParser\Node\ArrayItem $arrayItem
-     * @param string $fileName
      * @param array<string> $filesClassUses
      *
      * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
@@ -153,8 +121,6 @@ class PluginsRegistrationWithRestrictionsChecker extends AbstractChecker
     }
 
     /**
-     * @param \PhpParser\Comment\Doc $docBlock
-     * @param string $fileName
      * @param array<string> $usedClassses
      *
      * @return array<\SprykerSdk\Evaluator\Dto\ViolationDto>
@@ -216,29 +182,16 @@ class PluginsRegistrationWithRestrictionsChecker extends AbstractChecker
         return $useClasses;
     }
 
-    /**
-     * @param \PhpParser\Comment\Doc $docBlock
-     *
-     * @return bool
-     */
     protected function docBlockHasRestrictions(Doc $docBlock): bool
     {
         return (bool)preg_match('/\* +Restrictions:/', $docBlock->getText());
     }
 
-    /**
-     * @param string $path
-     *
-     * @return \Symfony\Component\Finder\Finder
-     */
     protected function findDependencyProviders(string $path): Finder
     {
         return $this->sourceFinder->find([static::DEPENDENCY_PROVIDER_PATTERN], [$path]);
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return static::NAME;

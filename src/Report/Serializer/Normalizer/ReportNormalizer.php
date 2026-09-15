@@ -20,10 +20,7 @@ class ReportNormalizer implements NormalizerInterface
 {
     /**
      * @param mixed $data
-     * @param string|null $format
      * @param array<string, mixed> $context
-     *
-     * @return bool
      */
     public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
@@ -31,8 +28,6 @@ class ReportNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param string|null $format
-     *
      * @return array<string, bool>
      */
     public function getSupportedTypes(?string $format): array
@@ -42,7 +37,6 @@ class ReportNormalizer implements NormalizerInterface
 
     /**
      * @param mixed $object
-     * @param string|null $format
      * @param array<string, mixed> $context
      *
      * @throws \InvalidArgumentException
@@ -68,8 +62,6 @@ class ReportNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param \SprykerSdk\Evaluator\Report\Dto\ReportPayloadDto $reportPayloadDto
-     *
      * @return array<string, mixed>
      */
     protected function formatPayload(ReportPayloadDto $reportPayloadDto): array
@@ -80,8 +72,6 @@ class ReportNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param \SprykerSdk\Evaluator\Dto\ReportDto $evaluatorReportDto
-     *
      * @return array<string, mixed>
      */
     protected function getViolationData(EvaluatorReportDto $evaluatorReportDto): array
@@ -104,8 +94,6 @@ class ReportNormalizer implements NormalizerInterface
     }
 
     /**
-     * @param \SprykerSdk\Evaluator\Report\Dto\ReportMetadataDto $metadataDto
-     *
      * @return array<string, mixed>
      */
     protected function formatMetaData(ReportMetadataDto $metadataDto): array

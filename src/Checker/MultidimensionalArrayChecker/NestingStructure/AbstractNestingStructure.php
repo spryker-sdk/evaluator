@@ -13,11 +13,6 @@ use PhpParser\Node\Expr\Array_;
 
 abstract class AbstractNestingStructure implements NestingStructureInterface
 {
-    /**
-     * @param \PhpParser\Node\Expr\Array_ $array
-     *
-     * @return int
-     */
     protected function arrayDepth(Array_ $array): int
     {
         $maxDepth = 1;

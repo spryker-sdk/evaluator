@@ -15,24 +15,13 @@ use SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructio
 
 class ReleaseAppService implements ReleaseAppServiceInterface
 {
-    /**
-     * @var \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\ReleaseAppClientInterface
-     */
     protected ReleaseAppClientInterface $releaseAppClient;
 
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\ReleaseAppClientInterface $releaseAppClient
-     */
     public function __construct(ReleaseAppClientInterface $releaseAppClient)
     {
         $this->releaseAppClient = $releaseAppClient;
     }
 
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Request\UpgradeInstructionsRequest $upgradeInstructionsRequest
-     *
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Entities\Collection\UpgradeInstructionsReleaseGroupCollection
-     */
     public function getNewReleaseGroupsSortedByReleaseDate(
         UpgradeInstructionsRequest $upgradeInstructionsRequest
     ): UpgradeInstructionsReleaseGroupCollection {

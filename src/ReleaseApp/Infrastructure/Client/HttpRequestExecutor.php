@@ -18,20 +18,10 @@ use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Configuration\ConfigurationPr
 
 class HttpRequestExecutor implements HttpRequestExecutorInterface
 {
-    /**
-     * @var \GuzzleHttp\Client
-     */
     protected GuzzleHttp $guzzleClient;
 
-    /**
-     * @var \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Configuration\ConfigurationProvider
-     */
     protected ConfigurationProvider $config;
 
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Configuration\ConfigurationProvider $config
-     * @param \GuzzleHttp\Client|null $guzzleClient
-     */
     public function __construct(ConfigurationProvider $config, ?GuzzleHttp $guzzleClient = null)
     {
         $this->guzzleClient = $guzzleClient ?? new GuzzleHttp();
@@ -39,11 +29,7 @@ class HttpRequestExecutor implements HttpRequestExecutorInterface
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
-     *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @return \Psr\Http\Message\ResponseInterface
      */
     public function execute(RequestInterface $request): ResponseInterface
     {

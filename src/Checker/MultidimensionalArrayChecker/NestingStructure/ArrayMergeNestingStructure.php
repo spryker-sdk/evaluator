@@ -18,11 +18,6 @@ use PhpParser\Node\Stmt\Return_;
 
 class ArrayMergeNestingStructure extends AbstractNestingStructure
 {
-    /**
-     * @param \PhpParser\Node\Stmt $stmt
-     *
-     * @return bool
-     */
     public function isApplicable(Stmt $stmt): bool
     {
         return $stmt instanceof Return_ &&
@@ -31,11 +26,6 @@ class ArrayMergeNestingStructure extends AbstractNestingStructure
             $stmt->expr->name->toString() === 'array_merge';
     }
 
-    /**
-     * @param \PhpParser\Node\Stmt $stmt
-     *
-     * @return int
-     */
     public function getDepth(Stmt $stmt): int
     {
         foreach ($stmt->expr->args as $arg) { // @phpstan-ignore-line

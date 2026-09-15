@@ -15,12 +15,6 @@ use SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Request\HttpRequestInt
 
 class HttpResponseBuilder implements HttpResponseBuilderInterface
 {
-    /**
-     * @param \SprykerSdk\Evaluator\ReleaseApp\Infrastructure\Client\Request\HttpRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $guzzleResponse
-     *
-     * @return \SprykerSdk\Evaluator\ReleaseApp\Domain\Client\Response\ResponseInterface
-     */
     public function createHttpResponse(
         HttpRequestInterface $request,
         ResponseInterface $guzzleResponse
@@ -32,11 +26,6 @@ class HttpResponseBuilder implements HttpResponseBuilderInterface
         return $response;
     }
 
-    /**
-     * @param \Psr\Http\Message\ResponseInterface $guzzleResponse
-     *
-     * @return string
-     */
     protected function getBody(ResponseInterface $guzzleResponse): string
     {
         $responseStream = $guzzleResponse->getBody();
