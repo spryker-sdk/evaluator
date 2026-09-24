@@ -75,6 +75,11 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
     protected const ARG_ABANDONED_IGNORE = '--abandoned=ignore';
 
     /**
+     * @var string
+     */
+    protected const ARG_LOCKED = '--locked';
+
+    /**
      * @var int
      */
     protected const RETRY_ATTEMPTS = 7;
@@ -165,6 +170,7 @@ class OpenSourceVulnerabilitiesChecker extends AbstractChecker
             static::SUBCMD_AUDIT,
             static::ARG_FORMAT_JSON,
             static::ARG_ABANDONED_IGNORE,
+            static::ARG_LOCKED,
             static::ARG_NO_INTERACTION,
             static::ARG_NO_ANSI,
         ];
