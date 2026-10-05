@@ -111,6 +111,7 @@ class DeadCodeFinder
             '!*EntityManager.php',
             '!*DependencyInjector.php',
             '!*ConstraintValidator.php',
+            '!*Sniff.php',
         ];
         foreach ($this->getFinderIterator($path, $patterns) as $file) {
             $fileContent = $file->getContents();
