@@ -55,13 +55,13 @@ class DeadCodeFinder
 
     protected function isInCurrentNamespace(string $className, string $classPath): bool
     {
-        foreach ($this->getFinderIterator(dirname($classPath)) as $file) {
+        foreach ($this->getFinderIterator(dirname($classPath, 2)) as $file) {
             if ($classPath === $file->getRealPath()) {
                 continue;
             }
             $shortClassName = substr($className, (strrpos($className, '\\') ?: -1) + 1);
 
-            preg_match(sprintf('/(?<class>extends %s|new %s\(|%s:)/', $shortClassName, $shortClassName, $shortClassName), $file->getContents(), $matchesClass);
+            preg_match(sprintf('/(?<class>extends (?:\w+\\\\)*%1$s\b|new (?:\w+\\\\)*%1$s\(|(?:\w+\\\\)*%1$s:)/', $shortClassName), $file->getContents(), $matchesClass);
 
             if (!empty($matchesClass['class'])) {
                 return true;

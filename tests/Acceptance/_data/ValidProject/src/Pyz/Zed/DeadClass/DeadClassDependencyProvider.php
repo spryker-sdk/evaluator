@@ -29,4 +29,12 @@ class DeadClassDependencyProvider
     {
         return new DeadClassPlugin();
     }
+
+    /**
+     * @return \SprykerSdkTest\ValidProject\Pyz\Zed\DeadClass\Model\ReaderModel
+     */
+    public function getReaderModel(): Model\ReaderModel
+    {
+        return new Model\ReaderModel();
+    }
 }
